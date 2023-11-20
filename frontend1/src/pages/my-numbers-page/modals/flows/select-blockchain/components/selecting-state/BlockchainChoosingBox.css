@@ -1,0 +1,48 @@
+.blockchainChoosingBox {
+  display: flex;
+  flex-direction: row;
+  background: rgba(216, 230, 253, 0.06);
+  padding: 12px;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid rgba(216, 230, 253, 0.16);
+}
+
+.blOptActive {
+  border: 1.5px solid #2070f4;
+}
+
+.blockchainChoosingBoxRight h3 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+  margin: 0;
+  margin-top: -5px;
+  color: #ffffff;
+}
+
+.blockchainChoosingBoxRight h4 {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  /* or 157% */
+  margin: 0;
+  /* Secondary-text */
+
+  color: #d8e4fd;
+}
+
+.blockchainChoosingBoxRight a {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 24px;
+  /* identical to box height, or 200% */
+  margin: 0;
+  margin-top: 4px;
+  color: #2070f4;
+}

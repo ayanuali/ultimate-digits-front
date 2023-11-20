@@ -1,0 +1,115 @@
+.phoneSearchInput {
+  display: flex;
+  flex-direction: row;
+}
+
+.phoneSearchInput button {
+  padding: 24px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+  border: none;
+  cursor: pointer;
+  color: #ffffff;
+  background: #2070f4;
+  border-radius: 0px 6px 6px 0px;
+}
+
+.phoneSearchInputIcon {
+  padding: 20px 17px;
+  background: rgba(216, 230, 253, 0.2);
+  border-right: 1px solid #384160;
+  border-radius: 6px 0px 0px 6px;
+  border-width: 1px 0px 1px 1px;
+  border-style: solid;
+  border-color: #384160;
+}
+
+.phoneSearchInputIcon img {
+  width: 32px;
+  height: 32px;
+}
+
+.phoneSearchInputBox {
+  width: 302px;
+  text-align: left;
+  padding: 12px 24px;
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: #7b8db7;
+  background: rgba(216, 230, 253, 0.12);
+  border-width: 1px 0px 1px 1px;
+  border-style: solid;
+  border-color: #384160;
+}
+
+.phoneSearchInputBoxRow {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+  color: #a7c3fb;
+  align-items: center;
+}
+
+.phoneSearchInputBoxRow input {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  color: #ffffff;
+  border: none;
+  background: transparent;
+  outline: none;
+  margin-top: 3px;
+}
+
+.phoneSearchInputBoxRow input::placeholder {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  color: rgba(167, 195, 251, 0.32);
+}
+
+.phoneSearchInputSwitch {
+  /* display: flex;
+  flex-direction: row;
+  padding: 4px;
+  background: #292b3d;
+  border: 1px solid #384160;
+  border-radius: 24px;
+  align-items: center; */
+}
+
+.phoneSearchInputSwitchBtn {
+  padding: 4px 8px;
+  min-width: 88px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+ 
+  line-height: 20px;
+  /* identical to box height, or 143% */
+
+  text-align: center;
+  letter-spacing: -0.01em;
+
+  color: #ffffff;
+  border-radius: 32px;
+  cursor: pointer;
+}
+
+.switchActive {
+  background: #2070F4;
+}

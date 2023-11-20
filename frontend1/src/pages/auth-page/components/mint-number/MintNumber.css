@@ -1,0 +1,58 @@
+.mintNumber {
+  display: flex;
+  flex-direction: column;
+  margin-top: 160px;
+  width: 455px;
+  text-align: left;
+}
+
+.mintNumber h1 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  /* identical to box height, or 125% */
+
+  letter-spacing: -0.02em;
+  margin: 0;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.mintNumber p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  /* or 175% */
+
+  margin: 0;
+  margin-bottom: 40px;
+  color: #d8e4fd;
+}
+
+.mintNumber p span {
+  color: #5293ff;
+}
+
+.mintNumberSpanNumber {
+  display: block;
+  margin-left: 20px;
+}
+
+.mintNumber button {
+  margin-bottom: 32px;
+}
+
+.mintNumber a {
+  font-style: normal;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 16px;
+  /* identical to box height, or 100% */
+  cursor: pointer;
+  text-transform: capitalize;
+
+  color: #ffffff;
+}

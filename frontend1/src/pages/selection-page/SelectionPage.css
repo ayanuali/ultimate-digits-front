@@ -1,0 +1,110 @@
+.selectionPage{
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sp-navbar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sp-content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.sp-content .sub-text{
+    margin-top: -0.5rem;
+}
+
+.sp-box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.sp-current{
+    width: 295px;
+    height: 370px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #181931;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    text-align: center;
+}
+
+.sp-virtual{
+    width: 295px;
+    height: 345px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #181931;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    text-align: center;
+}
+
+.sp-box img{
+    width: 295px;
+    border-radius: 12px 12px 0 0;
+}
+
+.current-text .text{
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+}
+
+.current-text .sub-text{
+    color: var(--secondary-text, #D8E4FD);
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+}
+
+.current-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.current-btn button{
+    border-radius: 32px;
+    background: #2070F4;
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset;
+    border: none;
+    width: 17rem;
+    color: white;
+    height: 2.5rem;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: capitalize;
+    margin-top: -7px;
+}
+
+.virtual-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.virtual-btn button{
+    border-radius: 32px;
+    background: transparent;
+    border: 2px solid #2070F4;
+    width: 17rem;
+    color: white;
+    height: 2.5rem;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: capitalize;
+}

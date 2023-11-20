@@ -1,0 +1,94 @@
+.phoneNumberBox {
+  padding: 16px 28px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width:max-content;
+  min-width: 580px;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(216, 230, 253, 0.08);
+}
+.phoneNumberBoxRightCurrency{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: max-content;
+  gap: 10px;
+}
+.text_bsd{
+  margin-top: 10%;
+  font-size: 18px;
+  width: max-content;
+}
+.phoneNumberBoxRightIcon {
+  max-width: 20px;
+  height: 20px;
+  /* margin-left: -10%; */
+  /* margin-right: 10%; */
+}
+.phoneNumberBoxLeft {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+.phoneNumberBoxRight {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+  
+  letter-spacing: -0.02em;
+
+  color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+}
+
+.phoneNumberBox img {
+  width: 32px;
+  height: 32px;
+}
+
+.phoneNumberResult {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+  text-align: left;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phoneNumberResultStatus {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+}
+
+.availableBorder {
+  background: rgba(216, 230, 253, 0.08);
+  border: 1px solid #489D5D;
+  border-radius: 8px;
+}
+
+.notAvailableBorder {
+  background: rgba(216, 230, 253, 0.08);
+  border-radius: 8px;
+  border: 1px solid #E59448;
+}
+
+.silverTier {
+  border: 0.5px solid rgba(175, 210, 244, 0.12);
+  background: rgba(63, 107, 147, 0.16);  
+  color: #A3D2FE;
+}

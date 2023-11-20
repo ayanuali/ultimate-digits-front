@@ -1,0 +1,37 @@
+.leftPart {
+  width: 43%;
+  background: radial-gradient(
+        208.37% 151.88% at 49.92% 48.78%,
+        #111122 0%,
+        #184283 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    #111122;
+  border-right: 1px solid rgba(216, 230, 253, 0.16);
+  padding-top: 160px;
+  padding-bottom: 48px;
+  /* new code */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.leftPartWrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: 160px;
+  width: 360px;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.leftPartBtmTxt {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  /* identical to box height, or 175% */
+
+  color: rgba(216, 228, 253, 0.7);
+  text-align: left;
+}

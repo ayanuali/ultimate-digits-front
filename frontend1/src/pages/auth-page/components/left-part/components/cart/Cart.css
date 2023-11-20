@@ -1,0 +1,165 @@
+.cartWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: -5rem;
+  margin-top: -5rem;
+}
+
+.cartWrapper h4 {
+  margin: 0;
+  margin-bottom: 8px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  /* identical to box height, or 125% */
+
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #ffffff;
+}
+
+.cartWrapper p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  /* identical to box height, or 175% */
+  text-align: left;
+  color: #d8e4fd;
+  margin: 0;
+  margin-bottom: 16px;
+}
+
+.cartWrapperColumn {
+  border-width: 1px 0px;
+  border-style: solid;
+  border-color: rgba(51, 63, 92, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+.cartWrapperTotalCount {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(51, 63, 92, 0.7);
+}
+.bottom-rem{
+  border-bottom: 0px solid rgba(51, 63, 92, 0.7);
+}
+.cartWrapperRow{
+  display: flex;
+  flex-direction: column;
+}
+.cartWrapperSubtotal {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  /* identical to box height, or 175% */
+
+  color: #d8e4fd;
+}
+
+.cartWrapperPrice {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+  /* identical to box height, or 133% */
+
+  text-align: right;
+
+  color: #ffffff;
+}
+
+.cartWrapperTotal {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 28px;
+  /* identical to box height, or 175% */
+
+  color: #ffffff;
+}
+
+.cartWrapperCoupon {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  color: #ffffff;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.cartWrapperCouponForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.cartWrapperCouponForm input {
+  background: linear-gradient(0deg, #1F2138, #1F2138),
+  linear-gradient(0deg, #384160, #384160);
+  border: 1px solid rgba(56, 65, 96, 1);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.24);
+  width: 100%;
+  color: rgba(123, 141, 183, 1);
+  padding-left: 20px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cartWrapperCouponForm input::placeholder {
+font-size: 18px;
+font-weight: 500;
+line-height: 24px;
+letter-spacing: 0em;
+text-align: left;
+color: rgba(123, 141, 183, 1);
+/* padding-left: 4px; */
+
+}
+
+
+.cartWrapperCouponForm button {
+  width: 24rem;
+font-size: 15px;
+font-weight: 700;
+line-height: 16px;
+letter-spacing: 0em;
+text-align: center;
+border: 1px solid rgba(56, 65, 96, 1);
+
+  /* identical to box height, or 100% */
+  background-color: rgba(27, 31, 57, 1);
+  
+  text-transform: capitalize;
+
+  color: rgba(100, 115, 165, 1);
+
+  outline: none;
+  /* border: none; */
+ 
+  border-radius: 32px;
+
+  cursor: pointer;
+  padding: 14px 18px;
+}

@@ -1,0 +1,58 @@
+.authHeader {
+  background: #06061e;
+  border-bottom: 1px solid rgba(216, 230, 253, 0.16);
+  padding-top: 24px;
+  padding-bottom: 24px;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.authHeaderWrapper {
+  display: flex;
+  flex-direction: row;
+  padding-left: 160px;
+  padding-right: 160px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  /* identical to box height, or 156% */
+  gap: 16px;
+  color: #ffffff;
+  align-items: center;
+}
+
+.authHeaderWrapper img {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.authHeaderStick {
+  width: 40px;
+  height: 0px;
+
+  border: 1px solid rgba(216, 230, 253, 0.16);
+  transform: rotate(90deg);
+}
+
+.authHeaderStatus {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  /* identical to box height, or 123% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+  color: #8fb4ef;
+  padding: 4px 8px;
+
+  background: rgba(99, 150, 233, 0.16);
+  border: 0.5px solid rgba(175, 201, 244, 0.12);
+  border-radius: 36px;
+}

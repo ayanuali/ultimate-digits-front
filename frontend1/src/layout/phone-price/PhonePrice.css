@@ -1,0 +1,68 @@
+.phonePrice {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 20px;
+  /* identical to box height, or 133% */
+
+  color: #ffffff;
+}
+
+.phonePriceMain {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.phonePriceNum {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.phonePriceNumTier {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  /* identical to box height, or 123% */
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-transform: capitalize;
+  color: #8f91ef;
+
+  padding: 4px 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(99, 102, 233, 0.16);
+  border-radius: 44px;
+
+  width: max-content;
+}
+
+.diamondTier {
+  background: rgba(99, 102, 233, 0.16);
+  border: 0.5px solid rgba(175, 176, 244, 0.12);
+  color: #8F91EF;
+}
+
+.bronzeTier {
+  background: rgba(147, 102, 63, 0.16);
+  border: 0.5px solid rgba(175, 176, 244, 0.12);
+  color: #EFBC8F;
+}
+
+.goldenTier {
+  background: rgba(178, 164, 43, 0.16);
+  border: 0.5px solid rgba(233, 220, 99, 0.12);
+  color: #EFE68F;
+}

@@ -1,0 +1,118 @@
+.searchResultsScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+.searchResultsMain {
+  background: linear-gradient(
+    180deg,
+    rgba(152, 152, 205, 0.12) 0%,
+    rgba(17, 17, 35, 0.12) 29.75%
+  );
+  border-top: 1px solid #293047;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 32px;
+  padding-bottom: 62px;
+}
+
+.searchResultsMain h3 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  /* identical to box height, or 125% */
+
+  text-align: center;
+  letter-spacing: -0.01em;
+  margin: 0;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.searchResultsMain p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height, or 138% */
+
+  text-align: center;
+  margin: 0;
+  color: #d8e4fd;
+  margin-bottom: 24px;
+}
+
+.searchResultsMidBorder {
+  border: 1px solid #293047;
+  width: 640px;
+  margin-top: 24px;
+}
+
+.searchResultsTable {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  /* identical to box height, or 156% */
+  
+  letter-spacing: -0.01em;
+  
+  color: #FFFFFF;
+  margin-top: 24px;
+  gap: 24px;
+  text-align: left;
+}
+
+.searchResultsTableCol {
+  border: 1px solid rgba(216, 230, 253, 0.08);
+  border-radius: 8px;
+  background: rgba(216, 230, 253, 0.08);
+}
+
+.searchResultClaim {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #171830;
+  border-top: 2px solid #2070f4;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+
+  line-height: 24px;
+  /* identical to box height, or 133% */
+
+  gap: 24px;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.searchResultClaim div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 40px;
+  height: 40px;
+  background: rgba(99, 155, 247, 0.16);
+  border-radius: 32px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+  color: #508ff6;
+}

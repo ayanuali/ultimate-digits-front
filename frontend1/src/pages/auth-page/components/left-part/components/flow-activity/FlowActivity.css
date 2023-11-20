@@ -1,0 +1,64 @@
+.flowActivity {
+  display: flex;
+  flex-direction: column;
+  width: 356px;
+  gap: 65px;
+  margin-left: -5rem;
+  margin-top: -3rem;
+}
+
+.flowActivityLogo {
+  width: 216px;
+  height: 32.25px;
+  margin-left: 1.8rem;
+}
+
+.flowActivityTxt {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: -3.5rem;
+}
+
+.authStepWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+}
+
+.authStepTxt {
+  display: flex;
+  flex-direction: column;
+}
+
+.authStepTxt h4 {
+  margin: 0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 28px;
+  /* identical to box height, or 175% */
+
+  color: #ffffff;
+}
+
+.authStepTxt .inactiveTitle {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.authStepTxt .inactiveSubtitle {
+  color: rgba(216, 228, 253, 0.56);
+}
+
+.authStepTxt p {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  /* or 175% */
+
+  color: #d8e4fd;
+}

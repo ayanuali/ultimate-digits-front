@@ -1,0 +1,180 @@
+.cryptopage1{
+    display: flex;
+    flex-direction: row;
+    background-color: #07061e;
+    color: white;
+}
+
+.cp1-navbar{
+    padding: 30px 25px 10px 25px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #5F6A85;
+}
+
+.cp1-navbar .text{
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.cp1-navbar .sub-text{
+    font-size: 16px;
+    padding: 5px 0;
+    font-weight: 400;
+    color: #D8E4FD;
+}
+
+.cp1-content{
+    padding: 30px 25px 10px 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cp1-content .text{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.cp1-content .sub-text{
+    font-size: 16px;
+    padding: 5px 0 30px;
+    font-weight: 400;
+    color: #D8E4FD;
+}
+
+.cp1-box{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.cp1-box .box1{
+    /* box-sizing: border-box; */
+    width: 27rem;
+    height: 5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(216, 230, 253, 0.04);
+    background-color: #121735;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.cp1-box .box2{
+    /* box-sizing: border-box; */
+    width: 27rem;
+    height: 5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(216, 230, 253, 0.04);
+    background-color: #121735;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.cp1-box .text{
+    font-size: 17px;
+}
+
+.cp1-box .sub-text{
+    font-size: 14px;
+    color: #D8E4FD;
+}
+
+.selection{
+    display: flex;
+    flex-direction: column;
+}
+
+.cryptopage1 .selection select{
+    width: 28.5rem;
+    height: 2.7rem;
+    padding: 0 5px;
+    border-radius: 4px;
+    border: 1px solid #384160;
+    background: #1F2138;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.20);
+    color: white;
+
+}
+
+.cryptopage1 .selection input{
+    width: 28rem;
+    height: 2.3rem;
+    border-radius: 4px;
+    border: 1px solid #384160;
+    background: #1F2138;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.20);
+    color: white;
+    padding: 0 5px;
+
+}
+
+.selection label{
+    font-size: 12px;
+    padding-bottom: 4px;
+}
+
+.cp1-btn{
+    padding: 20px 0;
+}
+
+.cp1-btn button{
+    width: 28.7rem;
+    height: 2.5rem;
+    border-radius: 20px;
+    background: #2070F4;
+    border: none;
+    font-size: 16px;
+    color: white;
+    font-weight: 700;
+}
+/* .phoneNumberBoxRightIcon {
+    max-width: 10px;
+    height: 10px;
+     margin-left: -10%; 
+     margin-right: 10%; 
+  } */
+
+.binance-icon {
+    width: 20px;
+  height: 20px;
+    /* background-color: red; */
+    /* font-size: 40px; */
+    /* background-image: url("../../../assets/search-results-page/icons/binance-icon.svg"); */
+}  
+
+.blockchain-binance {
+    /* -ms-flex-align: end; */
+    display: flex;
+    /* text-align: left;
+     */
+    align-items: center;
+    width: 28.5rem;
+    height: 2.7rem;
+    padding: 0 3px;
+    border-radius: 4px;
+    border: 1px solid #384160;
+    background: #1F2138;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.20);
+    color: white;
+    
+
+}
+
+/* .blockchain-binance .arrow {
+    /* position:fixed;
+    padding-left: 28vw ;
+    text-align: left;
+    align-items: end;
+    gap: 28vw; */
+    /*
+    position: absolute; 
+      right: 10px; 
+      top: 50%; 
+      transform: translateY(-50%); 
+} */

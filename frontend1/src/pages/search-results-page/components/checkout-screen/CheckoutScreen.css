@@ -1,0 +1,96 @@
+.checkoutScreenWrapper {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.checkoutScreenTitle h2 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  /* identical to box height, or 156% */
+  text-align: left;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: #ffffff;
+}
+
+.checkoutScreenTitle p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* or 150% */
+  text-align: left;
+  margin: 0;
+  color: #a7c3fb;
+  margin-top: 4px;
+  margin-bottom: 24px;
+}
+
+.checkoutScreenClaimBox {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.checkoutScreenClaimBox button {
+  
+  width: 100%;
+  margin: auto;
+  
+}
+
+.checkoutScreenBtm {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 auto;
+  margin-top: 48px;
+}
+
+.checkoutScreenBtmRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  /* identical to box height, or 150% */
+
+  text-align: center;
+  letter-spacing: -0.02em;
+
+  color: #ffffff;
+}
+
+.checkoutScreenBtm img {
+  width: 24px;
+  height: 24px;
+}
+
+.checkoutScreenBtmRow div {
+  width: 184px;
+  height: 0px;
+}
+
+.checkoutScreenBtmRow span {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.checkoutScreenBtmRow div:nth-child(1) {
+  border: 1px solid #508ff6;
+}
+
+.checkoutScreenBtmRow div:nth-child(2) {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.searchResultsTableCol {
+  border: 1px solid rgba(216, 230, 253, 0.08);
+  border-radius: 8px;
+  background: rgba(216, 230, 253, 0.08);
+}

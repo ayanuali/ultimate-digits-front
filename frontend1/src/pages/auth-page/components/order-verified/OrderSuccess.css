@@ -1,0 +1,56 @@
+.orderSuccess {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 392px;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.orderSuccessTop img {
+  width: 48px;
+  height: 48px;
+}
+
+.orderSuccessTop h2 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 38px;
+  /* identical to box height, or 127% */
+
+  text-align: center;
+  letter-spacing: -0.02em;
+
+  color: #ffffff;
+  margin: 0;
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.orderSuccessTop p {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  /* or 156% */
+
+  text-align: center;
+
+  /* Secondary-text */
+
+  color: #d8e4fd;
+}
+
+.orderSuccessTop p span {
+    margin: 0;
+    display: inline-block;
+    font-weight: 700;
+}
+
+.orderSuccess button {
+    width: 100%;
+}

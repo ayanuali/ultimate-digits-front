@@ -1,0 +1,102 @@
+.navbar {
+  position: relative;
+  width: 100%;
+  top: 0;
+  padding-top: 3%;
+  padding-bottom: -50%;
+  background: transparent;
+  max-height: 50px;
+  /* background: #06061E; */border-bottom: 1px solid rgba(216, 230, 253, 0.12);
+  border-bottom: 1px solid rgba(216, 230, 253, 0.12);
+}
+
+.navbarWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  /* width: 78%; */
+  padding-left: 50px;
+  padding-right: 50px;
+  border-bottom: 1px solid rgba(216, 230, 253, 0.12);
+  /* padding-bottom: -50%; */
+  align-items: center;
+  max-height: 50px;
+  justify-content: space-between;
+}
+
+.navbarLogo {
+  width: 216px;
+  height: 32.25px;
+  cursor: pointer;
+}
+
+.navbarRightSide {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: center;
+}
+
+.navbarRightDiv {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 32px;
+  /* identical to box height, or 200% */
+  margin-top: -70%;
+  color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.navbarRightDiv img {
+  width: 24px;
+  height: 24px;
+}
+/* .navbarTextRow {
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  /* identical to box height, or 150% */
+/* margin: 0 auto;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}
+
+.navbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  gap: 4px;
+
+  width: 112px;
+  height: 48px;
+  cursor: pointer;
+  border: 2px solid #2070f4;
+  border-radius: 80px;
+  background: transparent;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px; */
+/* identical to box height, or 143% */
+
+/* display: flex;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+}  */

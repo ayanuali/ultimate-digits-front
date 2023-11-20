@@ -1,0 +1,42 @@
+.connectWallet {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 160px;
+
+  text-align: l÷eft;
+  width: 455px;
+}
+
+.connectWallet h1 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 40px;
+  /* identical to box height, or 125% */
+
+  letter-spacing: -0.02em;
+    margin: 0;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.connectWallet p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 28px;
+  /* or 175% */
+  margin: 0;
+  color: #d8e4fd;
+  margin-bottom: 40px;
+}
+
+.connectWallet button {
+    margin-bottom: 16px;
+}
+
+.connectWallet button img {
+    width: 24px;
+    height: 24px;
+}

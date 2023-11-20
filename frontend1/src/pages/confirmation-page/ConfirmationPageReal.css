@@ -1,0 +1,170 @@
+.confirmationPageReal1{
+    color: white;
+}
+.sponsors {
+    /* width: Hug (455px) */
+/* height: Hug (97px) */
+position: relative;
+margin-top: 6%;
+/* left: 493px; */
+gap: 32px;
+text-align: center;
+display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.cpr1-navbar{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cpr1-icon{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+}
+
+.confirmationPageReal1 .text, .confirmationPageReal1 .sub-text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.text{
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: -0.6px;
+    margin: 20px 0 10px 0;
+}
+
+.sub-text{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    color: #D8E4FD;
+}
+
+.cpr1-input .text{
+    display: flex;
+    /* justify-content: flex-start; */
+    margin-bottom: -1px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-top: 3rem;
+}
+
+.input-area{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+select{
+    height: 50px;
+    width: 60px;
+    border: 1px solid black;
+    border-radius: 7px 0 0 7px;
+}
+
+input{
+    height: 46px;
+    width: 360px;
+    border: 1px solid black;
+    border-radius: 7px;
+}
+
+.cpr1-btn1{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.cpr1-btn1 button{
+    width: 420px;
+    height: 40px;
+    border: none;
+    border-radius: 20px;
+    background: #2070F4;
+    box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.70);
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+}
+
+.cpr1-btn2{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.cpr1-btn2 button{
+    width: 420px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1.5px solid #2070F4;
+    background-color: transparent;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+
+.confirmationPageReal1 .cpr1-footer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}  
+
+
+.copyright{
+    display: flex;
+    justify-content: center;
+    color: rgba(216, 228, 253, 0.70);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.separation img{
+    width: 25rem;
+    border-radius: 0px;
+}
+
+.separation{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+}
+
+.cpr1-btn-text{
+    text-align: center;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 26px;
+    letter-spacing: -0.36px;
+    margin-top: -8px;
+}
+
+.emailInputBottomLine {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 12px;
+    width: 420px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    text-align: center;
+    color: #D8E4FD;
+  }

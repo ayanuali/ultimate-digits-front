@@ -1,0 +1,208 @@
+.cryptopage3{
+    display: flex;
+    flex-direction: row;
+    background-color: #07061e;
+    color: white;
+}
+
+.cp3-navbar{
+    padding: 30px 25px 10px 25px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid #5F6A85;
+}
+
+.cp3-navbar .text{
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.cp3-navbar .sub-text{
+    font-size: 16px;
+    padding: 5px 0;
+    font-weight: 400;
+    color: #D8E4FD;
+}
+
+.cp3-content{
+    padding: 30px 25px 10px 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cp3-content .text{
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 7px;
+}
+
+.cp3-content .sub-text{
+    font-size: 16px;
+    padding: 0px 0 30px;
+    font-weight: 400;
+    color: #D8E4FD;
+}
+
+.cp3-box{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.selection{
+    display: flex;
+    flex-direction: column;
+}
+
+.cryptopage3 .selection select{
+    width: 25.5rem;
+    height: 2.7rem;
+    padding: 0 5px;
+    border-radius: 4px;
+    border: 1px solid #384160;
+    background: #1F2138;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.20);
+    color: white;
+
+}
+
+.cryptopage3 .selection input{
+    width: 25rem;
+    height: 2.3rem;
+    border-radius: 4px;
+    border: 1px solid #384160;
+    background: #1F2138;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.20);
+    color: white;
+    padding: 0 5px;
+}
+
+.selection label{
+    font-size: 12px;
+    padding-bottom: 4px;
+}
+
+.cp3-btn{
+    padding: 20px 0;
+}
+
+
+
+.cp3-btn{
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.cp3-btn button{
+    width: 25.8rem;
+    height: 2.5rem;
+    border-radius: 20px;
+    background: #2070F4;
+    border: none;
+    font-size: 14px;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    border: 1px solid #2070F4;
+}
+
+.cp3-box .box1{
+    /* box-sizing: border-box; */
+    width: 25rem;
+    height: 5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(216, 230, 253, 0.04);
+    background-color: #121735;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.cp3-box .box2{
+    /* box-sizing: border-box; */
+    width: 25rem;
+    height: 5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(216, 230, 253, 0.04);
+    background-color: #121735;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.cp3-box .text{
+    font-size: 17px;
+}
+
+.cp3-box .sub-text{
+    font-size: 14px;
+    color: #D8E4FD;
+}
+
+.pop-up{
+    display: flex;
+    justify-content: center;
+}
+
+.cp3-pop{
+    z-index: 100;
+    text-align: center;
+    width: 500px;
+    height: 375px;
+    border-radius: 16px;
+    border: 1px solid rgba(216, 230, 253, 0.12);
+    background: #0C122E;
+    margin-top: -80vh;
+    word-spacing: 4px;
+}
+
+.cp3-pop{
+    color: white;
+}
+
+.cp3-tickIcon{
+    margin-top: 25px;
+}
+
+.cp3-pop .text{
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: -0.6px;
+    margin: 20px 0 5px 0;
+}
+
+.cp3.-pop .sub-text{
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 22px;
+    color: #D8E4FD;
+}
+
+.cp3-pop .cp3-btn button{
+    width: 21.8rem;
+    height: 2.5rem;
+    border-radius: 20px;
+    background: #2070F4;
+    border: none;
+    font-size: 14px;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    border: 1px solid #2070F4;
+}
+
+.cp3-pop .cp3-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

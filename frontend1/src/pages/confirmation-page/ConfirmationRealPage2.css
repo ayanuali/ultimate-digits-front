@@ -1,0 +1,113 @@
+.confirmationPageReal2{
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .cpr2-navbar{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .cpr2-tickIcon{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5rem;
+  }
+  
+  .cpr2-exchangeIcon{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+  }
+  
+  .confirmationPageReal2 .text, .confirmationPageReal2 .sub-text{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+  }
+  
+  .text{
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 40px;
+      letter-spacing: -0.6px;
+      margin: 10px 0 10px 0;
+  }
+  
+  .sub-text{
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 22px;
+      color: #D8E4FD;
+  }
+  
+  .cpr2-number{
+      margin-top: 1rem;
+      width: 37vw;
+      border-radius: 8px;
+      background: #181931;
+      box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.08) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.40);
+      display: flex;
+      padding: 1rem 1.2rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      min-width: 20rem;
+  }
+  
+  .cpr2-number .text{
+      color: #FFF;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 5px;
+  }
+  
+  .cpr2-number .number{
+      color: var(--secondary-text, #D8E4FD);
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 5px;
+      padding-bottom: 0.8rem;
+  }
+  
+  .cpr2-btn button{
+      width: 40vw;
+      margin-top: 0.8rem;
+      height: 40px;
+      border-radius: 20px;
+      background: #2070F4;
+      box-shadow: 0px 1px 0px 0px rgba(255, 255, 255, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.70);
+      min-width: 20rem;
+      border: none;
+      color: white;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+  }
+  
+  .confirmationPageReal2 .cpr1-footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 2%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+  }  
+  
+  
+  .copyright{
+      display: flex;
+      justify-content: center;
+  }

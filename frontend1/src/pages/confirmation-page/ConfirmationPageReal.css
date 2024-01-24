@@ -24,6 +24,7 @@ display: flex;
     display: flex;
     justify-content: center;
     margin-top: 100px;
+    margin-right: 60px;
 }
 
 .confirmationPageReal1 .text, .confirmationPageReal1 .sub-text{
@@ -105,6 +106,7 @@ input{
 }
 
 .cpr1-btn2 button{
+    cursor: auto;
     width: 420px;
     height: 40px;
     border-radius: 20px;
@@ -115,14 +117,15 @@ input{
     font-size: 16px;
 }
 
-
 .confirmationPageReal1 .cpr1-footer {
     display: flex;
     justify-content: center;
     align-items: flex-end;
 }  
 
-
+.cpr1-btn2 .btn1 {
+    cursor: auto;
+}
 .copyright{
     display: flex;
     justify-content: center;

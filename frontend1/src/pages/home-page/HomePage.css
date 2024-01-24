@@ -238,15 +238,19 @@ filter: blur(16.29px);
 
 .hp-bottom{
   margin-top: 12rem;
-  width: 98.5vw;
+  width: 100vw;
   height: 40vh;
   min-height: 200px;
   background: linear-gradient(180deg, rgba(82, 147, 255, 0.12) 0%, rgba(17, 17, 35, 0.12) 80.03%);
   display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+.hp-row-box {
+  display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
-
 .hp-bottom .box{
   /* border: 2px solid white;
   width: 24rem;

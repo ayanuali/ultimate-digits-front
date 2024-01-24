@@ -4,6 +4,9 @@ import IphoneImg from "../../assets/home-page/iphone.png";
 import Logo from "../../assets/ud-square-logo2.png";
 import CheckIcon from "../../assets/virtual/hash.svg";
 import bellIcon from "../../assets/virtual/bell.svg";
+import rewardIcon from "../../assets/virtual/reward.svg";
+import sendCryptoIcon from "../../assets/virtual/sendCrypto.svg";
+import privateIcon from "../../assets/virtual/private.svg";
 import recieveIcon from "../../assets/virtual/recieve.svg";
 import voipIcon from "../../assets/virtual/voip.svg";
 import PhoneSearchInput from "../../utils/inputs/PhoneSearchInput";
@@ -56,7 +59,8 @@ const HomePage = ({ setCode, contract_connect }) => {
 
         <h3>Your Web3 Mobile Number</h3>
 
-        <p>The only wallet address you ever need to share.</p>
+        <p>The only wallet address you ever need to share<br />Secured by Ethereum
+        </p>
       </div>
 
       {/* Input Field */}
@@ -71,6 +75,7 @@ const HomePage = ({ setCode, contract_connect }) => {
       </div>
 
       <div className="hp-bottom">
+      <div className="hp-row-box">
         <div className="box">
           <div className="box-img">
             <img src={bellIcon} alt="notification"></img>
@@ -78,9 +83,7 @@ const HomePage = ({ setCode, contract_connect }) => {
           <div className="box-text">
             <div className="text-heading">Get Web3 Transaction Alerts</div>
             <div className="text-content">
-              Our app provides secure and customizable notifications for your
-              Web3 transactions, either as push notifications or text messages
-              through our secure relay.
+            Get alerts for your wallet activity as text or push notifications
             </div>
           </div>
         </div>
@@ -93,9 +96,7 @@ const HomePage = ({ setCode, contract_connect }) => {
               Receive and Send Crypto with Ease
             </div>
             <div className="text-content">
-              Use your virtual mobile number to map to your Web3 wallet address
-              and simplify sending and receiving cryptocurrency. No need to
-              share your entire wallet address, avoiding errors.
+            Make your Ethereum Web3 virtual mobile number your wallet address – flexible, changeable, and safer than traditional Web3 domains!
             </div>
           </div>
         </div>
@@ -112,8 +113,45 @@ const HomePage = ({ setCode, contract_connect }) => {
             </div>
           </div>
         </div>
+        </div>
+        <div className="hp-row-box">
+        <div className="box">
+          <div className="box-img">
+            <img src={rewardIcon} style={{color: "blue"}}alt="Rewarding"></img>
+          </div>
+          <div className="box-text">
+            <div className="text-heading">A Rewarding Revolution</div>
+            <div className="text-content">
+            Your Ultimate Digits virtual number is a tradeable Ethereum NFT. It makes you eligible for airdrops from our partners, and unlocks other usage-based rewards.
+            </div>
+          </div>
+        </div>
+        <div className="box">
+          <div className="box-img">
+            <img src={sendCryptoIcon} alt="sendingCrypto"></img>
+          </div>
+          <div className="box-text">
+            <div className="text-heading">
+              Receive and Send Crypto with Ease
+            </div>
+            <div className="text-content">
+            Our upcoming fiat settlement integration enables you to choose whether the crypto you send is to be deposited into your friend’s crypto wallet, or paid as fiat money to their bank account. 
+            </div>
+          </div>
+        </div>
+        <div className="box">
+          <div className="box-img">
+            <img src={privateIcon} alt="voip"></img>
+          </div>
+          <div className="box-text">
+            <div className="text-heading">Private, Flexible and Cutting-Edge</div>
+            <div className="text-content">
+            Changes to your mobile number, transfer of NFT ownership, and connected wallet changes are handled via zero-knowledge proofs, chain of custody, time-locks and decentralized reporting. Our hashing rule also ensures the privacy of your data on-chain.
+            </div>
+          </div>
+        </div>
+        </div>
       </div>
-      <div className="hp-learn">Learn more</div>
     </div>
   );
 };

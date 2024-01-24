@@ -127,7 +127,7 @@ export default function AuthenticationPageReal({ setProceedTo, number, code }) {
         </div>
       </div>
       <div className="apr-footer">
-        <div className="copyright">&copy; Ultimate Digits 2023.</div>
+        <div className="copyright">&copy; Ultimate Digits 2024.</div>
       </div>
     </div>
   );

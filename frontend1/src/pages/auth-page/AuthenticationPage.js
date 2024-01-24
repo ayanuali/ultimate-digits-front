@@ -187,9 +187,7 @@ const AuthenticationPage = ({
       <div className="authPageWrapper">
         {proceedTo != "purchaseConfirmation" ? (
           <LeftPart cartArray={cartArray} currentState={proceedTo} />
-        ) : (
-          ""
-        )}
+        ) : false}
 
         {flowHandler(proceedTo)}
       </div>

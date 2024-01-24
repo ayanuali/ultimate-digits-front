@@ -23,7 +23,7 @@ export default function Cryptopage2({
 
   //variable and function declaration
   var servicecharge = 0.01 * amount;
-  var serviceCharge = parseFloat(servicecharge * 0.0046790195017).toFixed(5);
+  
   var totalfinalamount = 1.01 * amount;
 
   //function to send confirmation message of transaction
@@ -53,7 +53,11 @@ export default function Cryptopage2({
   async function sendTransaction() {
     console.log(totalfinalamount);
     console.log(number);
-
+    fetch(`http://api.coinlayer.com/api/live?access_key=${config.convert_api}&symbols=BNB`).then(async (res) =>{
+      let data = await res.json();
+      console.log(data);
+      let exchangeRate = data.rates['BNB'];
+    var serviceCharge = parseFloat(servicecharge * (1/exchangeRate).toFixed(10)).toFixed(10);
     // send to which address ?
     const toaddress = toAddress;
     const a = parseFloat(amount * 0.0046790195017).toFixed(5);
@@ -96,6 +100,7 @@ export default function Cryptopage2({
     } catch (err) {
       console.log(err);
     }
+  }).catch((e)=>console.log(e));
   }
   return (
     <div className="cryptopage2">

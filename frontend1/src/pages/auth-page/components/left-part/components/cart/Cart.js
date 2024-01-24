@@ -118,19 +118,19 @@ const Cart = ({ cartArray, currentState }) => {
       <div className="cartWrapperRow">
         <div className="cartWrapperTotalCount " style={{ border: "0px" }}>
           <div className="cartWrapperSubtotal">Subtotal</div>
-          <div className="cartWrapperPrice">{`BUSD $${checkTotalPrice(
+          <div className="cartWrapperPrice">{`$${checkTotalPrice(
             cartArray
           )}`}</div>
         </div>
         <div className="cartWrapperTotalCount " style={{ margin: "-6% 0 0 0" }}>
           <div className="cartWrapperSubtotal">Referral reward</div>
-          <div className="cartWrapperPrice" id="cart1">{`BUSD $${coupon1}`}</div>
+          <div className="cartWrapperPrice" id="cart1">{`$${coupon1}`}</div>
         </div>
       </div>
 
       <div className="cartWrapperTotalCount">
         <div className="cartWrapperTotal">Total</div>
-        <div className="cartWrapperPrice" id="cart2">{`BUSD $${coupon2}`}</div>
+        <div className="cartWrapperPrice" id="cart2">{`$${coupon2}`}</div>
       </div>
 
       

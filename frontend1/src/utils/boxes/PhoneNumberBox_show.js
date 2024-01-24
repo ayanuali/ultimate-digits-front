@@ -104,7 +104,7 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}>{`${tier} Tier`}</div>
+            <div className={`statusDiv ${tier}Tier`}>{`${(tier.substring(0,1)).toUpperCase()}${tier.substring(1)} Tier`}</div>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@ const PhoneNumberBox = ({
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
-          <div className="text_bsd">BUSD ${checkPrice(number.toString())}</div>
+          <div className="text_bsd">${checkPrice(number.toString())}</div>
           </div>
 
           <button

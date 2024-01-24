@@ -74,7 +74,7 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate,}) => {
         </div>
         <button
           onClick={onSearch}
-          disabled={phoneValue.length < 3 ? true : false}
+          disabled={phoneValue.length < 10 ? true : false}
         >
           Search
         </button>

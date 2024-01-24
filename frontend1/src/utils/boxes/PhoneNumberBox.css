@@ -16,6 +16,9 @@
   width: max-content;
   gap: 10px;
 }
+.phoneNumberBoxRightCurrency img{
+  margin-bottom: 10px;
+}
 .text_bsd{
   margin-top: 10%;
   font-size: 18px;

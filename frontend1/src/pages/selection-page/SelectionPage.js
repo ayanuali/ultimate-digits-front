@@ -18,11 +18,11 @@ export default function SelectionPage({ setNav }) {
       </div>
       <div className="sp-box">
         <div className="sp-current">
-          <div className="current-image" style={{ marginTop: "-20px" }}>
+          <div className="virtual-image" style={{ marginTop: "-20px" }}>
             <img src={currentImg} alt="iphone"></img>
           </div>
           <div className="current-text">
-            <div className="text-img" style={{ marginTop: "-30px" }}>
+            <div className="text-img" >
               <img
                 src={freeImg}
                 alt="free"
@@ -63,14 +63,15 @@ export default function SelectionPage({ setNav }) {
             </div>
           </div>
         </div>
-        <div className="sp-virtual">
+        <div className="sp-current">
           <div className="virtual-image" style={{ marginTop: "-20px" }}>
             <img src={virtualImg} alt="iphone"></img>
           </div>
-          <div className="current-text" style={{ marginTop: "-0.9rem" }}>
+          <div className="current-text" style={{ marginTop: "3.25rem" }}>
+          
             <div className="text">Virtual number</div>
             <div className="sub-text">
-              Buy a customized 10 digit virtual number of your choice
+            Get a personalized 10-digit virtual number of your choice as an Ethereum NFT
             </div>
             <div className="virtual-btn">
               <button

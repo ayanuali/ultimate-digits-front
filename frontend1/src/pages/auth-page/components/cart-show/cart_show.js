@@ -47,9 +47,13 @@ function CartShow({
     setLoad(true);
     // send to which address ?
     const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
+    fetch(`http://api.coinlayer.com/api/live?access_key=${config.convert_api}&symbols=BNB`).then(async (res) =>{
+      let data = await res.json();
+      console.log(data);
+      let exchangeRate = data.rates['BNB'];
     var amount
-    if(flag1){amount=parseInt(checkTotalPrice(cartArray)-5) * 0.0046790195017}
-    else{amount=parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;}
+    if(flag1 != "0"){amount=parseInt(checkTotalPrice(cartArray)-5) * (1/exchangeRate).toFixed(5)}
+    else{amount=parseInt(checkTotalPrice(cartArray)) * (1/exchangeRate).toFixed(5);}
     setflag1("0")
     // var amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
     console.log(amount)
@@ -136,6 +140,7 @@ function CartShow({
     } catch (err) {
       console.log(err);
     }
+  }).catch((e) => console.log(e));
   }
 
   return cartArray.length != 0 ? (
@@ -178,12 +183,11 @@ function CartShow({
               }
             }}
           >
-            Checkout
+            Complete my Purchase
           </button>
-        </div>
-      </div>
-      {error ? (
-        <div
+          <p style={{color:"white"}}>Please do NOT click ANY button on Ultimate Digits while your transaction is being completed</p>
+          {error ? (
+        <p
           style={{
             display: "flex",
             justifyContent: "center",
@@ -193,24 +197,24 @@ function CartShow({
           }}
         >
           Unsufficient Balance
-        </div>
-      ) : (
-        ""
-      )}
+        </p>
+      ) : false}
       {load ? (
         <div
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "-20vh",
+            marginTop: "-40vh",
           }}
         >
-          {" "}
-          <LoadPage style={{ marginRight: "40vw" }} />
+          <LoadPage/>
         </div>
-      ) : (
-        <div> ""</div>
-      )}
+      ) : false}
+        </div>
+        
+      </div>
+      
+      
     </div>
   ) : (
     ""

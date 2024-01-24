@@ -115,7 +115,7 @@ export default function ConfirmationPageVir({
   const navigate = useNavigate();
   return (
     <div className="confirmationPageReal1" style={{ marginTop: "-0.7rem" }}>
-      <div className="cpr1-icon">
+      <div className="cpr1-icon" >
         <svg
           width="144"
           height="48"
@@ -148,8 +148,8 @@ export default function ConfirmationPageVir({
       </div>
       <div className="cpr1-content">
         <div className="text" style={{ textAlign: "center" }}>
-          Link your web3 wallet to your <br></br> verified phone number for{" "}
-          <br></br> effortless transactions
+        Securely connect your wallet now to enable us to read your wallet address.  <br></br> Please use a wallet that has BNB balance, {" "}
+          <br></br> as it’s currently the only accepted payment currency
         </div>
       </div>
       <div className="cpr1-input">
@@ -179,8 +179,8 @@ export default function ConfirmationPageVir({
           Don’t have a web3 wallet?
         </div>
         <div className="cpr1-btn2">
-          <button className="btn-1">
-            Create Your Wallet with a Single Click
+          <button className="btn-1" style={{cursor:"auto"}}>
+            Create Your Wallet with a Single-Click
           </button>
         </div>
       </div>
@@ -205,7 +205,7 @@ export default function ConfirmationPageVir({
         </div>
       </div>
       <div className="cpr1-footer">
-        <div className="copyright">&copy; Ultimate Digits 2023.</div>
+        <div className="copyright">&copy; Ultimate Digits 2024.</div>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const LeftPart = ({ cartArray, currentState }) => {
           <Cart cartArray={cartArray} currentState={currentState} />
         )}
 
-        <div className="leftPartBtmTxt">© Ultimate Digits 2023.</div>
+        <div className="leftPartBtmTxt">© Ultimate Digits 2024.</div>
       </div>
     </div>
   );

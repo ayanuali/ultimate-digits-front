@@ -251,7 +251,7 @@ export default function ConfirmationPageReal({
         </div>
       </div>
       <div className="cpr1-footer">
-        <div className="copyright">&copy; Ultimate Digits 2023.</div>
+        <div className="copyright">&copy; Ultimate Digits 2024.</div>
       </div>
     </div>
   );

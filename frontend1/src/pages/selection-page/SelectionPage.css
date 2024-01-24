@@ -31,6 +31,8 @@
     margin-top: 1rem;
 }
 .sp-current{
+    display: flex;
+    flex-direction: column;
     width: 295px;
     height: 370px;
     border-radius: 12px;
@@ -61,7 +63,10 @@
     font-weight: 700;
     line-height: 32px;
 }
-
+.current-text {
+    height: 50%;
+    margin-top: 1rem;
+}
 .current-text .sub-text{
     color: var(--secondary-text, #D8E4FD);
     text-align: center;
@@ -97,6 +102,12 @@
     margin-top: 2rem;
 }
 
+.virtual-image {
+    height: 50%; 
+}
+.virtual-image img{
+    height : 100%;
+}
 .virtual-btn button{
     border-radius: 32px;
     background: transparent;

@@ -54,7 +54,10 @@ export default function ConfirmationPageVirtual1({
 
   async function PerformAction() {
     // Your action here
-
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
+    })
     var check = 0;
     console.log(contract_connect);
     cartArray.map(async (number, i) => {

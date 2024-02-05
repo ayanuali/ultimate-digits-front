@@ -43,17 +43,14 @@ function CartShow({
 
 
   //funcion to ensure virtual number purchase
+  //funcion to ensure virtual number purchase
   async function buyNumber() {
     setLoad(true);
     // send to which address ?
     const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
-    fetch(`http://api.coinlayer.com/api/live?access_key=${config.convert_api}&symbols=BNB`).then(async (res) =>{
-      let data = await res.json();
-      console.log(data);
-      let exchangeRate = data.rates['BNB'];
     var amount
-    if(flag1 != "0"){amount=parseInt(checkTotalPrice(cartArray)-5) * (1/exchangeRate).toFixed(5)}
-    else{amount=parseInt(checkTotalPrice(cartArray)) * (1/exchangeRate).toFixed(5);}
+    if(flag1){amount=parseInt(checkTotalPrice(cartArray)-5) * 0.0046790195017}
+    else{amount=parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;}
     setflag1("0")
     // var amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
     console.log(amount)
@@ -94,39 +91,10 @@ function CartShow({
               console.log(walletaddress);
               setwalletaddress(walletaddress);
 
-              const client = new Web3Storage({ token: config.token });
-              console.log(client);
-              const blob = new Blob([JSON.stringify(data)], {
-                type: "application/json",
-              });
-
-              const files = [
-                new File([blob], "ultimate_digits_nft" + i + ".json"),
-              ];
-              const cid = await client.put(files);
-              console.log("stored files with cid:", cid);
-              try {
-                console.log(contract);
-                const transaction = await contract.mint(
-                  "https://ipfs.io/ipfs/" + cid + "/ultimate_digits_nft0.json"
-                );
-
-                //function to upload metadata
-                transaction.wait().then((res) => {
-                  console.log(res);
+             
                   setLoad(false);
                   setProceedTo("purchaseConfirmation");
-                });
-                // const transaction2=await contract.SettingUniqueId(number," ")
-                // transaction.wait().then((res) => {
-                //   console.log(res);
-                //   setLoad(false);
-                //   setProceedTo("purchaseConfirmation");
-                // });
-                // console.log(transaction2);
-              } catch (e) {
-                console.log(e);
-              }
+               
             })
             .catch((err) => {
               console.log(err);
@@ -140,9 +108,7 @@ function CartShow({
     } catch (err) {
       console.log(err);
     }
-  }).catch((e) => console.log(e));
   }
-
   return cartArray.length != 0 ? (
     <div>
       <div style={{ display: "flex", justifyContent: "center" }}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ConfirmationPageReal.css";
 import metaMaskLogo from "../../assets/Metamask.png";
 import OR from "../../assets/OR.png";
@@ -22,7 +22,6 @@ export default function ConfirmationPageReal({
   //connecting with correct chain
   async function connectingmetamask() {
     try {
-
       // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -110,7 +109,7 @@ export default function ConfirmationPageReal({
         var k = res;
         console.log(res);
         const contract = new ethers.Contract(config.address, conABI, res);
-        
+
         //interaction with contract
         setContract_connect(contract);
         contract
@@ -143,6 +142,17 @@ export default function ConfirmationPageReal({
         console.log(err);
       });
   }
+
+  useEffect(() => {
+    const uuid = localStorage.getItem("uuid");
+    console.log(uuid);
+  }, []);
+
+  const createUltimateWallet = () => {
+    console.log("createUltimateWallet");
+    const uuid = localStorage.getItem("uuid");
+    console.log(uuid);
+  };
   return (
     <div className="confirmationPageReal1" style={{ marginTop: "-2.4rem" }}>
       <div className="cpr1-icon" style={{ marginBottom: "1.6rem" }}>
@@ -221,11 +231,12 @@ export default function ConfirmationPageReal({
         <div
           className="cpr1-btn-text"
           style={{ marginTop: "-3rem", marginBottom: "1rem" }}
+          onClick={createUltimateWallet}
         >
           Don’t have a web3 wallet?
         </div>
         <div className="cpr1-btn2">
-          <button className="btn-1">
+          <button className="btn-1" onClick={createUltimateWallet}>
             Create Your Wallet with a Single Click
           </button>
         </div>

@@ -1,9 +1,6 @@
-// import authReducer from "./services/auth/authReducer";
-// import { configureStore } from "@reduxjs/toolkit";
+import { createStore } from "redux";
+import rootReducer from "../src/services/index";
 
-// const store = configureStore({
-//   reducer: {
-//     auth: authReducer,
-//   },
-// });
-// export default store;
+const store = createStore(rootReducer);
+
+export default store;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ConfirmationPageReal.css";
 import metaMaskLogo from "../../assets/Metamask.png";
 import OR from "../../assets/OR.png";
@@ -7,6 +7,9 @@ import config from "../../config.json";
 import conABI from "../../abi/abi1.json";
 import sponsor from "../../assets/home-page/sponsors.svg";
 import { useNavigate } from "react-router-dom";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+import { v4 as uuidv4 } from "uuid";
+
 export default function ConfirmationPageRealRename({
   setCode,
   setwaddress,
@@ -16,7 +19,11 @@ export default function ConfirmationPageRealRename({
 }) {
   //declaring variables
   const navigate = useNavigate();
+  const { waas, user, isLoggingIn } = useWalletContext();
+
   const [error, setError] = useState(false);
+
+  const [uuidval, setUuidval] = useState("");
 
   //function to set and connect to BNB network
   async function connectingmetamask() {
@@ -129,6 +136,30 @@ export default function ConfirmationPageRealRename({
         console.log(err);
       });
   }
+
+  const userID = uuidv4(); // Generates a new UUID
+
+  const handleLogin = async () => {
+    console.log("createUltimateWallet");
+    console.log("uuidval", uuidval);
+    console.log("waas", waas);
+    console.log("userId", userID);
+    const res = await waas.login({ provideAuthToken: userID });
+    console.log(res);
+  };
+
+  useEffect(() => {
+    const uuid = localStorage.getItem("uuid");
+    console.log(uuid);
+    setUuidval(uuid);
+  }, []);
+
+  const createUltimateWallet = () => {
+    console.log("createUltimateWallet");
+    const uuid = localStorage.getItem("uuid");
+    console.log(uuid);
+    setUuidval(uuid);
+  };
   return (
     <div className="confirmationPageReal1" style={{ marginTop: "-2.4rem" }}>
       <div className="cpr1-icon" style={{ marginBottom: "1.6rem" }}>
@@ -211,7 +242,7 @@ export default function ConfirmationPageRealRename({
           Don’t have a web3 wallet?
         </div>
         <div className="cpr1-btn2">
-          <button className="btn-1">
+          <button className="btn-1" onClick={handleLogin}>
             Create Your Wallet with a Single Click
           </button>
         </div>

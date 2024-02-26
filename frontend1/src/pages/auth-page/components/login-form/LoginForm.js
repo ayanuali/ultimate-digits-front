@@ -10,6 +10,7 @@ import conABI from "../../../../abi/abi.json";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import udIcon from "../../../../assets/ud-square-logo.png";
+import coinbase from "../../../../assets/home-page/coinbase.svg";
 const LoginForm = ({
   setProceedTo,
   setsigner,
@@ -39,7 +40,6 @@ const LoginForm = ({
     setOpenEmail(false);
 
     try {
-
       // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -144,15 +144,17 @@ const LoginForm = ({
       >
         <img src={udIcon} style={{ width: "50px", height: "50px" }} />
       </div>
-      <h2 style={{ textAlign: "center" }}>{log ? "Sign up" : "Log in"}</h2>
-      <p style={{ textAlign: "center", marginTop: "-10px" }}>
-        {log
-          ? "Get started with your web3 phone number"
-          : "Welcome back to Ultimate digits"}
-      </p>
+      <h2 style={{ textAlign: "center", color: "#3D4043" }}>
+        Sign up or Log in
+      </h2>
 
       {openEmail ? (
-        <EmailInput setProceedTo={setProceedTo} user={user} setUser={setUser} log={log} />
+        <EmailInput
+          setProceedTo={setProceedTo}
+          user={user}
+          setUser={setUser}
+          log={log}
+        />
       ) : (
         <button
           className="loginWrapperTranspBtn"
@@ -188,6 +190,7 @@ const LoginForm = ({
               cursor: "pointer",
               marginTop: "-20px",
               marginBottom: "30px",
+              color: "#3D4043",
             }}
           >
             <img src={PhoneIcon} />
@@ -197,21 +200,36 @@ const LoginForm = ({
       )}
       <div className="emailInputBottomLine">
         <div />
-        OR
+        <span style={{ color: "#3D4043" }}>OR</span>
         <div />
       </div>
-      <div className="loginHeading" style={{ textAlign: "center" }}>
-        Sign up with your wallet
-      </div>
+
       <br />
       <button
         className="loginWrapperTranspBtn"
         onClick={getAccount}
-        style={{ marginTop: "-45px" }}
+        style={{ color: "#3D4043" }}
       >
         <img src={MetamaskIcon} />
-        Sign up with Metamask
+        Continue with Metamask
       </button>
+      <button
+        className="loginWrapperTranspBtn"
+        onClick={getAccount}
+        style={{ color: "#3D4043" }}
+      >
+        <img src={udIcon} />
+        Continue with Ultimate Wallet
+      </button>
+
+      <div className="powered">
+        <span style={{ color: "rgb(61, 64, 67,0.4)", opacity: "40" }}>
+          powered by Coinbase{" "}
+        </span>{" "}
+        <img src={coinbase} />
+      </div>
+
+      <div className="companyrights">© Ultimate Digits 2024</div>
     </div>
   );
 };

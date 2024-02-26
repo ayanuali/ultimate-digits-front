@@ -1,55 +1,69 @@
-import React from "react";
+import React, { useState } from "react";
 import "./LandingPage.css";
-import topLogo from "../../assets/ud-logo.png";
+// import topLogo from "../../assets/ud-logo.png";
 import iPhone from "../../assets/iPhone.png";
 import iPhoneBack from "../../assets/iPhoneBack.png";
 import ellipse from "../../assets/Ellipse.png";
 import { useNavigate } from "react-router";
 import border from "../../assets/iPhoneBack.png";
 import iphone from "../../assets/landing-page/iphone.svg";
+import topLogo from "../../assets/ud-logo.png";
+import heroImage from "../../assets/heroImage.svg";
+import LoginForm from "../auth-page/components/login-form/LoginForm";
+
 export default function LandingPage({ setNav, setLog }) {
   //function to set navigation bar
   const navigate = useNavigate();
-  setNav("2");
+  const [proceedTo, setProceedTo] = useState("showCart");
+  const [signer, setsigner] = useState({});
+  const [walletaddress, setwalletaddress] = useState(null);
+  const [number, setNumber] = useState(null);
+  const [contract, setcontract] = useState({});
+  const [currentWallet, setCurrentWallet] = useState("");
+  const [user, setUser] = useState({
+    isLoggedIn: null,
+    email: "",
+    phoneNumber: "",
+  });
+
+  setNav("0");
 
   return (
     <div className="landing-page">
       <div className="landing-content">
-        <div className="landing-heading">Your Web3 Mobile Number</div>
-        <div className="landing-subheading">
-          Join the revolution of seamless web3 communication
-        </div>
-        <div className="landing-btn">
-          <button
-            className="signup-btn"
-            onClick={() => {
-              setLog(true);
-              navigate("/signup");
-            }}
-          >
-            Join Now
-          </button>
-          <button
-            className="login-btn"
-            onClick={() => {
-              setLog(false);
-              navigate("/signup");
-            }}
-          >
-            Login
-          </button>
-        </div>
-        <div className="bottompart">
-          <img className="ellipse" src={ellipse} alt="img"></img>
-          <div className="mobile" style={{ backgroundcolor: `transparent` }}>
-            <div style={{ textAlign: "center" }}>
-              <img
-                src={iphone}
-                alt="img"
-                style={{ width: "20rem", textAlign: "center" }}
-              ></img>
+        <div className="imageSection">
+          <div className="icon">
+            <img src={topLogo} className="img-logo" alt="topLogo" />
+          </div>
+
+          <div>
+            <div className="heroText">
+              Your Mobile Number → Your <br /> Crypto Wallet and Web3 Identity
+            </div>
+
+            <div style={{ backgroundcolor: `transparent` }}>
+              <div style={{ textAlign: "center", marginTop: "80px" }}>
+                <img
+                  src={heroImage}
+                  alt="img"
+                  style={{ width: "40rem", textAlign: "center" }}
+                ></img>
+              </div>
             </div>
           </div>
+        </div>
+
+        <div className="formSection">
+          <LoginForm
+            setProceedTo={setProceedTo}
+            setsigner={setsigner}
+            setwalletaddress={setwalletaddress}
+            setcontract={setcontract}
+            setUser={setUser}
+            user={user}
+            log={setLog}
+            setNav={setNav}
+          />
         </div>
       </div>
     </div>

@@ -11,6 +11,8 @@ import LoadPage from "../../utils/loaders/LoadPage";
 import ConfirmationPageReal1 from "../confirmation-page/ConfirmationPageReal1";
 import ConfirmationPageVirtual1 from "../confirmation-page/ConfirmationPageVirtual1";
 import CartShow from "./components/cart-show/cart_show";
+import ellipse from "../../assets/Ellipse.png";
+import iphone from "../../assets/landing-page/iphone.svg";
 
 const AuthenticationPage = ({
   setwalletaddress,
@@ -168,18 +170,21 @@ const AuthenticationPage = ({
   }, [check, user.isLoggedIn]);
 
   return cartArray.length == 0 ? (
-    <div className="authPageCentered">
-      <LoginForm
-        setProceedTo={setProceedTo}
-        setsigner={setsigner}
-        setwalletaddress={setwalletaddress}
-        setcontract={setcontract}
-        setUser={setUser}
-        user={user}
-        log={log}
-        setNav={setNav}
-      />
-    </div>
+    <>
+      <div className="landing-content">sdfdsf</div>
+      <div className="authPageCentered">
+        <LoginForm
+          setProceedTo={setProceedTo}
+          setsigner={setsigner}
+          setwalletaddress={setwalletaddress}
+          setcontract={setcontract}
+          setUser={setUser}
+          user={user}
+          log={log}
+          setNav={setNav}
+        />
+      </div>
+    </>
   ) : loading ? (
     <LoadPage />
   ) : (
@@ -187,7 +192,9 @@ const AuthenticationPage = ({
       <div className="authPageWrapper">
         {proceedTo != "purchaseConfirmation" ? (
           <LeftPart cartArray={cartArray} currentState={proceedTo} />
-        ) : false}
+        ) : (
+          false
+        )}
 
         {flowHandler(proceedTo)}
       </div>

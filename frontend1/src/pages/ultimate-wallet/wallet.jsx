@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./wallet.css";
 import frame from "../../assets/Frame.svg";
 import clipboard from "../../assets/clipboard.svg";
 import qr from "../../assets/qr.svg";
 const Wallet = () => {
+  const [privatekey, setPrivatekey] = useState(
+    "asddsagsdgasdgadsgdsgasdgasdgasd23"
+  );
+  const [showPrivKey, setShowPrivKey] = useState(false);
   const copyToClipboard = (e) => {
     e.preventDefault();
     const textArea = document.createElement("textarea");
@@ -21,6 +25,10 @@ const Wallet = () => {
 
     alert("Address copied to clipboard!");
   };
+
+  const showPrivateKey = () => {
+    setShowPrivKey(true);
+  };
   return (
     <div className="maincontainer">
       <div>
@@ -37,7 +45,9 @@ const Wallet = () => {
         <img src={qr} alt="qr" className="qr" />
       </div>
 
-      <div className="privatekey">Show private Key</div>
+      <div className="privatekey" onClick={showPrivateKey}>
+        {showPrivKey ? privatekey : " Show private Key"}
+      </div>
 
       <div className="link">link Mobile number</div>
     </div>

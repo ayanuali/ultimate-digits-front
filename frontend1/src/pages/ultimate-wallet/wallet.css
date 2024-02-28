@@ -52,7 +52,7 @@
 
 .privatekey {
   display: flex;
-  width: 455px;
+  width: max-content;
   height: 20px;
   padding: 16px 0px;
   justify-content: center;

@@ -64,7 +64,8 @@ const EmailInput = ({ setProceedTo, user, setUser, log }) => {
             if (res1) {
               // setProceedTo("claimOrder");
               console.log("log", log);
-              log ? navigate("/selection-page") : navigate(`/login`);
+              // log ? navigate("/selection-page") : navigate(`/login`);
+              navigate(`/login`);
             } else {
               window.location.reload();
             }

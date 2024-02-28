@@ -10,7 +10,31 @@ import { useNavigate } from "react-router-dom";
 import { useWalletContext, useEVMAddress } from "@coinbase/waas-sdk-web-react";
 import { v4 as uuidv4 } from "uuid";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
+import udlogo from "../../assets/ud-square-logo.png";
 
+import { issueUserToken } from "@coinbase/waas-server-auth";
+// make sure your API KEY isn't visible on your web server :)
+// const coinbaseCloudApiKey = JSON.parse("coinbase_cloud_api_key.json");
+
+const coinbaseCloudApiKey = {
+  name: "organizations/bc6d9ff7-1cff-410a-bf5e-22a495a69512/apiKeys/00e85827-60d3-44f7-9785-731f4d6a7354",
+  principal: "14be18c6-6411-5950-b704-eb1ed39abbe6",
+  principalType: "USER",
+  publicKey:
+    "-----BEGIN EC PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDuHp5jlIv0P5jxCURtj26uvpJttD\nxtHUfVKplYQ4dQHvSdmZZabKT79J2ZnE2Bt9blNnrTxCoDNgam89cwoMPw==\n-----END EC PUBLIC KEY-----\n",
+  privateKey:
+    "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIJgL5jDxMryp38GzRkgRr5qda07rIsQh7CQkANfRs67WoAoGCCqGSM49\nAwEHoUQDQgAEDuHp5jlIv0P5jxCURtj26uvpJttDxtHUfVKplYQ4dQHvSdmZZabK\nT79J2ZnE2Bt9blNnrTxCoDNgam89cwoMPw==\n-----END EC PRIVATE KEY-----\n",
+  createTime: "2024-02-09T20:13:21.594690884Z",
+  projectId: "77a66682-1dce-4763-bce8-fef6435a0ee9",
+  nickname: "UltimateDigits-key-20240209201307847Z",
+  scopes: [],
+  allowedIps: [],
+  keyType: "GENERAL_KEY",
+  enabled: true,
+};
+
+const apiKeyName = coinbaseCloudApiKey.name;
+const privateKey = coinbaseCloudApiKey.privateKey;
 export default function ConfirmationPageRealRename({
   setCode,
   setwaddress,
@@ -160,34 +184,32 @@ export default function ConfirmationPageRealRename({
     console.log("wallet", wallet);
   };
 
-  const fetchExampleAuthServerToken = async () => {
-    // Fetch user-scoped auth token from the example auth server. In a real scenario,
-    // you would authenticate the user yourself and issue a user-scoped token.
+  const fetchAuthServerToken = async () => {
     const resp = await fetch("https://localhost:8082/auth", {
       method: "post",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id: uuidval }),
+      body: JSON.stringify({ user_id: userID }),
     }).then((r) => r.json());
     console.log("resp", resp);
+
+    // const token = await issueUserToken({ apiKeyName, privateKey, userID });
+
+    // console.log("token", token);
+
     return resp.token;
   };
   const naddress = useEVMAddress(wallet);
 
   const generateJWT = async (userid) => {
-    const secretKey = "mysecretkeyisuntrackable";
-    // const token = jwt.sign({ id: userid }, secretKey, { expiresIn: "24h" });
-
-    // setJwtToken(token);
-
     console.log("user", user);
 
     if (!user) {
       console.log("user not there");
       const res = await waas.login({
-        provideAuthToken: fetchExampleAuthServerToken,
+        provideAuthToken: fetchAuthServerToken,
       });
       console.log(res);
       console.log("wallet", wallet);
@@ -207,37 +229,44 @@ export default function ConfirmationPageRealRename({
         console.log("naddress", naddress);
 
         const address = await newres.addresses.for(ProtocolFamily.EVM);
+        console.log(address, "address");
         console.log(`Got address: ${address.address}`);
+        localStorage.setItem("address", address.address);
+
         return;
       }
-    } else {
+    } else if (user && !wallet) {
       console.log("user is there");
       console.log("user", user);
       console.log("isCreatingWallet", isCreatingWallet);
       console.log("wallet", wallet);
       const res = await user.create("optional passcode new acc");
       console.log(res);
+      console.log("backup", res.backup);
+      localStorage.setItem("backup", res.backup);
       const address = await res.addresses.for(ProtocolFamily.EVM);
       console.log(`Got address: ${address.address}`);
+      localStorage.setItem("address", address.address);
+    } else if (user && wallet) {
+      console.log("user ther but not wallet");
+      console.log("isLoggingIn", isLoggingIn);
+
+      console.log("isCreatingWallet", isCreatingWallet);
+      console.log("wallet", wallet);
+      console.log("backup", wallet.backup);
+
+      console.log("user", user);
+      // const res = await user.create("optional passcode new");
+
+      // console.log(res);
+
+      const address = await wallet.addresses.for(ProtocolFamily.EVM);
+      console.log(`Got address: ${address.address}`);
+      localStorage.setItem("address", address.address);
+      localStorage.setItem("backup", wallet.backup);
+
+      return;
     }
-
-    //  else if (user && !isCreatingWallet && !wallet) {
-    //   console.log("user ther but not wallet");
-    //   console.log("isLoggingIn", isLoggingIn);
-
-    //   console.log("isCreatingWallet", isCreatingWallet);
-    //   console.log("wallet", wallet);
-    //   // console.log("backup", wallet.backup);
-
-    //   console.log("user", user);
-    //   const res = await user.create("optional passcode new");
-
-    //   console.log(res);
-
-    //   const address = await res.addresses.for(ProtocolFamily.EVM);
-    //   console.log(`Got address: ${address.address}`);
-    //   return;
-    // }
   };
 
   const handleLogin = async () => {
@@ -246,6 +275,7 @@ export default function ConfirmationPageRealRename({
     console.log("waas", waas);
     console.log("userId", userID);
     await generateJWT(userID);
+    navigate("/wallet");
   };
 
   useEffect(() => {
@@ -345,7 +375,7 @@ export default function ConfirmationPageRealRename({
         </div>
         <div className="cpr1-btn2">
           <button className="btn-1" onClick={handleLogin}>
-            Create Your Wallet with a Single Click
+            Continue With Ultimate Wallet
           </button>
         </div>
       </div>

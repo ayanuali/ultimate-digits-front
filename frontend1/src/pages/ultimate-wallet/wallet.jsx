@@ -3,7 +3,6 @@ import "./wallet.css";
 import frame from "../../assets/Frame.svg";
 import clipboard from "../../assets/clipboard.svg";
 import qr from "../../assets/qr.svg";
-
 import { QRCodeSVG } from "qrcode.react";
 
 import { useNavigate } from "react-router-dom";
@@ -63,8 +62,13 @@ const Wallet = () => {
         <QRCodeSVG value={address} size={128} level={"H"} />
       </div>
 
-      <div className="privatekey" onClick={showPrivateKey}>
+      <div
+        className="privatekey"
+        onClick={showPrivKey ? copyToClipboard : showPrivateKey}
+      >
         {showPrivKey ? privatekey : " Show private Key"}
+        {showPrivKey ? <img src={clipboard} alt="clip" /> : ""}
+        {}
       </div>
 
       <div className="link" onClick={handleLink}>

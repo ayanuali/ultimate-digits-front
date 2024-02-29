@@ -50,7 +50,7 @@ export default function AuthenticationPageReal({ setProceedTo, number, code }) {
         var data = await res.json();
         console.log(data.status);
         if (data.status == "approved") {
-          setProceedTo("ConfirmationPageReal");
+          setProceedTo("lastpage");
         } else {
           setError(true);
         }

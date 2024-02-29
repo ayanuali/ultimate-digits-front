@@ -10,7 +10,9 @@ import conABI from "../../../../abi/abi.json";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import udIcon from "../../../../assets/ud-square-logo.png";
-import coinbase from "../../../../assets/home-page/coinbase.svg";
+// import coinbase from "../../../../assets/home-page/coinbase.svg";
+import coinbase from "../../../../assets/coinbase.svg";
+
 const LoginForm = ({
   setProceedTo,
   setsigner,
@@ -223,10 +225,7 @@ const LoginForm = ({
       </button>
 
       <div className="powered">
-        <span style={{ color: "rgb(61, 64, 67,0.4)", opacity: "40" }}>
-          powered by Coinbase{" "}
-        </span>{" "}
-        <img src={coinbase} />
+        <img src={coinbase} alt="coinbase" />
       </div>
 
       <div className="companyrights">© Ultimate Digits 2024</div>

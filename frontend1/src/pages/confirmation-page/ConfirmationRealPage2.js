@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ConfirmationRealPage2.css";
 import { useNavigate } from "react-router";
 
 export default function ConfirmationRealPage2({ number, waddress, code }) {
+  const [address, setAddress] = useState("afasfas");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate();
+  useEffect(() => {
+    const add = localStorage.getItem("address");
+    setAddress(add);
+  }, []);
   return (
     <div className="confirmationPageReal2">
       {/* <div className="cpr2-navbar">
@@ -70,7 +76,7 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
       </div>
       <div className="cpr2-number">
         <div className="text">Crypto Wallet</div>
-        <div className="number">{waddress}</div>
+        <div className="number">{address}</div>
       </div>
       <div className="cpr2-btn">
         <button

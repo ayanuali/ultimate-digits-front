@@ -54,7 +54,7 @@
   display: flex;
   width: max-content;
   height: 20px;
-  padding: 16px 0px;
+  padding: 16px 20px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -71,6 +71,7 @@
   text-transform: capitalize;
   margin-top: 50px;
   cursor: pointer;
+  gap: 10px;
 }
 
 .link {

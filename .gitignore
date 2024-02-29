@@ -3,7 +3,8 @@ coverage
 coverage.json
 typechain
 typechain-types
-
+.env
+coinbase_cloud_api_key.json
 # Hardhat files
 cache
 artifacts

@@ -12,6 +12,15 @@ import { useNavigate } from "react-router-dom";
 import udIcon from "../../../../assets/ud-square-logo.png";
 // import coinbase from "../../../../assets/home-page/coinbase.svg";
 import coinbase from "../../../../assets/coinbase.svg";
+// import { Web3Provider } from "../../../../Web3Provider";
+import { CustomButton } from "./ConnectKitButton";
+import { getAccount } from '@wagmi/core';
+import { connectConfig } from "../../../../Web3Provider";
+import { createPublicClient, getContract } from 'viem';
+import { sepolia } from 'viem/chains'
+
+
+
 
 const LoginForm = ({
   setProceedTo,
@@ -27,114 +36,130 @@ const LoginForm = ({
   const navigate = useNavigate();
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
+  // const publicClient = createPublicClient({
+  //   chain: sepolia,
+  //   transport: process.env.RPC_URL,
+  // });
+  const account = getAccount(connectConfig);
 
   useEffect(() => {
     setNav("2");
   }, []);
 
-  // Get the query parameter string
-  const queryString = window.location.search;
+  useEffect(() => {
+    async function connectWalletAndSetupContract() {
+      if (account.isConnected === true && account.status === "connected") {
+        console.log("Wallet Address:", account.address);
+        setwalletaddress(account.address);
 
-  //function to connect to BNB network
-  async function getAccount() {
-    //setting the states of phone and email
-    setOpenPhone(false);
-    setOpenEmail(false);
-
-    try {
-      // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x61" }],
-      });
-    } catch (switchError) {
-      var next = 97;
-      // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-      if (switchError.code === 4902) {
         try {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [
-              {
-                chainId: "0x" + next.toString(16),
-                chainName: "Smart Chain - Testnet",
-                nativeCurrency: {
-                  name: "BNB",
-                  symbol: "BNB",
-                  decimals: 18,
-                },
-                rpcUrls: [
-                  "https://data-seed-prebsc-1-s1.binance.org:8545/",
-                ] /* ... */,
-              },
-            ],
+          const contract = getContract({
+            address: config.address_nft,
+            abi: conABI,
           });
-        } catch (addError) {
-          console.log(addError);
+          if (contract) {
+            setcontract(contract);
+            console.log(`Contract connected: ${contract.address}`);
+
+            setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+
+            // Navigate based on the `log` state and presence of `setProceedTo` function
+            const destination = log ? "/selection-page" : "/login";
+            navigate(destination);
+          }
+        } catch (error) {
+          console.error("Error setting up the contract:", error);
         }
       }
     }
 
-    // try {
-    //   // BNB MAINNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-    //   await window.ethereum.request({
-    //     method: "wallet_switchEthereumChain",
-    //     params: [{ chainId: "0x38" }],
-    //   });
-    // } catch (switchError) {
-    //   var next = 56;
-    //   // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-    //   if (switchError.code === 4902) {
-    //     try {
-    //       await window.ethereum.request({
-    //         method: "wallet_addEthereumChain",
-    //         params: [
-    //           {
-    //             chainId: "0x" + next.toString(16),
-    //             chainName: "BNB Smart Chain",
-    //             nativeCurrency: {
-    //               name: "BNB",
-    //               symbol: "BNB",
-    //               decimals: 18,
-    //             },
-    //             rpcUrls: ["https://bsc-dataseed.binance.org/"] /* ... */,
-    //           },
-    //         ],
-    //       });
-    //     } catch (addError) {
-    //       console.log(addError);
-    //     }
-    //   }
-    // }
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    console.log(provider);
+    // connectWalletAndSetupContract();
+  }, [
+    account.isConnected,
+    account.status,
+    account.address,
+    navigate,
+    setwalletaddress,
+    setcontract,
+    setProceedTo,
+    log,
+    setUser,
+  ]);
 
-    //This is used to acces the checked in accounts
-    provider
-      .getSigner()
-      .then(async (res) => {
-        var walletaddress = res.address;
 
-        console.log(walletaddress);
-        setwalletaddress(walletaddress);
-        setsigner(res);
-        console.log(JSON.stringify(res));
+  // // Get the query parameter string
+  // const queryString = window.location.search;
 
-        const contract = new ethers.Contract(config.address_nft, conABI, res);
-        setcontract(contract);
+  // //function to connect to BNB network
+  // async function getAcccount() {
+  //   //setting the states of phone and email
+  //   setOpenPhone(false);
+  //   setOpenEmail(false);
 
-        setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+  //   try {
+  //     // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
+  //     await window.ethereum.request({
+  //       method: "wallet_switchEthereumChain",
+  //       params: [{ chainId: "0x61" }],
+  //     });
+  //   } catch (switchError) {
+  //     var next = 97;
+  //     // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
+  //     if (switchError.code === 4902) {
+  //       try {
+  //         await window.ethereum.request({
+  //           method: "wallet_addEthereumChain",
+  //           params: [
+  //             {
+  //               chainId: "0x" + next.toString(16),
+  //               chainName: "Smart Chain - Testnet",
+  //               nativeCurrency: {
+  //                 name: "BNB",
+  //                 symbol: "BNB",
+  //                 decimals: 18,
+  //               },
+  //               rpcUrls: [
+  //                 "https://data-seed-prebsc-1-s1.binance.org:8545/",
+  //               ] /* ... */,
+  //             },
+  //           ],
+  //         });
+  //       } catch (addError) {
+  //         console.log(addError);
+  //       }
+  //     }
+  //   }
 
-        if (setProceedTo) {
-          log ? navigate("/selection-page") : navigate("/login");
-        } else {
-          log ? navigate("/selection-page") : navigate("/login");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+
+  //   const provider = new ethers.BrowserProvider(window.ethereum);
+  //   console.log(provider);
+
+  //   //This is used to acces the checked in accounts
+  //   provider
+  //     .getSigner()
+  //     .then(async (res) => {
+  //       var walletaddress = res.address;
+
+  //       console.log(walletaddress);
+  //       setwalletaddress(walletaddress);
+  //       setsigner(res);
+  //       console.log(JSON.stringify(res));
+
+  //       const contract = new ethers.Contract(config.address_nft, conABI, res);
+  //       setcontract(contract);
+
+  //       setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+
+  //       if (setProceedTo) {
+  //         log ? navigate("/selection-page") : navigate("/login");
+  //       } else {
+  //         log ? navigate("/selection-page") : navigate("/login");
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }
 
   return (
     <div
@@ -207,14 +232,7 @@ const LoginForm = ({
       </div>
 
       <br />
-      <button
-        className="loginWrapperTranspBtn"
-        onClick={getAccount}
-        style={{ color: "#3D4043" }}
-      >
-        <img src={MetamaskIcon} />
-        Continue with Metamask
-      </button>
+      <CustomButton />
       <button
         className="loginWrapperTranspBtn"
         onClick={getAccount}

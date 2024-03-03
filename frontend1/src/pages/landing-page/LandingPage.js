@@ -11,7 +11,7 @@ import topLogo from "../../assets/ud-logo.png";
 import heroImage from "../../assets/heroImage.svg";
 import LoginForm from "../auth-page/components/login-form/LoginForm";
 
-export default function LandingPage({ setNav, setLog }) {
+export default function LandingPage({ setNav, log }) {
   //function to set navigation bar
   const navigate = useNavigate();
   const [proceedTo, setProceedTo] = useState("showCart");
@@ -61,7 +61,7 @@ export default function LandingPage({ setNav, setLog }) {
             setcontract={setcontract}
             setUser={setUser}
             user={user}
-            log={setLog}
+            log={log}
             setNav={setNav}
           />
         </div>

@@ -94,11 +94,11 @@ function App() {
             <Routes>
               <Route
                 path={"/"}
-                element={<LandingPage setNav={setNav} setLog={setLog} />}
+                element={<LandingPage setNav={setNav} log={log} />}
               />
               <Route
                 path={"/home"}
-                element={<LandingPage setNav={setNav} setLog={setLog} />}
+                element={<LandingPage setNav={setNav} log={log} />}
               />
               <Route
                 path={"/selection-page/virtual-number"}

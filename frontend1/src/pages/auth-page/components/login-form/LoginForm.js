@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import udIcon from "../../../../assets/ud-square-logo.png";
 // import coinbase from "../../../../assets/home-page/coinbase.svg";
 import coinbase from "../../../../assets/coinbase.svg";
-// import { Web3Provider } from "../../../../Web3Provider";
+import { Web3Provider } from "../../../../Web3Provider";
 import { CustomButton } from "./ConnectKitButton";
 import { getAccount } from '@wagmi/core';
 import { connectConfig } from "../../../../Web3Provider";
@@ -63,7 +63,7 @@ const LoginForm = ({
         address: config.address_nft,
         abi: conABI,
       });
-      if (contract) {
+      if (contract && setProceedTo) {
         setcontract(contract);
         console.log(`Contract connected: ${contract.address}`);
 
@@ -71,27 +71,21 @@ const LoginForm = ({
         console.log("FinalLog:", log);
 
         // Navigate based on the `log` state and presence of `setProceedTo` function
-        const destination = log ? "/selection-page" : "/login";
+        const destination = !log ? "/selection-page" : "/login";
         navigate(destination);
       }
     } catch (error) {
       console.error("Error setting up the contract:", error);
     }
   }
+
   if (account.isConnected === true) {
     console.log("Wallet Address:", account.address);
 
     setwalletaddress(account.address);
   }
 
-  // useEffect(() => {
-  //   if (account.isConnected === true && account.status === "connected") {
 
-  //     connectWalletAndSetupContract();
-
-  //   }
-
-  // },);
 
 
 
@@ -241,7 +235,9 @@ const LoginForm = ({
       </div>
 
       <br />
-      <CustomButton />
+      <Web3Provider>
+        <CustomButton onSuccess={connectWalletAndSetupContract} />
+      </Web3Provider>
       <button
         className="loginWrapperTranspBtn"
         onClick={getAccount}

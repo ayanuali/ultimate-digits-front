@@ -16,7 +16,7 @@ import coinbase from "../../../../assets/coinbase.svg";
 import { CustomButton } from "./ConnectKitButton";
 import { getAccount } from '@wagmi/core';
 import { connectConfig } from "../../../../Web3Provider";
-import { createPublicClient, getContract } from 'viem';
+import { createPublicClient, getContract, http, createWalletClient } from 'viem';
 import { sepolia } from 'viem/chains'
 
 
@@ -36,130 +36,139 @@ const LoginForm = ({
   const navigate = useNavigate();
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
+
+  console.log("InitialLog:", log);
   // const publicClient = createPublicClient({
   //   chain: sepolia,
   //   transport: process.env.RPC_URL,
   // });
   const account = getAccount(connectConfig);
+  // const client = createWalletClient({
+  //   account,
+  //   chain: sepolia,
+  //   transports: http(`${process.env.RPC_URL}`),
+
+  // })
+  // console.log("Client:", client);
 
   useEffect(() => {
     setNav("2");
   }, []);
 
-  useEffect(() => {
-    async function connectWalletAndSetupContract() {
-      if (account.isConnected === true && account.status === "connected") {
-        console.log("Wallet Address:", account.address);
-        setwalletaddress(account.address);
+  async function connectWalletAndSetupContract() {
+    setOpenPhone(false);
+    setOpenEmail(false);
+    try {
+      const contract = getContract({
+        address: config.address_nft,
+        abi: conABI,
+      });
+      if (contract) {
+        setcontract(contract);
+        console.log(`Contract connected: ${contract.address}`);
 
-        try {
-          const contract = getContract({
-            address: config.address_nft,
-            abi: conABI,
-          });
-          if (contract) {
-            setcontract(contract);
-            console.log(`Contract connected: ${contract.address}`);
+        setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+        console.log("FinalLog:", log);
 
-            setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
-
-            // Navigate based on the `log` state and presence of `setProceedTo` function
-            const destination = log ? "/selection-page" : "/login";
-            navigate(destination);
-          }
-        } catch (error) {
-          console.error("Error setting up the contract:", error);
-        }
+        // Navigate based on the `log` state and presence of `setProceedTo` function
+        const destination = log ? "/selection-page" : "/login";
+        navigate(destination);
       }
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
     }
+  }
+  if (account.isConnected === true) {
+    console.log("Wallet Address:", account.address);
 
-    // connectWalletAndSetupContract();
-  }, [
-    account.isConnected,
-    account.status,
-    account.address,
-    navigate,
-    setwalletaddress,
-    setcontract,
-    setProceedTo,
-    log,
-    setUser,
-  ]);
+    setwalletaddress(account.address);
+  }
+
+  // useEffect(() => {
+  //   if (account.isConnected === true && account.status === "connected") {
+
+  //     connectWalletAndSetupContract();
+
+  //   }
+
+  // },);
+
+
 
 
   // // Get the query parameter string
   // const queryString = window.location.search;
 
   // //function to connect to BNB network
-  // async function getAcccount() {
-  //   //setting the states of phone and email
-  //   setOpenPhone(false);
-  //   setOpenEmail(false);
+  async function getAcccount() {
+    //setting the states of phone and email
+    setOpenPhone(false);
+    setOpenEmail(false);
 
-  //   try {
-  //     // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-  //     await window.ethereum.request({
-  //       method: "wallet_switchEthereumChain",
-  //       params: [{ chainId: "0x61" }],
-  //     });
-  //   } catch (switchError) {
-  //     var next = 97;
-  //     // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-  //     if (switchError.code === 4902) {
-  //       try {
-  //         await window.ethereum.request({
-  //           method: "wallet_addEthereumChain",
-  //           params: [
-  //             {
-  //               chainId: "0x" + next.toString(16),
-  //               chainName: "Smart Chain - Testnet",
-  //               nativeCurrency: {
-  //                 name: "BNB",
-  //                 symbol: "BNB",
-  //                 decimals: 18,
-  //               },
-  //               rpcUrls: [
-  //                 "https://data-seed-prebsc-1-s1.binance.org:8545/",
-  //               ] /* ... */,
-  //             },
-  //           ],
-  //         });
-  //       } catch (addError) {
-  //         console.log(addError);
-  //       }
-  //     }
-  //   }
+    try {
+      // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x61" }],
+      });
+    } catch (switchError) {
+      var next = 97;
+      // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [
+              {
+                chainId: "0x" + next.toString(16),
+                chainName: "Smart Chain - Testnet",
+                nativeCurrency: {
+                  name: "BNB",
+                  symbol: "BNB",
+                  decimals: 18,
+                },
+                rpcUrls: [
+                  "https://data-seed-prebsc-1-s1.binance.org:8545/",
+                ] /* ... */,
+              },
+            ],
+          });
+        } catch (addError) {
+          console.log(addError);
+        }
+      }
+    }
 
 
-  //   const provider = new ethers.BrowserProvider(window.ethereum);
-  //   console.log(provider);
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    console.log(provider);
 
-  //   //This is used to acces the checked in accounts
-  //   provider
-  //     .getSigner()
-  //     .then(async (res) => {
-  //       var walletaddress = res.address;
+    //This is used to acces the checked in accounts
+    provider
+      .getSigner()
+      .then(async (res) => {
+        var walletaddress = res.address;
 
-  //       console.log(walletaddress);
-  //       setwalletaddress(walletaddress);
-  //       setsigner(res);
-  //       console.log(JSON.stringify(res));
+        console.log(walletaddress);
+        setwalletaddress(walletaddress);
+        setsigner(res);
+        console.log(JSON.stringify(res));
 
-  //       const contract = new ethers.Contract(config.address_nft, conABI, res);
-  //       setcontract(contract);
+        const contract = new ethers.Contract(config.address_nft, conABI, res);
+        setcontract(contract);
 
-  //       setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+        setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
 
-  //       if (setProceedTo) {
-  //         log ? navigate("/selection-page") : navigate("/login");
-  //       } else {
-  //         log ? navigate("/selection-page") : navigate("/login");
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }
+        if (setProceedTo) {
+          log ? navigate("/selection-page") : navigate("/login");
+        } else {
+          log ? navigate("/selection-page") : navigate("/login");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <div

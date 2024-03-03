@@ -1,5 +1,3 @@
-// Web3Provider.js
-
 import { WagmiProvider, createConfig } from "wagmi";
 import { sepolia } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

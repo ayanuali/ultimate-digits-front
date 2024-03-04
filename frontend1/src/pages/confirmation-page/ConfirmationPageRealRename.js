@@ -11,8 +11,14 @@ import { useWalletContext, useEVMAddress } from "@coinbase/waas-sdk-web-react";
 import { v4 as uuidv4 } from "uuid";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import udlogo from "../../assets/ud-square-logo.png";
+import { getAccount, readContract } from '@wagmi/core';
+import { useReadContract } from "wagmi";
+import { getContract, createPublicClient, http } from "viem";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { CommonButton } from "../../ConnectKit/CommonConnectKitButton";
 
 import { issueUserToken } from "@coinbase/waas-server-auth";
+import { bscTestnet, sepolia } from "viem/chains";
 // make sure your API KEY isn't visible on your web server :)
 // const coinbaseCloudApiKey = JSON.parse("coinbase_cloud_api_key.json");
 
@@ -51,6 +57,67 @@ export default function ConfirmationPageRealRename({
   const [jwtToken, setJwtToken] = useState("");
 
   const [uuidval, setUuidval] = useState("");
+
+
+  const account = getAccount(connectConfig);
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://bsc-dataseed.binance.org/"),
+  })
+
+  async function cPRRNameFunction() {
+    try {
+      const contract = getContract({
+        address: config.address,
+        abi: conABI,
+        // 1a. Insert a single client
+        client: publicClient,
+
+      })
+      if (contract) {
+        setContract_connect(contract);
+        console.log(`Contract connected: ${contract.address}`);
+
+        console.log(account.chainId, ":chainId");
+
+        const returnNumbers = readContract(connectConfig, {
+          conABI,
+          address: config.address,
+          functionName: "returnNumbers",
+          args: [account.address]
+        })
+
+        const connectedWallets = returnNumbers();
+
+        // const numbers = await contract.returnNumbers(account.address);
+        console.log("returnedAddress:", returnNumbers);
+
+        if (connectedWallets.length === 0) setError(true);
+        if (connectedWallets[0][0] === "0") {
+          if (connectedWallets[0][1] === "0") setCode("1");
+          else setCode("91");
+        } else setCode("999");
+        var x = connectedWallets[0].substr(3);
+        console.log(x);
+        setNumber(x);
+
+        navigate(
+          `/sending-crypto/home-page?number=${x}&wallet=${account.address}`
+        );
+
+        console.log("Wallet Address:", account.address);
+
+        setwaddress(account.address);
+
+
+      }
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
+    }
+  }
+
+
 
   //function to set and connect to BNB network
   async function connectingmetamask() {
@@ -346,17 +413,7 @@ export default function ConfirmationPageRealRename({
           className="cpr1-btn1"
           style={{ marginTop: "2rem", marginBottom: "-0.4rem" }}
         >
-          <button className="btn-1" onClick={connectingmetamask}>
-            <img
-              src={metaMaskLogo}
-              style={{ width: "30px", marginTop: "4px" }}
-              alt="logo"
-            ></img>
-            &nbsp;&nbsp;
-            <span style={{ verticalAlign: 29 }}>
-              Connect your metamask wallet
-            </span>
-          </button>
+          <CommonButton onSuccess={cPRRNameFunction} />
         </div>
         <div className="separation">
           <div className="emailInputBottomLine">

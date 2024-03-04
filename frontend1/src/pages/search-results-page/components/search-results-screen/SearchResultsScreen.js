@@ -9,6 +9,11 @@ import { generateGoldNumbers } from "../../../../functions/gold-numbers/generate
 import { generateSilverNumbers } from "../../../../functions/silver-numbers/generateSilverNumbers";
 import { generateRandomNumbers } from "../../../../functions/random-numbers/generateRandomNumbers";
 
+import { readContract } from "@wagmi/core";
+import { connectConfig } from "../../../../ConnectKit/Web3Provider";
+// import conABI from "../../abi/abi1.json";
+
+
 const SearchResultsScreen = ({
   setProceedTo,
   setCartArray,
@@ -36,6 +41,28 @@ const SearchResultsScreen = ({
 
     setGeneratedNumbers([...nums, ...nums2, ...nums3, ...nums4]);
   };
+  const checkAccFunc = async () => {
+    try {
+      const addressReturned = await readContract(connectConfig, {
+        abi: contract_connect.abi,
+        address: contract_connect.address,
+        functionName: "checkAccount",
+        args: [`999${queryParam}`]
+      });
+      if (addressReturned) {
+        console.log("addressReturned:", addressReturned);
+        setAva(false);
+      }
+      else {
+        setAva(true);
+      }
+
+    }
+    catch (e) {
+      console.log(e);
+
+    }
+  }
 
   // Array of added to cart
   const [cart, setCart] = useState([]);
@@ -44,16 +71,21 @@ const SearchResultsScreen = ({
     setQueryParam(searchParams.get("n"));
     generateNumbers();
     console.log(queryParam);
-    contract_connect
-      .checkAccount(`999${queryParam}`)
-      .then((res) => {
-        console.log(res);
-        setAva(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setAva(true);
-      });
+    console.log("Contract_connect:", contract_connect);
+
+
+    checkAccFunc();
+
+    // contract_connect
+    //   .checkAccount(`999${queryParam}`)
+    //   .then((res) => {
+    //     console.log(res);
+    //     setAva(false);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+
+    //   });
   }, [updatePage]);
 
   return (

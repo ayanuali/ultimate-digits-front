@@ -7,6 +7,12 @@ import config from "../../config.json";
 import conABI from "../../abi/abi1.json";
 import sponsor from "../../assets/home-page/sponsors.svg";
 import { useNavigate } from "react-router-dom";
+import { getAccount } from '@wagmi/core';
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { getContract, createPublicClient, http } from "viem";
+import { VirNumButton } from "./ConfirmationButton";
+import { bscTestnet } from "viem/chains";
+
 export default function ConfirmationPageVir({
   setwaddress,
   setsigner,
@@ -19,6 +25,40 @@ export default function ConfirmationPageVir({
   Storage.prototype.getObject = function (key) {
     return JSON.parse(this.getItem(key));
   };
+  const account = getAccount(connectConfig);
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://bsc-dataseed.binance.org/"),
+  })
+
+
+  async function connectWalletAndSetupVirtualNum() {
+    try {
+      const contract = getContract({
+        address: config.address,
+        abi: conABI,
+        // 1a. Insert a single client
+        client: publicClient,
+
+      })
+      if (contract) {
+        setContract_connect(contract);
+        console.log(`Contract connected: ${contract.address}`);
+
+        console.log(account.chainId, ":chainId");
+
+        console.log("Wallet Address:", account.address);
+
+        setwaddress(account.address);
+        //Routing
+        navigate("/selection-page/virtual-number/home");
+
+      }
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
+    }
+  }
 
   //connecting with BNB network
   async function connectingmetamask() {
@@ -148,23 +188,13 @@ export default function ConfirmationPageVir({
       </div>
       <div className="cpr1-content">
         <div className="text" style={{ textAlign: "center" }}>
-        Securely connect your wallet now to enable us to read your wallet address.  <br></br> Please use a wallet that has BNB balance, {" "}
+          Securely connect your wallet now to enable us to read your wallet address.  <br></br> Please use a wallet that has BNB balance, {" "}
           <br></br> as it’s currently the only accepted payment currency
         </div>
       </div>
       <div className="cpr1-input">
         <div className="cpr1-btn1">
-          <button className="btn-1" onClick={connectingmetamask}>
-            <img
-              src={metaMaskLogo}
-              style={{ width: "30px", marginTop: "4px" }}
-              alt="logo"
-            ></img>
-            &nbsp;&nbsp;
-            <span style={{ verticalAlign: 29 }}>
-              Connect your metamask wallet
-            </span>
-          </button>
+          <VirNumButton onSuccess={connectWalletAndSetupVirtualNum} />
         </div>
         <div className="separation">
           <div className="emailInputBottomLine">
@@ -179,7 +209,7 @@ export default function ConfirmationPageVir({
           Don’t have a web3 wallet?
         </div>
         <div className="cpr1-btn2">
-          <button className="btn-1" style={{cursor:"auto"}}>
+          <button className="btn-1" style={{ cursor: "auto" }}>
             Create Your Wallet with a Single-Click
           </button>
         </div>

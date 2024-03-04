@@ -6,6 +6,16 @@ import { ethers } from "ethers";
 import config from "../../config.json";
 import conABI from "../../abi/abi1.json";
 import sponsor from "../../assets/home-page/sponsors.svg";
+
+import { getAccount, readContract } from '@wagmi/core';
+import { useWriteContract } from "wagmi";
+import { getContract, createPublicClient, http } from "viem";
+import { bscTestnet, sepolia } from "viem/chains";
+
+
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { CommonButton } from "../../ConnectKit/CommonConnectKitButton";
+
 export default function ConfirmationPageReal({
   code,
   setProceedTo,
@@ -18,6 +28,83 @@ export default function ConfirmationPageReal({
 }) {
   //function to set variables state
   const [error, setError] = useState(false);
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://bsc-dataseed.binance.org/"),
+  })
+
+
+  const account = getAccount(connectConfig);
+  const { writeContract } = useWriteContract();
+
+
+  async function cPRealFunction() {
+    try {
+      const contract = getContract({
+        address: config.address,
+        abi: conABI,
+        // 1a. Insert a single client
+        client: publicClient,
+
+      })
+      if (!contract) {
+        throw new Error("Failed to connect to contract");
+      }
+      setContract_connect(contract);
+      console.log(`Contract connected: ${contract.address}`);
+
+      // Check code length and format it accordingly
+      const formattedCode = formatCode(code);
+
+      // Call the contract method to set unique ID
+      const uniqueId = writeContract({
+        conABI,
+        address: config.address,
+        functionName: "SettingUniqueId",
+        args: [number, formattedCode]
+      });
+      if (uniqueId) {
+        setProceedTo("lastpage");
+      }
+
+      // Call the contract method to check account
+      const addressReturned = await readContract(connectConfig, {
+        conABI,
+        address: config.address,
+        functionName: "checkAccount",
+        args: [number, formattedCode]
+      });
+
+      // Proceed to next page if the returned address matches the account address
+      if (addressReturned === account.address) {
+        setProceedTo("lastpage");
+      }
+
+      console.log("Wallet Address:", account.address);
+      setwaddress(account.address);
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
+      // Handle the error appropriately
+      // For example, set an error state or display an error message
+    }
+  }
+
+  function formatCode(code) {
+    let formattedCode = null;
+    if (code.toString().length === 1) {
+      formattedCode = `00${code}`;
+    } else if (code.toString().length === 2) {
+      formattedCode = `0${code}`;
+    } else {
+      formattedCode = code;
+    }
+    return formattedCode;
+  }
+
+
+
+
 
   //connecting with correct chain
   async function connectingmetamask() {
@@ -207,17 +294,7 @@ export default function ConfirmationPageReal({
           className="cpr1-btn1"
           style={{ marginTop: "2rem", marginBottom: "-0.4rem" }}
         >
-          <button className="btn-1" onClick={connectingmetamask}>
-            <img
-              src={metaMaskLogo}
-              style={{ width: "30px", marginTop: "4px" }}
-              alt="logo"
-            ></img>
-            &nbsp;&nbsp;
-            <span style={{ verticalAlign: 29 }}>
-              Connect your metamask wallet
-            </span>
-          </button>
+          <CommonButton onSuccess={cPRealFunction} />
         </div>
         <div className="separation">
           <div className="emailInputBottomLine">

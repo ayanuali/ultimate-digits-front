@@ -1,7 +1,5 @@
 import { ConnectKitButton } from 'connectkit';
-import { Web3Provider } from "../../../../ConnectKit/Web3Provider";
 import styled from "styled-components";
-import { useEffect } from 'react';
 const StyledButton = styled.button`
   cursor: pointer;
   position: relative;
@@ -26,7 +24,7 @@ const StyledButton = styled.button`
   }
 `;
 
-export const CustomButton = ({ onSuccess }) => {
+export const CommonButton = ({ onSuccess }) => {
   return (
 
     <ConnectKitButton.Custom>
@@ -34,7 +32,7 @@ export const CustomButton = ({ onSuccess }) => {
         if (isConnected && !isConnecting && truncatedAddress?.length) onSuccess()
         return (
           <StyledButton onClick={() => { show(); }}>
-            {isConnected ? ensName ?? truncatedAddress : "Connect Wallet"}
+            {isConnected ? ensName ?? truncatedAddress : "Connect Your Wallet"}
           </StyledButton>
         );
       }}

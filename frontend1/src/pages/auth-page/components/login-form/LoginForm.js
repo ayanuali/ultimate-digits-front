@@ -12,12 +12,12 @@ import { useNavigate } from "react-router-dom";
 import udIcon from "../../../../assets/ud-square-logo.png";
 // import coinbase from "../../../../assets/home-page/coinbase.svg";
 import coinbase from "../../../../assets/coinbase.svg";
-import { Web3Provider } from "../../../../Web3Provider";
+import { Web3Provider } from "../../../../ConnectKit/Web3Provider";
 import { CustomButton } from "./ConnectKitButton";
 import { getAccount } from '@wagmi/core';
-import { connectConfig } from "../../../../Web3Provider";
+import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { createPublicClient, getContract, http, createWalletClient } from 'viem';
-import { sepolia } from 'viem/chains'
+import { bscTestnet, sepolia } from 'viem/chains'
 
 
 
@@ -51,6 +51,13 @@ const LoginForm = ({
   // })
   // console.log("Client:", client);
 
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://bsc-dataseed.binance.org/"),
+  })
+
+
   useEffect(() => {
     setNav("2");
   }, []);
@@ -62,13 +69,18 @@ const LoginForm = ({
       const contract = getContract({
         address: config.address_nft,
         abi: conABI,
-      });
+        // 1a. Insert a single client
+        client: publicClient,
+
+      })
       if (contract && setProceedTo) {
         setcontract(contract);
         console.log(`Contract connected: ${contract.address}`);
 
         setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
         console.log("FinalLog:", log);
+
+        console.log(account.chainId, ":chainId");
 
         // Navigate based on the `log` state and presence of `setProceedTo` function
         const destination = !log ? "/selection-page" : "/login";
@@ -235,9 +247,8 @@ const LoginForm = ({
       </div>
 
       <br />
-      <Web3Provider>
-        <CustomButton onSuccess={connectWalletAndSetupContract} />
-      </Web3Provider>
+      <CustomButton onSuccess={connectWalletAndSetupContract} />
+
       <button
         className="loginWrapperTranspBtn"
         onClick={getAccount}

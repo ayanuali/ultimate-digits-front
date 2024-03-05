@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import udIcon from "../../../../assets/ud-square-logo.png";
 // import coinbase from "../../../../assets/home-page/coinbase.svg";
 import coinbase from "../../../../assets/coinbase.svg";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 
 const LoginForm = ({
   setProceedTo,
@@ -19,15 +20,64 @@ const LoginForm = ({
   setwalletaddress,
   setcontract,
   setUser,
-  user,
+
   log,
   setNav,
 }) => {
+  const { waas, user, isCreatingWallet, wallet } = useWalletContext();
+
   //function to initialise and declare variables
   const navigate = useNavigate();
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
 
+  const handleLogin = async () => {
+    console.log("logging in");
+    const res = await waas.login();
+
+    console.log(res);
+
+    console.log("wallet", wallet);
+    console.log("waas", waas);
+    console.log("user", user);
+    console.log("isCreatingWallet", isCreatingWallet);
+
+    if (res.hasWallet === false) {
+      console.log("wallet not created");
+      const wallet = await res.create("optional passcode new");
+      console.log("wallet", wallet);
+      console.log("waas", waas);
+    }
+    if (res.hasWallet === true) {
+      console.log("wallet created already");
+      const res2 = await res.restoreFromHostedBackup("optional passcode new");
+      console.log(res2);
+
+      console.log("wallet", wallet);
+      console.log("waas", waas);
+    }
+  };
+
+  // Logout the user.
+  const handleLogout = async () => {
+    console.log("logging out");
+    const res = await waas.logout();
+    console.log(res);
+  };
+
+  useEffect(() => {
+    // If the user is not yet logged in, the wallet is already loaded,
+    // or the wallet is loading, do nothing.
+    if (!user || wallet || isCreatingWallet) return;
+
+    // NOTE: This will trigger a reflow of you component, and `wallet` will be set
+    // to the created or restored wallet.
+    if (user.hasWallet) {
+      user.restoreFromHostedBackup(/* optional user-specified passcode */);
+    } else {
+      user.create(/* optional user-specified passcode */);
+    }
+  }, [user, wallet, isCreatingWallet]);
   useEffect(() => {
     setNav("2");
   }, []);
@@ -217,11 +267,19 @@ const LoginForm = ({
       </button>
       <button
         className="loginWrapperTranspBtn"
-        onClick={getAccount}
+        onClick={handleLogin}
         style={{ color: "#3D4043" }}
       >
         <img src={udIcon} />
         Continue with Ultimate Wallet
+      </button>
+      <button
+        className="loginWrapperTranspBtn"
+        onClick={handleLogout}
+        style={{ color: "#3D4043" }}
+      >
+        <img src={udIcon} />
+        Log out with Ultimate Wallet
       </button>
 
       <div className="powered">

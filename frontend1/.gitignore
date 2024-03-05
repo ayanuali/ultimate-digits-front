@@ -21,3 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+coinbase_cloud_api_key_auth.json
+coinbase_cloud_api_key.json

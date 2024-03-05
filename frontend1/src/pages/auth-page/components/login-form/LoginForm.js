@@ -44,13 +44,13 @@ const LoginForm = ({
 
     if (res.hasWallet === false) {
       console.log("wallet not created");
-      const wallet = await res.create("optional passcode new");
+      const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
     }
     if (res.hasWallet === true) {
       console.log("wallet created already");
-      const res2 = await res.restoreFromHostedBackup("optional passcode new");
+      const res2 = await res.restoreFromHostedBackup();
       console.log(res2);
 
       console.log("wallet", wallet);
@@ -72,8 +72,12 @@ const LoginForm = ({
 
     // NOTE: This will trigger a reflow of you component, and `wallet` will be set
     // to the created or restored wallet.
+
+    console.log("user", user);
     if (user.hasWallet) {
-      user.restoreFromHostedBackup(/* optional user-specified passcode */);
+      const res = user.restoreFromHostedBackup();
+      console.log(res);
+      console.log("wallet", wallet);
     } else {
       user.create(/* optional user-specified passcode */);
     }

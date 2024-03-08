@@ -1,8 +1,9 @@
+// src/redux/reducers/index.js
 import { combineReducers } from "redux";
-import uuidReducer from "./uuidReducer";
+import userReducer from "./Reducer";
 
 const rootReducer = combineReducers({
-  uuid: uuidReducer,
+  user: userReducer,
 });
 
 export default rootReducer;

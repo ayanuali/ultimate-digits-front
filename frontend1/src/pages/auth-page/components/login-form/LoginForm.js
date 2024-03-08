@@ -9,10 +9,16 @@ import config from "../../../../config.json";
 import conABI from "../../../../abi/abi.json";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
+import { ProtocolFamily } from "@coinbase/waas-sdk-web";
+import { useSelector, useDispatch } from "react-redux";
+
 import udIcon from "../../../../assets/ud-square-logo.png";
 // import coinbase from "../../../../assets/home-page/coinbase.svg";
 import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+import axios from "axios";
+
+import { setUserData } from "../../../../services/wallet/UserSlice";
 
 const LoginForm = ({
   setProceedTo,
@@ -25,11 +31,46 @@ const LoginForm = ({
   setNav,
 }) => {
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
+  const userr = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  console.log(userr, "befie redux");
 
+  console.log("addressfrom redux", userr);
+
+  // const updateUserInfo = (address, rootId) => {
+  //   console.log(address, rootId);
+  //   dispatch(setUser({ address: address, rootId: rootId }));
+  // };
   //function to initialise and declare variables
   const navigate = useNavigate();
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
+
+  const checkUser = async (rootId, address) => {
+    try {
+      const res = await axios.post("http://localhost:8080/coinbase/verify", {
+        rootId: rootId,
+      });
+
+      console.log(res);
+      if (res.status === 200) {
+        const temp = res.data.user;
+        console.log(temp);
+        dispatch(
+          setUserData(...userr, { address: temp.address, phno: temp.phone })
+        );
+        console.log(userr, "after redux");
+
+        navigate("/real-number");
+      } else if (res.status === 204) {
+        dispatch(setUserData({ ...userr, rootId: rootId, address: address }));
+
+        navigate("/selection-page");
+      }
+    } catch (error) {
+      console.log("error checking users", error);
+    }
+  };
 
   const handleLogin = async () => {
     console.log("logging in");
@@ -47,6 +88,19 @@ const LoginForm = ({
       const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
+      const address = await wallet.addresses.for(ProtocolFamily.EVM);
+      console.log(`Got address: ${address.address}`);
+      if (res) {
+        // updateUserInfo(address.address, res.rootContainerID);
+        // dispatch(
+        //   setUserData({ address: address.address, rootId: res.rootContainerID })
+        // );
+        // console.log(userr, "after redux");
+
+        // navigate("/selection-page");
+
+        checkUser(res.rootContainerID, address.address);
+      }
     }
     if (res.hasWallet === true) {
       console.log("wallet created already");
@@ -55,6 +109,25 @@ const LoginForm = ({
 
       console.log("wallet", wallet);
       console.log("waas", waas);
+
+      const address = await res2.addresses.for(ProtocolFamily.EVM);
+      console.log(`Got address: ${address.address}`);
+      if (res) {
+        // updateUserInfo(address.address, res2.rootContainerID);
+        // console.log("beofre redux", address.address, res2.rootContainerID);
+        // dispatch(
+        //   setUserData({
+        //     address: address.address,
+        //     rootId: res2.rootContainerID,
+        //   })
+        // );
+
+        // console.log(userr, "after redux");
+
+        // navigate("/selection-page");
+
+        checkUser(res2.rootContainerID, address.address);
+      }
     }
   };
 
@@ -65,9 +138,7 @@ const LoginForm = ({
     console.log(res);
   };
 
-  useEffect(() => {
-    // If the user is not yet logged in, the wallet is already loaded,
-    // or the wallet is loading, do nothing.
+  const coinbaseThings = async () => {
     if (!user || wallet || isCreatingWallet) return;
 
     // NOTE: This will trigger a reflow of you component, and `wallet` will be set
@@ -75,12 +146,33 @@ const LoginForm = ({
 
     console.log("user", user);
     if (user.hasWallet) {
-      const res = user.restoreFromHostedBackup();
+      const res = await user.restoreFromHostedBackup();
       console.log(res);
       console.log("wallet", wallet);
+
+      const address = await res.addresses.for(ProtocolFamily.EVM);
+      console.log(`Got address: ${address.address}`);
+
+      if (res) {
+        // updateUserInfo(address.address, res.rootContainerID);
+        // dispatch(
+        //   setUserData({ address: address.address, rootId: res.rootContainerID })
+        // );
+        // console.log(userr, "after redux");
+
+        // navigate("/selection-page");
+
+        checkUser(res.rootContainerID, address.address);
+      }
     } else {
       user.create(/* optional user-specified passcode */);
     }
+  };
+
+  useEffect(() => {
+    // If the user is not yet logged in, the wallet is already loaded,
+    // or the wallet is loading, do nothing.
+    coinbaseThings();
   }, [user, wallet, isCreatingWallet]);
   useEffect(() => {
     setNav("2");

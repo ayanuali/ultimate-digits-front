@@ -4,10 +4,14 @@ import currentImg from "../../assets/selection1.png";
 import virtualImg from "../../assets/selection2.png";
 import { useNavigate } from "react-router";
 import freeImg from "../../assets/free-img.png";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function SelectionPage({ setNav }) {
   //function setting navigation bar
   setNav("1");
+  const userr = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  console.log(userr, "befie redux");
   const navigate = useNavigate();
 
   return (
@@ -22,7 +26,7 @@ export default function SelectionPage({ setNav }) {
             <img src={currentImg} alt="iphone"></img>
           </div>
           <div className="current-text">
-            <div className="text-img" >
+            <div className="text-img">
               <img
                 src={freeImg}
                 alt="free"
@@ -68,10 +72,10 @@ export default function SelectionPage({ setNav }) {
             <img src={virtualImg} alt="iphone"></img>
           </div>
           <div className="current-text" style={{ marginTop: "3.25rem" }}>
-          
             <div className="text">Virtual number</div>
             <div className="sub-text">
-            Get a personalized 10-digit virtual number of your choice as an Ethereum NFT
+              Get a personalized 10-digit virtual number of your choice as an
+              Ethereum NFT
             </div>
             <div className="virtual-btn">
               <button

@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "./ConfirmationRealPage2.css";
 import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ConfirmationRealPage2({ number, waddress, code }) {
   const [address, setAddress] = useState("afasfas");
   const [phoneNumber, setPhoneNumber] = useState("");
   const navigate = useNavigate();
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "befie redux");
+
   useEffect(() => {
     const add = localStorage.getItem("address");
-    setAddress(add);
+    setAddress(userr.address);
+    setPhoneNumber(userr.phno);
   }, []);
   return (
     <div className="confirmationPageReal2">
@@ -54,7 +59,7 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
       <div className="cpr2-number">
         <div className="text">Your current number</div>
         <div className="number">
-          +{code} {number}
+          +{code} {phoneNumber}
         </div>
       </div>
       <div className="cpr2-exchangeIcon">

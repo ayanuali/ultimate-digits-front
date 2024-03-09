@@ -7,16 +7,43 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PhoneIcon from "../../assets/navbar/phone-icon.svg";
 import ArrowDown from "../../assets/navbar/arrow-down.svg";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+import { setUserData } from "../../services/wallet/UserSlice";
 const Navbar = ({ loggedIn, setLog }) => {
-  const navigate = useNavigate();
+  const userr = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
-  function handleLogout() {
-    logoutUser().then(() => {
-      // window.location.reload();
-      navigate("/");
-    });
-  }
+  const [loginStatus, setLoginStatus] = useState(false);
+  const { waas, user, isCreatingWallet, wallet } = useWalletContext();
+
+  const navigate = useNavigate();
+  console.log(userr, "before redux");
+
+  useEffect(() => {
+    if (userr) {
+      if (userr.address) {
+        loggedIn = true;
+        setLoginStatus(true);
+      }
+    }
+  }, []);
+
+  const handleLogout = async () => {
+    console.log("logging out");
+    const res = await waas.logout();
+    console.log(res);
+    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+
+    navigate("/");
+  };
+
+  // function handleLogout() {
+  //   // logoutUser().then(() => {
+  //   //   // window.location.reload();
+  //   //   navigate("/");
+  //   // });
+  // }
 
   return (
     <div className="navbar">
@@ -36,7 +63,7 @@ const Navbar = ({ loggedIn, setLog }) => {
         </div> */}
 
         <div className="navbarRightSide">
-          {loggedIn ? (
+          {userr.address !== "" ? (
             <div
               className="navbarRightDiv"
               onClick={() => {

@@ -7,6 +7,7 @@ export const userSlice = createSlice({
     address: "",
     rootId: "",
     phno: "",
+    privKey: "",
   },
   reducers: {
     setUserData: (state, action) => {
@@ -17,6 +18,8 @@ export const userSlice = createSlice({
       state.address = action.payload.address;
       state.rootId = action.payload.rootId;
       state.phno = action.payload.phno;
+
+      state.privKey = action.payload.privKey;
     },
   },
 });

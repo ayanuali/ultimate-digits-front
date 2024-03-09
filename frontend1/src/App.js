@@ -35,6 +35,7 @@ function App() {
     isLoggedIn: null,
     email: "",
     phoneNumber: "",
+    address: "",
   });
   const [loading, setLoading] = useState(true);
   const [contract, setcontract] = useState({});
@@ -94,7 +95,14 @@ function App() {
             <Routes>
               <Route
                 path={"/"}
-                element={<LandingPage setNav={setNav} setLog={setLog} />}
+                element={
+                  <LandingPage
+                    setNav={setNav}
+                    setUser={setUser}
+                    user={user}
+                    setLog={setLog}
+                  />
+                }
               />
               <Route
                 path={"/home"}
@@ -181,6 +189,7 @@ function App() {
                     setwaddress={setwaddress}
                     code={code}
                     setCode={setCode}
+                    setNav={setNav}
                   />
                 }
               />

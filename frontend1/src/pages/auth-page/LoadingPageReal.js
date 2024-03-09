@@ -11,6 +11,7 @@ export default function LoadingPageReal({
   setwaddress,
   code,
   setCode,
+  setNav,
 }) {
   //function to declare state of variables
 
@@ -24,6 +25,7 @@ export default function LoadingPageReal({
   const [signer, setsigner] = useState("");
 
   useEffect(() => {
+    setNav("1");
     if (userr) {
       if (userr.address && userr.phno) {
         setProceedTo("lastpage");

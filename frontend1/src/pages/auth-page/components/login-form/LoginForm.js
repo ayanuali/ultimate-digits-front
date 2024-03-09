@@ -11,7 +11,8 @@ import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import { useSelector, useDispatch } from "react-redux";
-
+import { Loader } from "rsuite";
+import FullScreenLoader from "./FullScreenLoader";
 import udIcon from "../../../../assets/ud-square-logo.png";
 // import coinbase from "../../../../assets/home-page/coinbase.svg";
 import coinbase from "../../../../assets/coinbase.svg";
@@ -30,7 +31,8 @@ const LoginForm = ({
   log,
   setNav,
 }) => {
-  const { waas, user, isCreatingWallet, wallet } = useWalletContext();
+  const { waas, user, isCreatingWallet, wallet, isLoggingIn } =
+    useWalletContext();
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   console.log(userr, "befie redux");
@@ -45,6 +47,7 @@ const LoginForm = ({
   const navigate = useNavigate();
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const checkUser = async (rootId, address) => {
     try {
@@ -57,13 +60,21 @@ const LoginForm = ({
         const temp = res.data.user;
         console.log(temp);
         dispatch(
-          setUserData(...userr, { address: temp.address, phno: temp.phone })
+          setUserData({ ...userr, address: temp.address, phno: temp.phone })
         );
-        console.log(userr, "after redux");
 
+        setUser({
+          isLoggedIn: true,
+          email: "",
+          phoneNumber: temp.phone,
+          address: temp.address,
+        });
+        console.log(userr, "after redux");
+        setLoading(false);
         navigate("/real-number");
       } else if (res.status === 204) {
         dispatch(setUserData({ ...userr, rootId: rootId, address: address }));
+        setLoading(false);
 
         navigate("/selection-page");
       }
@@ -74,6 +85,10 @@ const LoginForm = ({
 
   const handleLogin = async () => {
     console.log("logging in");
+    setLoading(true);
+    console.log("user", user);
+    const res1 = await waas.logout();
+    console.log(res1);
     const res = await waas.login();
 
     console.log(res);
@@ -88,18 +103,28 @@ const LoginForm = ({
       const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
+
       const address = await wallet.addresses.for(ProtocolFamily.EVM);
       console.log(`Got address: ${address.address}`);
+      // const privateKeys = await wallet.exportKeysFromHostedBackup(passcode);
+      const privateKeys = await wallet.backup;
+      console.log("private keys", privateKeys);
+      dispatch(
+        setUserData({
+          address: address.address,
+          rootId: wallet.rootContainerID,
+          privKey: privateKeys,
+        })
+      );
+
+      navigate("/wallet");
+      return;
       if (res) {
-        // updateUserInfo(address.address, res.rootContainerID);
-        // dispatch(
-        //   setUserData({ address: address.address, rootId: res.rootContainerID })
-        // );
-        // console.log(userr, "after redux");
+        dispatch(
+          setUserData({ address: address.address, rootId: res.rootContainerID })
+        );
 
-        // navigate("/selection-page");
-
-        checkUser(res.rootContainerID, address.address);
+        navigate("/wallet");
       }
     }
     if (res.hasWallet === true) {
@@ -369,14 +394,8 @@ const LoginForm = ({
         <img src={udIcon} />
         Continue with Ultimate Wallet
       </button>
-      <button
-        className="loginWrapperTranspBtn"
-        onClick={handleLogout}
-        style={{ color: "#3D4043" }}
-      >
-        <img src={udIcon} />
-        Log out with Ultimate Wallet
-      </button>
+
+      <FullScreenLoader loading={loading} content="Loading..." />
 
       <div className="powered">
         <img src={coinbase} alt="coinbase" />

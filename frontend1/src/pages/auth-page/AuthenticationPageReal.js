@@ -2,6 +2,8 @@ import { React, useState } from "react";
 import "./AuthenticationPageReal.css";
 import config from "../../config.json";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+
 import { setUserData } from "../../services/wallet/UserSlice";
 export default function AuthenticationPageReal({
   setProceedTo,
@@ -14,6 +16,8 @@ export default function AuthenticationPageReal({
   const [error, setError] = useState(false);
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   //function to resend otp on mobile number
   const resend = async () => {
     console.log(code);

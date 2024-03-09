@@ -11,8 +11,7 @@ import topLogo from "../../assets/ud-logo.png";
 import heroImage from "../../assets/heroImage.svg";
 import LoginForm from "../auth-page/components/login-form/LoginForm";
 
-export default function LandingPage({ setNav, setLog }) {
-  //function to set navigation bar
+export default function LandingPage({ setNav, setLog, setUser, user }) {
   const navigate = useNavigate();
   const [proceedTo, setProceedTo] = useState("showCart");
   const [signer, setsigner] = useState({});
@@ -20,11 +19,6 @@ export default function LandingPage({ setNav, setLog }) {
   const [number, setNumber] = useState(null);
   const [contract, setcontract] = useState({});
   const [currentWallet, setCurrentWallet] = useState("");
-  const [user, setUser] = useState({
-    isLoggedIn: null,
-    email: "",
-    phoneNumber: "",
-  });
 
   setNav("0");
 

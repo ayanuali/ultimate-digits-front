@@ -4,6 +4,7 @@ import frame from "../../assets/Frame.svg";
 import clipboard from "../../assets/clipboard.svg";
 import qr from "../../assets/qr.svg";
 import { QRCodeSVG } from "qrcode.react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +13,8 @@ const Wallet = () => {
   const [privatekey, setPrivatekey] = useState(
     "asddsagsdgasdgadsgdsgasdgasdgasd23"
   );
+  const userr = useSelector((state) => state.user);
+
   const [showPrivKey, setShowPrivKey] = useState(false);
   const [address, setAddress] = useState("0x1234567890");
   const copyToClipboard = (e) => {
@@ -41,10 +44,10 @@ const Wallet = () => {
 
   useEffect(() => {
     const priv = localStorage.getItem("backup");
-    setPrivatekey(priv);
+    setPrivatekey(userr.privKey);
     const add = localStorage.getItem("address");
     console.log("add", add);
-    setAddress(add);
+    setAddress(userr.address);
   }, [address, privatekey]);
   return (
     <div className="maincontainer">

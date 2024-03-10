@@ -18,6 +18,12 @@ import udIcon from "../../../../assets/ud-square-logo.png";
 import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import axios from "axios";
+import { getAccount } from '@wagmi/core';
+import { createPublicClient, getContract, http, createWalletClient } from 'viem';
+import { bscTestnet, sepolia } from 'viem/chains';
+import { connectConfig } from "../../../../ConnectKit/Web3Provider";
+import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
+
 
 import { setUserData } from "../../../../services/wallet/UserSlice";
 
@@ -206,8 +212,49 @@ const LoginForm = ({
   // Get the query parameter string
   const queryString = window.location.search;
 
+  const account = getAccount(connectConfig);
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  })
+
+  async function connectWalletAndSetupContract() {
+    setOpenPhone(false);
+    setOpenEmail(false);
+    try {
+      const contract = getContract({
+        address: config.address_nft,
+        abi: conABI,
+        // 1a. Insert a single client
+        client: publicClient,
+
+      })
+      if (contract && setProceedTo) {
+        setcontract(contract);
+        console.log(`Contract connected: ${contract.address}`);
+
+        setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+        console.log("FinalLog:", log);
+
+        console.log(account.chainId, ":chainId");
+
+        // Navigate based on the `log` state and presence of `setProceedTo` function
+        const destination = log ? "/selection-page" : "/login";
+        navigate(destination);
+      }
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
+    }
+  }
+
+  if (account.isConnected === true) {
+    console.log("Wallet Address:", account.address);
+
+    setwalletaddress(account.address);
+  }
+
   //function to connect to BNB network
-  async function getAccount() {
+  async function getAcccount() {
     //setting the states of phone and email
     setOpenPhone(false);
     setOpenEmail(false);
@@ -378,14 +425,7 @@ const LoginForm = ({
       </div>
 
       <br />
-      <button
-        className="loginWrapperTranspBtn"
-        onClick={getAccount}
-        style={{ color: "#3D4043" }}
-      >
-        <img src={MetamaskIcon} />
-        Continue with Metamask
-      </button>
+      <CustomButton onSuccess={connectWalletAndSetupContract} />
       <button
         className="loginWrapperTranspBtn"
         onClick={handleLogin}

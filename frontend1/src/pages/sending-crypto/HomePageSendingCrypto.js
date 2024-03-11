@@ -4,6 +4,9 @@ import "./HomePageSendingCrypto.css";
 import { resolveAddress } from "ethers";
 import { useNavigate } from "react-router-dom";
 
+import { getAccount, readContract } from "@wagmi/core";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+
 export default function HomePageSendingCrypto({
   setNav,
   setCurrentNumber,
@@ -20,7 +23,7 @@ export default function HomePageSendingCrypto({
   const [nums, setNums] = useState([]);
   const [virtual, setVirtual] = useState([]);
   const [real, setReal] = useState([]);
- 
+
   //setting the number and wallet attached to the user
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -40,10 +43,18 @@ export default function HomePageSendingCrypto({
     console.log(currentWallet);
   }
 
+  const account = getAccount(connectConfig);
+
   //function to achive and view the numbers attached
   async function viewNumbers() {
     console.log(contract_connect);
-    const res = await contract_connect.returnNumbers(currentWallet);
+    // contract_connect.returnNumbers(currentWallet);
+    const res = await readContract(connectConfig, {
+      abi: contract_connect.abi,
+      address: contract_connect.address,
+      functionName: "returnNumbers",
+      args: [account.address]
+    });
     console.log(res);
     console.log(typeof res);
     const numbers = await JSON.parse(
@@ -65,12 +76,12 @@ export default function HomePageSendingCrypto({
 
   viewNumbers();
   useEffect(() => {
-    {
-      viewNumbers();
-    }
+
+    viewNumbers();
+
   }, []);
 
-  
+
   return (
     <div className="homepage">
       <Sidebar />
@@ -115,37 +126,36 @@ export default function HomePageSendingCrypto({
           <div className="hp-box">
             {nums != []
               ? nums.map((number, i) => (
-                  <div className="box2">
-                    <svg
-                      width="18"
-                      height="16"
-                      viewBox="0 0 18 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                        fill="#5F6A85"
-                      />
-                    </svg>
-                    <span className="text4">Number {i + 1}</span>
-                    <span className="sub-text2">
-                      +
-                      {number[0] == "0"
-                        ? number[1] == "0"
-                          ? number.substr(2)
-                          : number.substr(1)
-                        : number}
-                    </span>
-                    <span
-                      className={`sub-text2 ${
-                        number[0] == "0" ? "real" : "virtual"
+                <div className="box2">
+                  <svg
+                    width="18"
+                    height="16"
+                    viewBox="0 0 18 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                      fill="#5F6A85"
+                    />
+                  </svg>
+                  <span className="text4">Number {i + 1}</span>
+                  <span className="sub-text2">
+                    +
+                    {number[0] == "0"
+                      ? number[1] == "0"
+                        ? number.substr(2)
+                        : number.substr(1)
+                      : number}
+                  </span>
+                  <span
+                    className={`sub-text2 ${number[0] == "0" ? "real" : "virtual"
                       }-send`}
-                    >
-                      {number[0] == "0" ? "Real" : "Virtual"} Number
-                    </span>
-                  </div>
-                ))
+                  >
+                    {number[0] == "0" ? "Real" : "Virtual"} Number
+                  </span>
+                </div>
+              ))
               : ""}
           </div>
         </div>

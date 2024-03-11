@@ -9,8 +9,8 @@ import { UserContext } from "../../Hook.js";
 import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
 import { createPublicClient, http, getContract } from "viem";
-import { sepolia } from "viem/chains";
-import { getAccount, readContract, writeContract } from "@wagmi/core";
+import { bscTestnet, sepolia } from "viem/chains";
+import { getAccount, readContract, writeContract, switchChain } from "@wagmi/core";
 
 import { connectConfig } from "../../ConnectKit/Web3Provider.jsx";
 
@@ -59,39 +59,38 @@ export default function ConfirmationPageVirtual1({
     });
 
     try {
-      const writeTransactionConfig = {
-        ...connectConfig,
-        chains: [sepolia], // Use the Sepolia chain for the write transaction
-      };
+      await switchChain(connectConfig, { chainId: sepolia.id });
+
+      // const writeTransactionConfig = {
+      //   ...connectConfig,
+      //   chains: [sepolia], // Use the Sepolia chain for the write transaction
+      // };
 
       const transaction = async () => {
 
-        await writeContract(writeTransactionConfig, {
+        await writeContract(connectConfig, {
           abi: contract.abi,
           address: contract.address,
           functionName: "mint",
           args: ["https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb"],
         });
       }
-      const txReceipt = await transaction();
-      txReceipt();
+      await transaction();
 
       console.log("minting called");
 
-      const readTransactionConfig = {
-        ...connectConfig,
-        chains: [sepolia], // Use the Sepolia chain for the read transaction
-      };
+      // const readTransactionConfig = {
+      //   ...connectConfig,
+      //   chains: [sepolia], // Use the Sepolia chain for the read transaction
+      // };
 
-      const number = async () => {
-        await readContract(readTransactionConfig, {
-          abi: contract.abi,
-          address: contract.address,
-          functionName: "getTokenCounter",
-        });
-      }
-      const tokenCounter = number();
-      console.log("tokenCounter:", tokenCounter);
+      const number = await readContract(connectConfig, {
+        abi: abi_NFT,
+        address: address_NFT,
+        functionName: "getTokenCounter",
+      });
+
+      console.log("tokenCounter:", number);
       setTokenId(parseInt(number));
       setadd(`Address : ${address_NFT}`);
       settid(`TokenId : ${parseInt(number)}`);
@@ -106,30 +105,79 @@ export default function ConfirmationPageVirtual1({
   }
 
   //NFT Generation
-  async function NFT_en() {
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0xAA36A7' }], // chainId must be in hexadecimal numbers
-    });
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    //   console.log(provider);
-    await provider.send("eth_requestAccounts", []);
-    const signer = await provider.getSigner();
-    const contract = new ethers.Contract(address_NFT, abi_NFT, signer);
-    console.log(provider)
-    console.log(signer)
-    const transaction = await contract.mint("https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb")
-    transaction.wait().then((res) => {
-      console.log(res)
-    });
-    const number = await contract.getTokenCounter()
-    setTokenId(parseInt(number));
-    setadd(`Address : ${address_NFT}`)
-    settid(`TokenId : ${parseInt(number)}`)
-    console.log(parseInt(number) + " the nft minting number ")
-  }
+  // async function NFT_en() {
+  //   await window.ethereum.request({
+  //     method: 'wallet_switchEthereumChain',
+  //     params: [{ chainId: '0xAA36A7' }], // chainId must be in hexadecimal numbers
+  //   });
+  //   const provider = new ethers.BrowserProvider(window.ethereum);
+  //   //   console.log(provider);
+  //   await provider.send("eth_requestAccounts", []);
+  //   const signer = await provider.getSigner();
+  //   const contract = new ethers.Contract(address_NFT, abi_NFT, signer);
+  //   console.log(provider)
+  //   console.log(signer)
+  //   const transaction = await contract.mint("https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb")
+  //   transaction.wait().then((res) => {
+  //     console.log(res)
+  //   });
+  //   const number = await contract.getTokenCounter()
+  //   setTokenId(parseInt(number));
+  //   setadd(`Address : ${address_NFT}`)
+  //   settid(`TokenId : ${parseInt(number)}`)
+  //   console.log(parseInt(number) + " the nft minting number ")
+  // }
+
+
+
 
   async function PerformAction() {
+    // Your action here
+    // await window.ethereum.request({
+    //   method: 'wallet_switchEthereumChain',
+    //   params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
+    // })
+    await switchChain(connectConfig, { chainId: bscTestnet.id });
+    var check = 0;
+    console.log(contract_connect);
+    cartArray.map(async (number, i) => {
+      console.log("UID creation");
+      var transaction = async () => {
+        await writeContract(connectConfig, {
+          abi: contract_connect.abi,
+          address: contract_connect.address,
+          functionName: "SettingUniqueId",
+          args: [number, "999"]
+        });
+        console.log("UID created");
+
+      }
+      await transaction();
+
+      console.log("settingUIDtransaction got through");
+      check++;
+      console.log(check);
+      if (check === cartArray.length) {
+        navigate(
+          `/selection-page/my-numbers/confirm-page?number=${number}`
+        );
+      }
+      // if (transaction) {
+
+      // } else {
+      //   console.error("error");
+      //   console.log("another transaction didn't get through");
+      // }
+
+    });
+    console.log(cartArray.length);
+  }
+
+
+
+
+
+  async function PerfomAction() {
     // Your action here
     await window.ethereum.request({
       method: 'wallet_switchEthereumChain',
@@ -206,10 +254,10 @@ export default function ConfirmationPageVirtual1({
         <div className="cpv2-btn" style={{ marginTop: "-1.8rem" }}>
           <button
             onClick={async () => {
-              {
-                PerformAction();
-                // await NFT_Gen()
-              }
+
+              PerformAction();
+              // await NFT_Gen()
+
             }}
           >
             Link your number to a wallet

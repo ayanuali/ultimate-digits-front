@@ -18,7 +18,7 @@ import udIcon from "../../../../assets/ud-square-logo.png";
 import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import axios from "axios";
-import { getAccount } from '@wagmi/core';
+import { getAccount, switchChain } from '@wagmi/core';
 import { createPublicClient, getContract, http, createWalletClient } from 'viem';
 import { bscTestnet, sepolia } from 'viem/chains';
 import { connectConfig } from "../../../../ConnectKit/Web3Provider";
@@ -211,8 +211,14 @@ const LoginForm = ({
 
   // Get the query parameter string
   const queryString = window.location.search;
-
+  const entho = async () => {
+    await switchChain(connectConfig, { chainId: bscTestnet.id })
+  }
   const account = getAccount(connectConfig);
+  useEffect(() => {
+    entho();
+
+  }, [account.chainId]);
   const publicClient = createPublicClient({
     chain: bscTestnet,
     transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),

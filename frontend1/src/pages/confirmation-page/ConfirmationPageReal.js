@@ -6,6 +6,11 @@ import { ethers } from "ethers";
 import config from "../../config.json";
 import conABI from "../../abi/abi1.json";
 import sponsor from "../../assets/home-page/sponsors.svg";
+import { readContract, getAccount, writeContract } from "@wagmi/core";
+import { getContract, createPublicClient, http } from "viem";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { bscTestnet } from "viem/chains";
+
 export default function ConfirmationPageReal({
   code,
   setProceedTo,
@@ -18,6 +23,70 @@ export default function ConfirmationPageReal({
 }) {
   //function to set variables state
   const [error, setError] = useState(false);
+
+  const account = getAccount(connectConfig);
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  })
+
+
+  async function connectWalletAndSetuplNum() {
+    try {
+      console.log("hii kutta......");
+      const contract = getContract({
+        abi: conABI,
+        address: config.address,
+        client: publicClient,
+
+      })
+      setContract_connect(contract);
+
+      console.log("Contract-setting:", contract);
+
+      console.log(code);
+      var codes = null;
+      if (code.toString().length == 1) {
+        codes = `00${code}`;
+      } else if (code.toString().length == 2) {
+        codes = `0${code}`;
+      } else {
+        codes = code;
+      }
+      console.log("codes:", codes);
+
+
+      const settingUID = await writeContract(connectConfig, {
+        abi: conABI,
+        address: config.address,
+        functionName: "SettingUniqueId",
+        args: [number, codes]
+      });
+      console.log("settingUID-TX:", settingUID)
+      setProceedTo("lastpage");
+
+      const res = await readContract(connectConfig, {
+        abi: conABI,
+        address: config.address,
+        functionName: "checkAccount",
+        args: [number, codes]
+      });
+
+      console.log("checkAccountAddress:", res);
+      if (res == account.address) setProceedTo("lastpage");
+      setError(true);
+
+      waddress = account.address;
+
+      console.log("walletAddress:", waddress);
+      setwaddress(waddress);
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
+    }
+  }
+
+
 
   //connecting with correct chain
   async function connectingmetamask() {
@@ -207,7 +276,7 @@ export default function ConfirmationPageReal({
           className="cpr1-btn1"
           style={{ marginTop: "2rem", marginBottom: "-0.4rem" }}
         >
-          <button className="btn-1" onClick={connectingmetamask}>
+          <button className="btn-1" onClick={connectWalletAndSetuplNum}>
             <img
               src={metaMaskLogo}
               style={{ width: "30px", marginTop: "4px" }}
@@ -215,7 +284,7 @@ export default function ConfirmationPageReal({
             ></img>
             &nbsp;&nbsp;
             <span style={{ verticalAlign: 29 }}>
-              Connect your metamask wallet
+              Connect your wallet
             </span>
           </button>
         </div>

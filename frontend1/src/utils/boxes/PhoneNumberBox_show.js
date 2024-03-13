@@ -17,6 +17,8 @@ import { ethers } from 'ethers'
 import { UserContext } from "../../Hook";
 import { readContract } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { getContract, createPublicClient, http } from "viem";
+import { bscTestnet } from "viem/chains";
 
 const PhoneNumberBox = ({
   number,
@@ -40,6 +42,18 @@ const PhoneNumberBox = ({
   // Initial state for tier category
   const [tier, setTier] = useState("silver");
   const navigate = useNavigate();
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  })
+  const contract = getContract({
+    abi: conABI,
+    address: config.address,
+    // 1a. Insert a single client
+    client: publicClient,
+
+  })
 
   const checkAccFunc = async () => {
     try {
@@ -89,8 +103,8 @@ const PhoneNumberBox = ({
     console.log(data);
     setTier(data);
     // const contract = new ethers.Contract(config.address, conABI, signer);
-    //     setContract_connect(contract);
-    //     console.log(contract);
+    setContract_connect(contract);
+    console.log("connectedContract:", contract);
     checkAccFunc();
   }, [number]);
 

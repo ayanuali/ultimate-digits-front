@@ -13,6 +13,12 @@ import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import udlogo from "../../assets/ud-square-logo.png";
 
 import { issueUserToken } from "@coinbase/waas-server-auth";
+
+import { getAccount, readContract } from "@wagmi/core";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { createPublicClient, http, getContract } from "viem";
+import { bscTestnet } from "viem/chains";
+
 // make sure your API KEY isn't visible on your web server :)
 // const coinbaseCloudApiKey = JSON.parse("coinbase_cloud_api_key.json");
 
@@ -51,6 +57,65 @@ export default function ConfirmationPageRealRename({
   const [jwtToken, setJwtToken] = useState("");
 
   const [uuidval, setUuidval] = useState("");
+
+  const account = getAccount(connectConfig);
+
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  })
+
+
+  async function connectWalletAndSetuplNum() {
+    try {
+      const contract = getContract({
+        abi: conABI,
+        address: config.address,
+        // 1a. Insert a single client
+        client: publicClient,
+
+      })
+      setContract_connect(contract);
+
+      const res = await readContract(connectConfig, {
+        abi: conABI,
+        address: config.address,
+        functionName: "returnNumbers",
+        args: [account.address]
+      });
+
+      console.log("functionResponse:", res);
+      if (res.length == 0) setError(true);
+      if (res[0][0] == "0") {
+        if (res[0][1] == "0") setCode("1");
+        else setCode("91");
+      } else setCode("999");
+      var x = res[0].substr(3);
+      console.log(x);
+      setNumber(x);
+
+      navigate(
+        `/sending-crypto/home-page?number=${x}&wallet=${account.address}`
+      );
+      // console.log(`Contract connected: ${contract.address}`);
+
+      // console.log(account.chainId, ":chainId");
+
+      // console.log("Wallet Address:", account.address);
+
+      // console.log("nokunney");
+
+      // setwaddress(account.address);
+      // //Routing
+      // navigate("/selection-page/virtual-number/home");
+      // if (contract) {
+
+      // }
+    } catch (error) {
+      console.error("Error setting up the contract:", error);
+    }
+  }
+
 
   //function to set and connect to BNB network
   async function connectingmetamask() {
@@ -346,7 +411,7 @@ export default function ConfirmationPageRealRename({
           className="cpr1-btn1"
           style={{ marginTop: "2rem", marginBottom: "-0.4rem" }}
         >
-          <button className="btn-1" onClick={connectingmetamask}>
+          <button className="btn-1" onClick={connectWalletAndSetuplNum}>
             <img
               src={metaMaskLogo}
               style={{ width: "30px", marginTop: "4px" }}

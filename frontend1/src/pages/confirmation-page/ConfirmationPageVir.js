@@ -43,21 +43,21 @@ export default function ConfirmationPageVir({
         client: publicClient,
 
       })
-      if (contract) {
-        setContract_connect(contract);
-        console.log(`Contract connected: ${contract.address}`);
+      setContract_connect(contract);
+      console.log(`Contract connected: ${contract.address}`);
 
-        console.log(account.chainId, ":chainId");
+      console.log(account.chainId, ":chainId");
 
-        console.log("Wallet Address:", account.address);
+      console.log("Wallet Address:", account.address);
 
-        console.log("nokunney");
+      console.log("nokunney");
 
-        setwaddress(account.address);
-        //Routing
-        navigate("/selection-page/virtual-number/home");
+      setwaddress(account.address);
+      //Routing
+      navigate("/selection-page/virtual-number/home");
+      // if (contract) {
 
-      }
+      // }
     } catch (error) {
       console.error("Error setting up the contract:", error);
     }

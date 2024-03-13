@@ -3,9 +3,13 @@ import { useState, useEffect } from "react";
 import "./HomePageSendingCrypto.css";
 import { resolveAddress } from "ethers";
 import { useNavigate } from "react-router-dom";
+import conABI from "../../abi/abi1.json";
+import config from "../../config.json";
 
 import { getAccount, readContract } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { createPublicClient, http, getContract } from "viem";
+import { bscTestnet } from "viem/chains";
 
 export default function HomePageSendingCrypto({
   setNav,
@@ -35,19 +39,34 @@ export default function HomePageSendingCrypto({
     console.log(currentNumber);
   }
 
-  const wallet = urlParams.get("wallet");
-  if (wallet != null) {
-    console.log(wallet);
-    setCurrentWallet(wallet);
+  // const wallet = urlParams.get("wallet");
+
+  const account = getAccount(connectConfig);
+
+  if (account.address != null) {
+    console.log("walletAddress:", account.address);
+    setCurrentWallet(account.address);
   } else {
     console.log(currentWallet);
   }
 
-  const account = getAccount(connectConfig);
+
+  // const publicClient = createPublicClient({
+  //   chain: bscTestnet,
+  //   transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  // })
+
+  // const contract = getContract({
+  //   abi: conABI,
+  //   address: config.address,
+  //   client: publicClient,
+
+  // })
+  // setContract_connect(contract);
 
   //function to achive and view the numbers attached
   async function viewNumbers() {
-    console.log(contract_connect);
+    console.log(contract_connect.address, ":ehdgegd");
     // contract_connect.returnNumbers(currentWallet);
     const res = await readContract(connectConfig, {
       abi: contract_connect.abi,
@@ -55,15 +74,15 @@ export default function HomePageSendingCrypto({
       functionName: "returnNumbers",
       args: [account.address]
     });
-    console.log(res);
-    console.log(typeof res);
+    console.log("returnedNum:", res);
+    console.log("Return array type:", typeof res);
     const numbers = await JSON.parse(
       JSON.stringify(
         res,
         (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
       )
     );
-    console.log(numbers);
+    console.log("Numbers array:", numbers);
     var real = [];
 
     numbers.map((number, i) => {
@@ -74,7 +93,7 @@ export default function HomePageSendingCrypto({
   }
 
 
-  viewNumbers();
+  // viewNumbers();
   useEffect(() => {
 
     viewNumbers();

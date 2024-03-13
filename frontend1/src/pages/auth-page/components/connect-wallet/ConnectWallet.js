@@ -1,6 +1,7 @@
 import React from "react";
 import "./ConnectWallet.css";
 import MetamaskIcon from "../../../../assets/login-page/order-claim/metamask-icon.png";
+import { BasicButton } from "../../../../ConnectKit/BasicButton";
 
 const ConnectWallet = ({
   setProceedTo,
@@ -8,9 +9,11 @@ const ConnectWallet = ({
   setwalletaddress,
   setcontract,
 }) => {
+
+
   //connecting to BNB network
   async function getAccount() {
-    
+
 
     try {
       // BNB MAINNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
@@ -51,11 +54,7 @@ const ConnectWallet = ({
       <p>
         Once minted your wallet address will be set as the phone number owner.
       </p>
-
-      <button className="blueRoundedBtn" onClick={getAccount}>
-        Connect your metamask wallet
-        <img src={MetamaskIcon} />
-      </button>
+      <BasicButton />
       <button
         className="transparentRoundedBtn"
         onClick={() => setProceedTo("mintNumber")}

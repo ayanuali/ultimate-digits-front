@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./ConfirmationRealPage2.css";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
+import { getAccount } from "@wagmi/core";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
 
 export default function ConfirmationRealPage2({ number, waddress, code }) {
   const [address, setAddress] = useState("afasfas");
@@ -10,10 +12,15 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
   const userr = useSelector((state) => state.user);
   console.log(userr, "befie redux");
 
+  const account = getAccount(connectConfig);
+
   useEffect(() => {
     const add = localStorage.getItem("address");
-    setAddress(userr.address);
+    setAddress(account.address);
+    console.log("userAddress:", userr.address);
+    console.log("newUserAddress:", account.address);
     setPhoneNumber(userr.phno);
+    console.log("userPhone:", userr.phno);
   }, []);
   return (
     <div className="confirmationPageReal2">

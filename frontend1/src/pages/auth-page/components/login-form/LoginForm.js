@@ -18,6 +18,16 @@ import udIcon from "../../../../assets/ud-square-logo.png";
 import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import axios from "axios";
+import { getAccount, switchChain } from "@wagmi/core";
+import {
+  createPublicClient,
+  getContract,
+  http,
+  createWalletClient,
+} from "viem";
+import { bscTestnet, sepolia } from "viem/chains";
+import { connectConfig } from "../../../../ConnectKit/Web3Provider";
+import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
 import { setUserData } from "../../../../services/wallet/UserSlice";
 
@@ -48,6 +58,8 @@ const LoginForm = ({
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [gotData, setGotData] = useState(false);
 
   const checkUser = async (rootId, address) => {
     try {
@@ -205,9 +217,91 @@ const LoginForm = ({
 
   // Get the query parameter string
   const queryString = window.location.search;
+  const entho = async () => {
+    await switchChain(connectConfig, { chainId: bscTestnet.id });
+  };
+  const account = getAccount(connectConfig);
+  useEffect(() => {
+    entho();
+  }, [account.chainId]);
+
+  const checkAddress = async (address) => {
+    console.log("Address", address.address);
+    try {
+      const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+        address: address.address,
+      });
+      if (res.status === 200) {
+        console.log("there", res);
+        const data = res.data.mapping;
+        console.log(data);
+        dispatch(
+          setUserData({
+            ...userr,
+            address: data.address,
+            phno: data.phone,
+            rootId: "ncw",
+          })
+        );
+        navigate("/real-number");
+        setGotData(true);
+      } else if (res.status === 204) {
+        console.log("not there");
+        navigate("/selection-page");
+        setGotData(true);
+      }
+    } catch (error) {
+      console.log("error in getting phno", error);
+    }
+  };
+
+  useEffect(() => {
+    checkAddress(account.address);
+  }, [account]);
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  });
+
+  async function connectWalletAndSetupContract() {
+    setOpenPhone(false);
+    setOpenEmail(false);
+    if (!gotData) {
+      try {
+        const contract = getContract({
+          address: config.address_nft,
+          abi: conABI,
+          // 1a. Insert a single client
+          client: publicClient,
+        });
+        if (contract && setProceedTo) {
+          setcontract(contract);
+          console.log(`Contract connected: ${contract.address}`);
+
+          setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+          console.log("FinalLog:", log);
+
+          console.log(account.chainId, ":chainId");
+          // const res = await checkAddress(account);
+
+          // Navigate based on the `log` state and presence of `setProceedTo` function
+          // const destination = log ? "/selection-page" : "/login";
+          // navigate(destination);
+        }
+      } catch (error) {
+        console.error("Error setting up the contract:", error);
+      }
+    }
+  }
+
+  if (account.isConnected === true) {
+    console.log("Wallet Address:", account.address);
+
+    setwalletaddress(account.address);
+  }
 
   //function to connect to BNB network
-  async function getAccount() {
+  async function getAcccount() {
     //setting the states of phone and email
     setOpenPhone(false);
     setOpenEmail(false);
@@ -296,11 +390,11 @@ const LoginForm = ({
 
         setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
 
-        if (setProceedTo) {
-          log ? navigate("/selection-page") : navigate("/login");
-        } else {
-          log ? navigate("/selection-page") : navigate("/login");
-        }
+        // if (setProceedTo) {
+        //   log ? navigate("/selection-page") : navigate("/login");
+        // } else {
+        //   log ? navigate("/selection-page") : navigate("/login");
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -378,14 +472,7 @@ const LoginForm = ({
       </div>
 
       <br />
-      <button
-        className="loginWrapperTranspBtn"
-        onClick={getAccount}
-        style={{ color: "#3D4043" }}
-      >
-        <img src={MetamaskIcon} />
-        Continue with Metamask
-      </button>
+      <CustomButton onSuccess={connectWalletAndSetupContract} />
       <button
         className="loginWrapperTranspBtn"
         onClick={handleLogin}

@@ -5,6 +5,9 @@ import { resolveAddress } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
+import { getAccount, readContract } from "@wagmi/core";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+
 export default function HomePageSendingCrypto({
   setNav,
   setCurrentNumber,
@@ -43,10 +46,18 @@ export default function HomePageSendingCrypto({
     console.log(currentWallet);
   }
 
+  const account = getAccount(connectConfig);
+
   //function to achive and view the numbers attached
   async function viewNumbers() {
     console.log(contract_connect);
-    const res = await contract_connect.returnNumbers(currentWallet);
+    // contract_connect.returnNumbers(currentWallet);
+    const res = await readContract(connectConfig, {
+      abi: contract_connect.abi,
+      address: contract_connect.address,
+      functionName: "returnNumbers",
+      args: [account.address],
+    });
     console.log(res);
     console.log(typeof res);
     const numbers = await JSON.parse(
@@ -67,9 +78,7 @@ export default function HomePageSendingCrypto({
 
   viewNumbers();
   useEffect(() => {
-    {
-      viewNumbers();
-    }
+    viewNumbers();
   }, []);
 
   return (

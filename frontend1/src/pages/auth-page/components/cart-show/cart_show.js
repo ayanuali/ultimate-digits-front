@@ -11,6 +11,19 @@ import PhoneNumberBox from "../../../../utils/boxes/PhoneNumberBox_show";
 import LoadPage from "../../../../utils/loaders/LoadPage";
 import "./cart_show.css";
 
+import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
+import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
+
+
+// import {
+//   useSendTransaction,
+//   useWaitForTransactionReceipt
+// } from 'wagmi';
+import { getAccount, waitForTransactionReceipt, sendTransaction } from "@wagmi/core";
+import { parseEther, parseUnits } from 'viem';
+import { getContract, createPublicClient, http, createWalletClient, custom } from "viem";
+import { bscTestnet } from "viem/chains";
+
 
 function CartShow({
   cartArray,
@@ -26,11 +39,11 @@ function CartShow({
 }) {
   //initializing and declaring various variables
   const [cart, setCart] = useState([]);
-  const {flag1,setflag1}=React.useContext(UserContext);
+  const { flag1, setflag1 } = React.useContext(UserContext);
   const searchParams = new URLSearchParams(window.location.search);
   const [queryParam, setQueryParam] = useState(searchParams.get("n") || "");
   // const [tokenId,setTokenId]=useState("");
-  const {tokenId,setTokenId}=React.useContext(UserContext);
+  const { tokenId, setTokenId } = React.useContext(UserContext);
   console.log(tokenId)
   const data = {
     address: walletaddress,
@@ -41,16 +54,114 @@ function CartShow({
   const [error, setError] = useState(false);
   const i = 0;
 
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  })
+
+
+
+  // const { sendTransaction } = useSendTransaction();
+
+  // const handleTransactionReceipt = async (receipt) => {
+  //   if (receipt) {
+  //     console.log("Transaction receipt:", receipt);
+  //     // Set up contract
+  //     const contract = getContract({
+  //       address: config.address_nft,
+  //       abi: conABI,
+  //       client: publicClient,
+  //     });
+
+  //     if (contract) {
+  //       setcontract(contract);
+  //       console.log("Contract set-up done:", contract);
+  //       console.log("Wallet address:", account.address);
+  //       setwalletaddress(account.address);
+  //       setLoad(false);
+  //       setProceedTo("purchaseConfirmation");
+  //     }
+  //   }
+  // };
+  const account = getAccount(connectConfig);
+
+  async function buyNumber() {
+    setLoad(true);
+    // Send to which address?
+    const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
+    var amount;
+
+    try {
+      // Calculate transaction amount
+      amount = flag1 ? (parseInt(checkTotalPrice(cartArray)) - 5) * 0.0046790195017 : parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
+      setflag1("0");
+
+      // Convert amount to Wei
+      const someAmt = parseInt(0.0046790195017 * 10);
+      const amt = parseEther((someAmt).toString());
+      console.log("AMT:", amt);
+
+      // Call sendTransaction
+      if (amt !== 0) {
+        // Call sendTransaction
+        console.log("transaction sending started");
+        const { hash } = await sendTransaction(connectConfig, {
+          account: account.address,
+          to: toaddress,
+          value: amt,
+        });
+        // Wait for transaction receipt using the callback function
+        // const receipt = async () => {
+
+        //   await waitForTransactionReceipt(connectConfig, {
+        //     hash,
+        //     // You can add other options like confirmations, onReplaced, etc. if needed
+        //   });
+        // }
+        // const txReceipt = await receipt();
+        console.log("Transaction hash:", hash);
+
+        // console.log("Transaction receipt:", txReceipt);
+      } else {
+        console.error("amt not defined");
+      }
+
+
+
+
+      const contract = getContract({
+        address: config.address_nft,
+        abi: conABI,
+        client: publicClient,
+      });
+
+      if (contract) {
+        setcontract(contract);
+        console.log("Contract set-up done:", contract);
+        console.log("Wallet address:", account.address);
+        setwalletaddress(account.address);
+        setLoad(false);
+        setProceedTo("purchaseConfirmation");
+      }
+
+
+    } catch (error) {
+      console.error("Error processing buyNumber:", error);
+      setError(true); // Set error state to true
+      setLoad(false); // Set loading state to false
+    }
+  }
+
 
   //funcion to ensure virtual number purchase
   //funcion to ensure virtual number purchase
-  async function buyNumber() {
+  async function uyNumber() {
     setLoad(true);
     // send to which address ?
     const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
     var amount
-    if(flag1){amount=parseInt(checkTotalPrice(cartArray)-5) * 0.0046790195017}
-    else{amount=parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;}
+    if (flag1) { amount = parseInt(checkTotalPrice(cartArray) - 5) * 0.0046790195017 }
+    else { amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017; }
     setflag1("0")
     // var amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
     console.log(amount)
@@ -91,10 +202,10 @@ function CartShow({
               console.log(walletaddress);
               setwalletaddress(walletaddress);
 
-             
-                  setLoad(false);
-                  setProceedTo("purchaseConfirmation");
-               
+
+              setLoad(false);
+              setProceedTo("purchaseConfirmation");
+
             })
             .catch((err) => {
               console.log(err);
@@ -142,45 +253,45 @@ function CartShow({
           </div>
           <button
             className="cartCheckout"
-            onClick={async() => {
-              {
-                // await NFT_Gen();
-                buyNumber();
-              }
+            onClick={async () => {
+
+              // await NFT_Gen();
+              buyNumber();
+
             }}
           >
             Complete my Purchase
           </button>
-          <p style={{color:"white"}}>Please do NOT click ANY button on Ultimate Digits while your transaction is being completed</p>
+          <p style={{ color: "white" }}>Please do NOT click ANY button on Ultimate Digits while your transaction is being completed</p>
           {error ? (
-        <p
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "10vh",
-            color: "white",
-            fontSize: "large",
-          }}
-        >
-          Unsufficient Balance
-        </p>
-      ) : false}
-      {load ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "-40vh",
-          }}
-        >
-          <LoadPage/>
+            <p
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "10vh",
+                color: "white",
+                fontSize: "large",
+              }}
+            >
+              Insufficient Balance
+            </p>
+          ) : false}
+          {load ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "-40vh",
+              }}
+            >
+              <LoadPage />
+            </div>
+          ) : false}
         </div>
-      ) : false}
-        </div>
-        
+
       </div>
-      
-      
+
+
     </div>
   ) : (
     ""

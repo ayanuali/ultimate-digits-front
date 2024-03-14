@@ -5,12 +5,14 @@
     "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@openzeppelin/contracts": "^4.9.2",
     "chai": "^4.3.7",
+    "connectkit": "^1.7.2",
     "cors": "^2.8.5",
     "dotenv": "^16.1.4",
     "ethers": "^5.7.2",
     "express": "^4.18.2",
     "hardhat": "^2.17.4",
     "mocha": "^10.2.0",
+    "styled-components": "^6.1.8",
     "web3.storage": "^4.5.4"
   },
   "scripts": {

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.svg";
 import config from "../../../config.json";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function PaymentpageReal({
   currentWallet,
@@ -23,6 +24,9 @@ export default function PaymentpageReal({
   setNav(false);
   var tocodes = "971";
   const navigate = useNavigate();
+
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "befie redux");
 
   //function to set states for variuos variables
   const [Normalhistory, setNormalhistory] = useState([]);
@@ -77,48 +81,9 @@ export default function PaymentpageReal({
         let o = 0;
         let i = len - 1;
         let p = 0;
-        while ((o != 5 && p != 5) && i >= 0) {
+        while (o != 5 && p != 5 && i >= 0) {
           console.log(i);
-          
-            var amt = Normalhistory[i].value;
-            if (amt != "0") {
-              let data = { date1: "", payment: 0, status: "", url: "" };
-  
-              var date = new Date(Number(Normalhistory[i].timeStamp) * 1000);
-              data.date1 = date.toDateString();
-  
-              data.payment = (
-                (Number(amt) / Number("1000000000000000000")) *
-                213.7199897
-              ).toFixed(5);
-              data.status = "Success";
-              var hash = Normalhistory[i].hash;
-  
-              data.url = `https://testnet.bscscan.com/tx/${hash}`;
-              if (
-                Normalhistory[i].to == currentWallet.toLowerCase() &&
-                o < 5 
-              ) {
-                console.log(i);
-                console.log(amt);
-                dataArray.push(data);
-                console.log(dataArray);
-                o++;
-                setdataArray(dataArray);
-              } else if (
-                Normalhistory[i].from == currentWallet.toLowerCase() &&
-                p < 5 
-              ) {
-                dataArray1.push(data);
-                console.log(amt);
-                console.log(dataArray1);
-                p++;
-                setdataArray1(dataArray1);
-              }
-            }
-          i--;
-        }
-        while(o != 5 && i != 0) {
+
           var amt = Normalhistory[i].value;
           if (amt != "0") {
             let data = { date1: "", payment: 0, status: "", url: "" };
@@ -132,22 +97,55 @@ export default function PaymentpageReal({
             ).toFixed(5);
             data.status = "Success";
             var hash = Normalhistory[i].hash;
+
             data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              o < 5 
-            ) {
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
               console.log(i);
               console.log(amt);
               dataArray.push(data);
               console.log(dataArray);
               o++;
               setdataArray(dataArray);
-            } 
+            } else if (
+              Normalhistory[i].from == currentWallet.toLowerCase() &&
+              p < 5
+            ) {
+              dataArray1.push(data);
+              console.log(amt);
+              console.log(dataArray1);
+              p++;
+              setdataArray1(dataArray1);
+            }
           }
           i--;
         }
-        while(p != 5 && i != 0) {
+        while (o != 5 && i != 0) {
+          var amt = Normalhistory[i].value;
+          if (amt != "0") {
+            let data = { date1: "", payment: 0, status: "", url: "" };
+
+            var date = new Date(Number(Normalhistory[i].timeStamp) * 1000);
+            data.date1 = date.toDateString();
+
+            data.payment = (
+              (Number(amt) / Number("1000000000000000000")) *
+              213.7199897
+            ).toFixed(5);
+            data.status = "Success";
+            var hash = Normalhistory[i].hash;
+            data.url = `https://testnet.bscscan.com/tx/${hash}`;
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
+              console.log(i);
+              console.log(amt);
+              dataArray.push(data);
+              console.log(dataArray);
+              o++;
+              setdataArray(dataArray);
+            }
+          }
+          i--;
+        }
+        while (p != 5 && i != 0) {
           var amt = Normalhistory[i].value;
           if (amt != "0") {
             let data = { date1: "", payment: 0, status: "", url: "" };
@@ -161,17 +159,14 @@ export default function PaymentpageReal({
             data.status = "Success";
             var hash = Normalhistory[i].hash;
             data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              p < 5 
-            ) {
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && p < 5) {
               console.log(i);
               console.log(amt);
               dataArray1.push(data);
               console.log(dataArray1);
               p++;
               setdataArray1(dataArray1);
-            } 
+            }
           }
           i--;
         }

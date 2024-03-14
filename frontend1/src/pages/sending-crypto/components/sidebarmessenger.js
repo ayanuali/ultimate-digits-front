@@ -1,8 +1,23 @@
 import "./sidebar.css";
 import udLogo from "../../../assets/assets/ud-logo.svg";
 import { Link } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+import { useNavigate } from "react-router-dom";
+import { setUserData } from "../../../services/wallet/UserSlice";
 export default function Sidebarmessenger() {
+  const { waas, user, isCreatingWallet, wallet } = useWalletContext();
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    console.log("logging out");
+    const res = await waas.logout();
+    console.log(res);
+    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+
+    navigate("/");
+  };
   return (
     <div className="sidebar">
       <div>
@@ -138,8 +153,8 @@ export default function Sidebarmessenger() {
           </div>
         </div>
       </div>
-      <Link to="/">
-        <div className="log_out">
+      <>
+        <div className="log_out" onClick={handleLogout}>
           <div id="log">Log out</div>
           <span>
             <svg
@@ -156,7 +171,7 @@ export default function Sidebarmessenger() {
             </svg>
           </span>
         </div>
-      </Link>
+      </>
     </div>
   );
 }

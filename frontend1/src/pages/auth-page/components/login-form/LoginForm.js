@@ -75,12 +75,12 @@ const LoginForm = ({
           setUserData({ ...userr, address: temp.address, phno: temp.phone })
         );
 
-        setUser({
-          isLoggedIn: true,
-          email: "",
-          phoneNumber: temp.phone,
-          address: temp.address,
-        });
+        // setUser({
+        //   isLoggedIn: true,
+        //   email: "",
+        //   phoneNumber: temp.phone,
+        //   address: temp.address,
+        // });
         console.log(userr, "after redux");
         setLoading(false);
         navigate("/real-number");
@@ -226,10 +226,10 @@ const LoginForm = ({
   }, [account.chainId]);
 
   const checkAddress = async (address) => {
-    console.log("Address", address.address);
+    console.log("Address", address);
     try {
       const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
-        address: address.address,
+        address: address,
       });
       if (res.status === 200) {
         console.log("there", res);
@@ -247,6 +247,14 @@ const LoginForm = ({
         setGotData(true);
       } else if (res.status === 204) {
         console.log("not there");
+        dispatch(
+          setUserData({
+            ...userr,
+            address: address.address,
+
+            rootId: "ncw",
+          })
+        );
         navigate("/selection-page");
         setGotData(true);
       }
@@ -256,8 +264,13 @@ const LoginForm = ({
   };
 
   useEffect(() => {
-    checkAddress(account.address);
-  }, [account]);
+    if (account.isConnected && account.address) {
+      console.log("Wallet Address:", account.address);
+      checkAddress(account.address);
+
+      setwalletaddress(account.address);
+    }
+  }, [account.isConnected, account.address]);
   const publicClient = createPublicClient({
     chain: bscTestnet,
     transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
@@ -294,11 +307,11 @@ const LoginForm = ({
     }
   }
 
-  if (account.isConnected === true) {
-    console.log("Wallet Address:", account.address);
+  // if (account.isConnected === true) {
+  //   console.log("Wallet Address:", account.address);
 
-    setwalletaddress(account.address);
-  }
+  //   setwalletaddress(account.address);
+  // }
 
   //function to connect to BNB network
   async function getAcccount() {

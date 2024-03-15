@@ -6,6 +6,8 @@ import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { useNavigate } from "react-router-dom";
 
 import { setUserData } from "../../../services/wallet/UserSlice";
+import { getAccount, switchChain, disconnect } from "@wagmi/core";
+import { connectConfig } from "../../../ConnectKit/Web3Provider";
 
 export default function Sidebardvoip() {
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
@@ -17,6 +19,7 @@ export default function Sidebardvoip() {
     const res = await waas.logout();
     console.log(res);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+    disconnect(connectConfig);
 
     navigate("/");
   };

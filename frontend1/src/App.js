@@ -90,7 +90,6 @@ function App() {
   return (
     <BrowserRouter>
       <Web3Provider>
-
         {!loading && (
           <div className="App">
             {exist()}

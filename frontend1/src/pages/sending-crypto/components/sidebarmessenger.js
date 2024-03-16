@@ -15,11 +15,14 @@ export default function Sidebarmessenger() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     console.log("logging out");
-    const res = await waas.logout();
-    console.log(res);
-    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
-    disconnect(connectConfig);
+    if (user) {
+      const res = await waas.logout();
+      console.log(res);
+      dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+      navigate("/");
+    }
 
+    disconnect(connectConfig);
     navigate("/");
   };
   return (

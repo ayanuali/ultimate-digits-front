@@ -1,7 +1,7 @@
-import { ConnectKitButton } from 'connectkit';
+import { ConnectKitButton } from "connectkit";
 import { Web3Provider } from "./Web3Provider";
 import styled from "styled-components";
-import { useEffect } from 'react';
+import { useEffect } from "react";
 const StyledButton = styled.button`
   cursor: pointer;
   position: relative;
@@ -19,7 +19,7 @@ const StyledButton = styled.button`
     transform: translateY(-6px);
     box-shadow: 0 6px 40px -6px #1a88f8;
   }
-  
+
   &:active {
     transform: translateY(-3px);
     box-shadow: 0 6px 32px -6px #1a88f8;
@@ -27,13 +27,20 @@ const StyledButton = styled.button`
 `;
 
 export const CustomButton = ({ onSuccess }) => {
+  console.log("CustomButton");
+  console.log(onSuccess);
+  console.log("isconnected");
   return (
-
     <ConnectKitButton.Custom>
       {({ isConnected, show, truncatedAddress, ensName, isConnecting }) => {
-        if (isConnected && !isConnecting && truncatedAddress?.length) onSuccess()
+        if (isConnected && !isConnecting && truncatedAddress?.length)
+          onSuccess();
         return (
-          <StyledButton onClick={() => { show(); }}>
+          <StyledButton
+            onClick={() => {
+              show();
+            }}
+          >
             {isConnected ? ensName ?? truncatedAddress : "Connect Your Wallet"}
           </StyledButton>
         );
@@ -41,4 +48,3 @@ export const CustomButton = ({ onSuccess }) => {
     </ConnectKitButton.Custom>
   );
 };
-

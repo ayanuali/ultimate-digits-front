@@ -48,27 +48,23 @@ const SearchResultsScreen = ({
           abi: contract_connect.abi,
           address: contract_connect.address,
           functionName: "checkAccount",
-          args: [queryParam, (999).toString()]
+          args: [queryParam, (999).toString()],
         });
         console.log("Hello...");
-      }
+      };
       console.log("veendum hello");
       var someAddress = await addressReturned();
       console.log("aaro address:", someAddress.address);
       if (someAddress) {
         console.log("addressReturned:", addressReturned);
         setAva(false);
-      }
-      else {
+      } else {
         setAva(true);
       }
-
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
-
     }
-  }
+  };
 
   // Array of added to cart
   const [cart, setCart] = useState([]);
@@ -128,7 +124,10 @@ const SearchResultsScreen = ({
         <div className="searchResultClaim">
           <button
             className="blueRoundedBtn"
-            onClick={() => navigate(`/signup?cart=${cart}`)}
+            onClick={() => {
+              console.log(cart);
+              navigate(`/signup?cart=${cart}`);
+            }}
           >
             continue to cart
           </button>

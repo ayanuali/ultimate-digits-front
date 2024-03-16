@@ -10,9 +10,16 @@ import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
 import { createPublicClient, http, getContract } from "viem";
 import { bscTestnet, sepolia } from "viem/chains";
-import { getAccount, readContract, writeContract, switchChain } from "@wagmi/core";
+import {
+  getAccount,
+  readContract,
+  writeContract,
+  switchChain,
+} from "@wagmi/core";
+import { useSelector, useDispatch } from "react-redux";
 
 import { connectConfig } from "../../ConnectKit/Web3Provider.jsx";
+import axios from "axios";
 
 export default function ConfirmationPageVirtual1({
   setProceedTo,
@@ -21,13 +28,15 @@ export default function ConfirmationPageVirtual1({
   contract_connect,
   cartArray,
 }) {
+  const userr = useSelector((state) => state.user);
+
   // Get the query parameter string
   const queryString = window.location.search;
   const navigate = useNavigate();
   const info = useContext(UserContext);
   const { tokenId, setTokenId } = info;
-  const [add, setadd] = useState('')
-  const [tid, settid] = useState('')
+  const [add, setadd] = useState("");
+  const [tid, settid] = useState("");
   // Extract the "cart" parameter value from the query string
   const urlParams = new URLSearchParams(queryString);
   const cartParam = urlParams.get("cart");
@@ -35,15 +44,12 @@ export default function ConfirmationPageVirtual1({
   console.log(typeof cartParam);
   const flag = 0;
 
-
-
   const publicClient = createPublicClient({
     chain: sepolia,
     transport: http(process.env.RPC_URL),
   });
 
   const account = getAccount(connectConfig);
-
 
   async function NFT_Gen() {
     // await window.ethereum.request({
@@ -67,14 +73,15 @@ export default function ConfirmationPageVirtual1({
       // };
 
       const transaction = async () => {
-
         await writeContract(connectConfig, {
           abi: contract.abi,
           address: contract.address,
           functionName: "mint",
-          args: ["https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb"],
+          args: [
+            "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+          ],
         });
-      }
+      };
       await transaction();
 
       console.log("minting called");
@@ -128,9 +135,6 @@ export default function ConfirmationPageVirtual1({
   //   console.log(parseInt(number) + " the nft minting number ")
   // }
 
-
-
-
   async function PerformAction() {
     // Your action here
     // await window.ethereum.request({
@@ -140,6 +144,7 @@ export default function ConfirmationPageVirtual1({
     await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
     console.log(contract_connect);
+
     cartArray.map(async (number, i) => {
       console.log("UID creation");
       var transaction = async () => {
@@ -147,42 +152,56 @@ export default function ConfirmationPageVirtual1({
           abi: contract_connect.abi,
           address: contract_connect.address,
           functionName: "SettingUniqueId",
-          args: [number, "999"]
+          args: [number, "999"],
         });
         console.log("UID created");
-
-      }
+      };
       await transaction();
+      console.log("user", userr);
 
       console.log("settingUIDtransaction got through");
       check++;
       console.log(check);
-      if (check === cartArray.length) {
-        navigate(
-          `/selection-page/my-numbers/confirm-page?number=${number}`
+
+      try {
+        const res = await axios.post(
+          "http://localhost:8080/coinbase/map-phno",
+          {
+            phoneNumber: number,
+            address: userr.address,
+            countryCode: "999",
+          }
         );
+
+        if (res.status === 200 || res.status === 201) {
+          console.log("Mapping successful");
+
+          if (check === cartArray.length) {
+            navigate(
+              `/selection-page/my-numbers/confirm-page?number=${number}`
+            );
+          }
+        }
+      } catch (error) {
+        console.log(error);
       }
+
       // if (transaction) {
 
       // } else {
       //   console.error("error");
       //   console.log("another transaction didn't get through");
       // }
-
     });
     console.log(cartArray.length);
   }
 
-
-
-
-
   async function PerfomAction() {
     // Your action here
     await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
-    })
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x61" }], // chainId must be in hexadecimal numbers
+    });
     var check = 0;
     console.log(contract_connect);
     cartArray.map(async (number, i) => {
@@ -231,10 +250,8 @@ export default function ConfirmationPageVirtual1({
         <div className="cpv2-btn" style={{ margin: "4 rem" }}>
           <button
             onClick={async () => {
-
               // PerformAction();
-              await NFT_Gen()
-
+              await NFT_Gen();
             }}
           >
             Generate NFT
@@ -254,10 +271,8 @@ export default function ConfirmationPageVirtual1({
         <div className="cpv2-btn" style={{ marginTop: "-1.8rem" }}>
           <button
             onClick={async () => {
-
               PerformAction();
               // await NFT_Gen()
-
             }}
           >
             Link your number to a wallet

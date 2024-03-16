@@ -18,7 +18,7 @@ import udIcon from "../../../../assets/ud-square-logo.png";
 import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import axios from "axios";
-import { getAccount, switchChain } from "@wagmi/core";
+import { disconnect, getAccount, switchChain } from "@wagmi/core";
 import {
   createPublicClient,
   getContract,
@@ -30,7 +30,6 @@ import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
 import { setUserData } from "../../../../services/wallet/UserSlice";
-
 const LoginForm = ({
   setProceedTo,
   setsigner,
@@ -71,6 +70,16 @@ const LoginForm = ({
       if (res.status === 200) {
         const temp = res.data.user;
         console.log(temp);
+        if (temp.countryCode === "999") {
+          dispatch(
+            setUserData({
+              ...userr,
+              address: temp.address,
+              phno: temp.virtuals[0],
+            })
+          );
+        }
+
         dispatch(
           setUserData({ ...userr, address: temp.address, phno: temp.phone })
         );
@@ -235,22 +244,38 @@ const LoginForm = ({
         console.log("there", res);
         const data = res.data.mapping;
         console.log(data);
-        dispatch(
-          setUserData({
-            ...userr,
-            address: data.address,
-            phno: data.phone,
-            rootId: "ncw",
-          })
-        );
-        navigate("/real-number");
-        setGotData(true);
+        console.log(data.countryCode, "countryCode");
+        const temp = data.virtuals[0];
+        console.log(temp, "temp");
+
+        if (data.countryCode === "999") {
+          console.log("inside the country code");
+          dispatch(
+            setUserData({
+              ...userr,
+              address: data.address,
+              phno: temp,
+            })
+          );
+          navigate("/real-number");
+          setGotData(true);
+        } else {
+          dispatch(
+            setUserData({
+              ...userr,
+              address: data.address,
+              phno: data.phoneNumber,
+            })
+          );
+          navigate("/selection-page");
+          setGotData(true);
+        }
       } else if (res.status === 204) {
         console.log("not there");
         dispatch(
           setUserData({
             ...userr,
-            address: address.address,
+            address: address,
 
             rootId: "ncw",
           })
@@ -486,6 +511,7 @@ const LoginForm = ({
 
       <br />
       <CustomButton onSuccess={connectWalletAndSetupContract} />
+
       <button
         className="loginWrapperTranspBtn"
         onClick={handleLogin}

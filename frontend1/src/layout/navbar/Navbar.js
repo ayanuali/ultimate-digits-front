@@ -12,9 +12,12 @@ import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { setUserData } from "../../services/wallet/UserSlice";
 import { getAccount, switchChain, disconnect } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { useDisconnect } from "wagmi";
+
 const Navbar = ({ loggedIn, setLog }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { disconnect } = useDisconnect();
 
   const [loginStatus, setLoginStatus] = useState(false);
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
@@ -33,20 +36,16 @@ const Navbar = ({ loggedIn, setLog }) => {
 
   const handleLogout = async () => {
     console.log("logging out");
-    const res = await waas.logout();
-    console.log(res);
-    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
-    disconnect(connectConfig);
+    if (user) {
+      const res = await waas.logout();
+      console.log(res);
+      dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+      navigate("/");
+    }
 
+    disconnect(connectConfig);
     navigate("/");
   };
-
-  // function handleLogout() {
-  //   // logoutUser().then(() => {
-  //   //   // window.location.reload();
-  //   //   navigate("/");
-  //   // });
-  // }
 
   return (
     <div className="navbar">

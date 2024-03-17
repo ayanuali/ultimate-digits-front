@@ -1,10 +1,22 @@
 import { React, useState } from "react";
 import "./AuthenticationPageReal.css";
 import config from "../../config.json";
-export default function AuthenticationPageReal({ setProceedTo, number, code }) {
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+
+import { setUserData } from "../../services/wallet/UserSlice";
+export default function AuthenticationPageReal({
+  setProceedTo,
+  number,
+  code,
+  setuser,
+}) {
   //funtion to declare various variables
   const [confirmationcode, setconfirmationcode] = useState("");
   const [error, setError] = useState(false);
+  const userr = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //function to resend otp on mobile number
   const resend = async () => {
@@ -44,13 +56,17 @@ export default function AuthenticationPageReal({ setProceedTo, number, code }) {
         countryCode: code,
         phoneNumber: number,
         otp: confirmationcode,
+        rootId: userr.rootId,
+        address: userr.address,
       }),
     })
       .then(async (res) => {
         var data = await res.json();
         console.log(data.status);
         if (data.status == "approved") {
-          setProceedTo("ConfirmationPageReal");
+          console.log("approved");
+          dispatch(setUserData({ ...userr, phno: number }));
+          setProceedTo("lastpage");
         } else {
           setError(true);
         }

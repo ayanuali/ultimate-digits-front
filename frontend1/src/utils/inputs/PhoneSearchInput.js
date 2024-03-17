@@ -5,15 +5,20 @@ import { useNavigate } from "react-router-dom";
 
 import "./PhoneSearchInput.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
+import { useSelector, useDispatch } from "react-redux";
+import { setUserData } from "../../services/wallet/UserSlice";
 
-const PhoneSearchInput = ({ initialValue, update, setUpdate,}) => {
+const PhoneSearchInput = ({ initialValue, update, setUpdate }) => {
+  const userr = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  console.log(userr, "befie redux");
   const navigate = useNavigate();
 
   const ref = useRef(null);
 
   const handleFocus = () => {
     ref.current.focus();
-  }
+  };
 
   //fake value
   const [value, setValue] = useState(
@@ -41,6 +46,9 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate,}) => {
 
   const onSearch = () => {
     setUpdate(!update);
+    console.log("searching");
+    console.log(phoneValue);
+    dispatch(setUserData({ ...userr, phno: phoneValue }));
     navigate(`/search-results?n=${phoneValue}`);
   };
 

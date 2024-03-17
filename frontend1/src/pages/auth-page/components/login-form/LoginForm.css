@@ -3,6 +3,29 @@
   flex-direction: column;
   width: 392px;
   margin-top: -3rem;
+  background-color: white;
+  z-index: 12331232;
+  height: min-content;
+  padding-left: 50px;
+  padding-right: 50px;
+  border-radius: 12px;
+}
+
+.powered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: -40px;
+}
+
+.companyrights {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  margin-top: 40px;
+  margin-bottom: 20px;
 }
 
 .loginWrapperLogo {
@@ -17,10 +40,10 @@
   font-size: 30px;
   line-height: 38px;
   /* identical to box height, or 127% */
-  
+
   letter-spacing: -0.02em;
   margin: 0;
-  
+
   color: #ffffff;
   margin-bottom: 16px;
 }
@@ -36,7 +59,7 @@
   font-size: 14px;
   line-height: 19px;
   text-align: center;
-  color: #D8E4FD;
+  color: #3d4043;
 }
 
 .loginWrapper p {
@@ -45,7 +68,6 @@
   font-size: 16px;
   line-height: 24px;
   /* identical to box height, or 150% */
-
 
   /* Secondary-text */
   margin: 0;
@@ -82,15 +104,14 @@
   text-transform: capitalize;
 
   color: #ffffff;
-  margin-bottom: 16px;
+  margin-bottom: 25px;
 }
-.ud-logo{
+.ud-logo {
   margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
 
 .loginWrapper button img {
   width: 24px;
@@ -105,6 +126,7 @@ img {
 
 .loginWrapperTranspBtn {
   background: transparent;
+  color: #3d4043;
 }
 
 .loginSwitch {

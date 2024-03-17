@@ -1,8 +1,31 @@
 import "./sidebar.css";
 import udLogo from "../../../assets/assets/ud-logo.svg";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+import { useNavigate } from "react-router-dom";
+
+import { setUserData } from "../../../services/wallet/UserSlice";
+import { getAccount, switchChain, disconnect } from "@wagmi/core";
+import { connectConfig } from "../../../ConnectKit/Web3Provider";
 
 export default function Sidebardvoip() {
+  const { waas, user, isCreatingWallet, wallet } = useWalletContext();
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    console.log("logging out");
+    if (user) {
+      const res = await waas.logout();
+      console.log(res);
+      dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+      navigate("/");
+    }
+
+    disconnect(connectConfig);
+    navigate("/");
+  };
   return (
     <div className="sidebar">
       <div>
@@ -143,8 +166,8 @@ export default function Sidebardvoip() {
           {/* </div> */}
         </div>
       </div>
-      <Link to="/">
-        <div className="log_out">
+      <>
+        <div className="log_out" onClick={handleLogout}>
           <div id="log">Log out</div>
           <span>
             <svg
@@ -161,7 +184,7 @@ export default function Sidebardvoip() {
             </svg>
           </span>
         </div>
-      </Link>
+      </>
     </div>
   );
 }

@@ -6,6 +6,10 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.svg";
 import config from "../../../config.json";
+import { connectConfig } from "../../../ConnectKit/Web3Provider";
+import { readContract } from "@wagmi/core";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 export default function PaymentpageReal({
   currentWallet,
@@ -23,6 +27,9 @@ export default function PaymentpageReal({
   setNav(false);
   var tocodes = "971";
   const navigate = useNavigate();
+
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "befie redux");
 
   //function to set states for variuos variables
   const [Normalhistory, setNormalhistory] = useState([]);
@@ -42,18 +49,49 @@ export default function PaymentpageReal({
       tocodes = "001";
     }
     console.log(tocodes);
-    contract_connect
-      .checkAccount(toNumber, tocodes)
-      .then((res) => {
-        console.log(res);
-        setToAddress(res);
+    try {
+      // const addressReturned = await readContract(connectConfig, {
+      //   abi: contract_connect.abi,
+      //   address: contract_connect.address,
+      //   functionName: "checkAccount",
+      //   args: [toNumber, tocodes],
+      // });
+
+      const res = await axios.post(
+        "https://ud-backend-six.vercel.app/coinbase/getAddress",
+        {
+          phoneNumber: toNumber,
+        }
+      );
+      if (res.status === 200) {
+        console.log(res.data);
+        console.log(res.data.mapping);
+        setToAddress(res.data.mapping.address);
         setType("Real");
         navigate("/sending-crypto/confirmTransaction");
-      })
-      .catch((e) => {
-        console.log(e);
-        navigate("/sending-crypto/invalid-number");
-      });
+      }
+      // if (addressReturned) {
+      //   console.log("addressReturned:", addressReturned);
+      //   setToAddress(addressReturned);
+      //   setType("Real");
+      //   navigate("/sending-crypto/confirmTransaction");
+      // }
+    } catch (e) {
+      console.log(e);
+      navigate("/sending-crypto/invalid-number");
+    }
+    // contract_connect
+    //   .checkAccount(toNumber, tocodes)
+    //   .then((res) => {
+    //     console.log(res);
+    //     setToAddress(res);
+    //     setType("Real");
+    //     navigate("/sending-crypto/confirmTransaction");
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //     navigate("/sending-crypto/invalid-number");
+    //   });
   };
   async function check() {
     var data1;
@@ -77,48 +115,9 @@ export default function PaymentpageReal({
         let o = 0;
         let i = len - 1;
         let p = 0;
-        while ((o != 5 && p != 5) && i >= 0) {
+        while (o != 5 && p != 5 && i >= 0) {
           console.log(i);
-          
-            var amt = Normalhistory[i].value;
-            if (amt != "0") {
-              let data = { date1: "", payment: 0, status: "", url: "" };
-  
-              var date = new Date(Number(Normalhistory[i].timeStamp) * 1000);
-              data.date1 = date.toDateString();
-  
-              data.payment = (
-                (Number(amt) / Number("1000000000000000000")) *
-                213.7199897
-              ).toFixed(5);
-              data.status = "Success";
-              var hash = Normalhistory[i].hash;
-  
-              data.url = `https://testnet.bscscan.com/tx/${hash}`;
-              if (
-                Normalhistory[i].to == currentWallet.toLowerCase() &&
-                o < 5 
-              ) {
-                console.log(i);
-                console.log(amt);
-                dataArray.push(data);
-                console.log(dataArray);
-                o++;
-                setdataArray(dataArray);
-              } else if (
-                Normalhistory[i].from == currentWallet.toLowerCase() &&
-                p < 5 
-              ) {
-                dataArray1.push(data);
-                console.log(amt);
-                console.log(dataArray1);
-                p++;
-                setdataArray1(dataArray1);
-              }
-            }
-          i--;
-        }
-        while(o != 5 && i != 0) {
+
           var amt = Normalhistory[i].value;
           if (amt != "0") {
             let data = { date1: "", payment: 0, status: "", url: "" };
@@ -132,46 +131,80 @@ export default function PaymentpageReal({
             ).toFixed(5);
             data.status = "Success";
             var hash = Normalhistory[i].hash;
+
             data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              o < 5 
-            ) {
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
               console.log(i);
               console.log(amt);
               dataArray.push(data);
               console.log(dataArray);
               o++;
               setdataArray(dataArray);
-            } 
-          }
-          i--;
-        }
-        while(p != 5 && i != 0) {
-          var amt = Normalhistory[i].value;
-          if (amt != "0") {
-            let data = { date1: "", payment: 0, status: "", url: "" };
-            var date = new Date(Number(Normalhistory[i].timeStamp) * 1000);
-            data.date1 = date.toDateString();
-
-            data.payment = (
-              (Number(amt) / Number("1000000000000000000")) *
-              213.7199897
-            ).toFixed(5);
-            data.status = "Success";
-            var hash = Normalhistory[i].hash;
-            data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              p < 5 
+            } else if (
+              Normalhistory[i].from == currentWallet.toLowerCase() &&
+              p < 5
             ) {
-              console.log(i);
-              console.log(amt);
               dataArray1.push(data);
+              console.log(amt);
               console.log(dataArray1);
               p++;
               setdataArray1(dataArray1);
-            } 
+            }
+          }
+          i--;
+        }
+        while (o != 5 && i != 0) {
+          while (o != 5 && i != 0) {
+            var amt = Normalhistory[i].value;
+            if (amt != "0") {
+              let data = { date1: "", payment: 0, status: "", url: "" };
+
+              var date = new Date(Number(Normalhistory[i].timeStamp) * 1000);
+              data.date1 = date.toDateString();
+
+              data.payment = (
+                (Number(amt) / Number("1000000000000000000")) *
+                213.7199897
+              ).toFixed(5);
+              data.status = "Success";
+              var hash = Normalhistory[i].hash;
+              data.url = `https://testnet.bscscan.com/tx/${hash}`;
+              if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
+                console.log(i);
+                console.log(amt);
+                dataArray.push(data);
+                console.log(dataArray);
+                o++;
+                setdataArray(dataArray);
+              }
+            }
+          }
+          i--;
+        }
+        while (p != 5 && i != 0) {
+          while (p != 5 && i != 0) {
+            var amt = Normalhistory[i].value;
+            if (amt != "0") {
+              let data = { date1: "", payment: 0, status: "", url: "" };
+              var date = new Date(Number(Normalhistory[i].timeStamp) * 1000);
+              data.date1 = date.toDateString();
+
+              data.payment = (
+                (Number(amt) / Number("1000000000000000000")) *
+                213.7199897
+              ).toFixed(5);
+              data.status = "Success";
+              var hash = Normalhistory[i].hash;
+              data.url = `https://testnet.bscscan.com/tx/${hash}`;
+              if (Normalhistory[i].to == currentWallet.toLowerCase() && p < 5) {
+                console.log(i);
+                console.log(amt);
+                dataArray1.push(data);
+                console.log(dataArray1);
+                p++;
+                setdataArray1(dataArray1);
+              }
+            }
           }
           i--;
         }

@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ConfirmationRealPage2.css";
 import { useNavigate } from "react-router";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ConfirmationRealPage2({ number, waddress, code }) {
+  const [address, setAddress] = useState("afasfas");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("");
   const navigate = useNavigate();
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "befie redux");
+
+  useEffect(() => {
+    setAddress(userr.address);
+    if (!userr.phno) {
+      setPhoneNumber(userr.virtuals[0]);
+    } else {
+      setPhoneNumber(userr.phno);
+    }
+    setCountryCode(userr.countryCode);
+  }, []);
   return (
     <div className="confirmationPageReal2">
       {/* <div className="cpr2-navbar">
@@ -48,7 +64,7 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
       <div className="cpr2-number">
         <div className="text">Your current number</div>
         <div className="number">
-          +{code} {number}
+          +{countryCode} {phoneNumber}
         </div>
       </div>
       <div className="cpr2-exchangeIcon">
@@ -70,13 +86,15 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
       </div>
       <div className="cpr2-number">
         <div className="text">Crypto Wallet</div>
-        <div className="number">{waddress}</div>
+        <div className="number">{address}</div>
       </div>
       <div className="cpr2-btn">
         <button
           onClick={() => {
             navigate(
-              `/sending-crypto/home-page?number=${number}&wallet=${waddress}`
+              `/sending-crypto/home-page?number=${
+                number || phoneNumber
+              }&wallet=${waddress || address}`
             );
           }}
         >

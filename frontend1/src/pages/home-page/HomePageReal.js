@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./HomePageReal.css";
 import Navbar from "../../layout/navbar/Navbar";
 import { useState } from "react";
-import config from "../../config.json"
-
+import config from "../../config.json";
+import { useSelector, useDispatch } from "react-redux";
+import { getAccount, switchChain, disconnect } from "@wagmi/core";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { setUserData } from "../../services/wallet/UserSlice";
 export default function HomePageReal({
   setNumber,
   setProceedTo,
@@ -11,12 +14,32 @@ export default function HomePageReal({
   code,
   setCode,
 }) {
+  const account = getAccount(connectConfig);
+  const dispatch = useDispatch();
+
+  const userr = useSelector((state) => state.user);
+
   //function to set variable
-  const [place, setPlace] = useState("Enter 10 digit mobile number without country code & space");
+  const [place, setPlace] = useState(
+    "Enter 10 digit mobile number without country code & space"
+  );
+
+  useEffect(() => {
+    if (
+      userr.address == "" ||
+      userr.address == undefined ||
+      userr.address == null
+    ) {
+      dispatch(setUserData({ ...userr, address: account.address }));
+    }
+  }, []);
 
   //function to set the number place
   const placecorrect = () => {
-    if (code == "91") return setPlace("Enter 10 digit mobile number without country code and space");
+    if (code == "91")
+      return setPlace(
+        "Enter 10 digit mobile number without country code and space"
+      );
     else if (code == "971") return setPlace("+971 056 678 8989");
     else return setPlace("+1 (555) 000-0000");
   };
@@ -25,6 +48,18 @@ export default function HomePageReal({
   const check = async () => {
     console.log(code);
     console.log(number);
+
+    if (
+      userr.address == "" ||
+      userr.address == undefined ||
+      userr.address == null
+    ) {
+      alert("Please login first");
+      return;
+    }
+    console.log("here");
+    console.log(userr);
+    console.log(account.address);
 
     fetch(`${config.backend}/twilio-sms/sendotp`, {
       method: "POST",
@@ -38,7 +73,13 @@ export default function HomePageReal({
       }),
     })
       .then(async (res) => {
-        console.log(await res.json());
+        const response = await res.json();
+        console.log(response);
+        if (response.message === "Number already exists.") {
+          alert("Number already exists.");
+          return;
+        }
+
         setProceedTo("Authenticate");
       })
       .catch((e) => {
@@ -83,9 +124,18 @@ export default function HomePageReal({
               style={{ height: "50px" }}
               onChange={(e) => {
                 setCode(e.target.value);
-                if (e.target.value == "91") setPlace("Enter 10 digit mobile number without\n country code & space");
-                else if (e.target.value == "971") setPlace("Enter 10 digit mobile number without country code & space");
-                else setPlace("Enter 10 digit mobile number without country code & space");
+                if (e.target.value == "91")
+                  setPlace(
+                    "Enter 10 digit mobile number without\n country code & space"
+                  );
+                else if (e.target.value == "971")
+                  setPlace(
+                    "Enter 10 digit mobile number without country code & space"
+                  );
+                else
+                  setPlace(
+                    "Enter 10 digit mobile number without country code & space"
+                  );
               }}
             >
               {/* <option></option>    */}

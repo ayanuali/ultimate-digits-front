@@ -2,6 +2,7 @@ import React from "react";
 import "./ConfirmationPageReal2.css";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+
 export default function ConfirmationPageReal2({
   number,
   walletaddress,

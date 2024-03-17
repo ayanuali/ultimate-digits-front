@@ -12,7 +12,7 @@ import LoadPage from "../../../../utils/loaders/LoadPage";
 import "./cart_show.css";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { createWalletClient, http, parseEther } from "viem";
-import { baseSepolia, bscTestnet } from "viem/chains";
+import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import { Address } from "@coinbase/waas-sdk-web";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
 import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";

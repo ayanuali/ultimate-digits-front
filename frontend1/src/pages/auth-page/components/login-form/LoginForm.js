@@ -64,6 +64,8 @@ const LoginForm = ({
 
   const checkUser = async (rootId, address) => {
     try {
+      console.log("checking users");
+      console.log("root id", rootId);
       const res = await axios.post("http://localhost:8080/coinbase/verify", {
         rootId: rootId,
       });
@@ -72,29 +74,45 @@ const LoginForm = ({
       if (res.status === 200) {
         const temp = res.data.user;
         console.log(temp);
+        console.log(temp.countryCode, "countryCode");
+        console.log(temp.virtuals, "virtuals");
         if (temp.countryCode === "999") {
+          console.log("inside the country code");
+          console.log("gonna dispatch");
           dispatch(
             setUserData({
               ...userr,
               address: temp.address,
-              phno: temp.virtuals[0],
+              phno: "",
+              countryCode: temp.countryCode,
+              virtuals: temp.virtuals,
+              rootId: temp.rootId,
             })
           );
+          console.log(userr, "after redux");
+          setLoading(false);
+          navigate("/real-number");
+        } else {
+          dispatch(
+            setUserData({
+              ...userr,
+              address: temp.address,
+              phno: temp.phone,
+              countryCode: temp.countryCode,
+              rootId: temp.rootId,
+            })
+          );
+
+          // setUser({
+          //   isLoggedIn: true,
+          //   email: "",
+          //   phoneNumber: temp.phone,
+          //   address: temp.address,
+          // });
+          console.log(userr, "after redux");
+          setLoading(false);
+          navigate("/real-number");
         }
-
-        dispatch(
-          setUserData({ ...userr, address: temp.address, phno: temp.phone })
-        );
-
-        // setUser({
-        //   isLoggedIn: true,
-        //   email: "",
-        //   phoneNumber: temp.phone,
-        //   address: temp.address,
-        // });
-        console.log(userr, "after redux");
-        setLoading(false);
-        navigate("/real-number");
       } else if (res.status === 204) {
         dispatch(setUserData({ ...userr, rootId: rootId, address: address }));
         setLoading(false);
@@ -128,6 +146,7 @@ const LoginForm = ({
       console.log("waas", waas);
 
       const address = await wallet.addresses.for(ProtocolFamily.EVM);
+      console.log("address", address);
       console.log(`Got address: ${address.address}`);
       // const privateKeys = await wallet.exportKeysFromHostedBackup(passcode);
       const privateKeys = await wallet.backup;
@@ -137,6 +156,7 @@ const LoginForm = ({
           address: address.address,
           rootId: wallet.rootContainerID,
           privKey: privateKeys,
+          fulladdress: address,
         })
       );
 
@@ -159,7 +179,12 @@ const LoginForm = ({
       console.log("waas", waas);
 
       const address = await res2.addresses.for(ProtocolFamily.EVM);
+      console.log("address", address);
+      localStorage.setItem("address", JSON.stringify(address));
       console.log(`Got address: ${address.address}`);
+
+      dispatch(setUserData({ ...userr, fulladdress: address }));
+
       if (res) {
         // updateUserInfo(address.address, res2.rootContainerID);
         // console.log("beofre redux", address.address, res2.rootContainerID);
@@ -257,6 +282,7 @@ const LoginForm = ({
               ...userr,
               address: data.address,
               phno: temp,
+              countryCode: data.countryCode,
             })
           );
           navigate("/real-number");
@@ -267,6 +293,7 @@ const LoginForm = ({
               ...userr,
               address: data.address,
               phno: data.phone,
+              countryCode: data.countryCode,
             })
           );
           navigate("/real-number");

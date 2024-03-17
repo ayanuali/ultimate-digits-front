@@ -9,6 +9,18 @@ import { getAccount, readContract } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
 import axios from "axios";
 import { setUserData } from "../../services/wallet/UserSlice";
+import { toViem } from "@coinbase/waas-sdk-viem";
+
+import {
+  createPublicClient,
+  http,
+  getContract,
+  createWalletClient,
+} from "viem";
+import { bscTestnet, sepolia } from "viem/chains";
+import { writeContract, switchChain } from "@wagmi/core";
+import { ProtocolFamily } from "@coinbase/waas-sdk-web";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 export default function HomePageSendingCrypto({
   setNav,
   setCurrentNumber,
@@ -19,6 +31,8 @@ export default function HomePageSendingCrypto({
 }) {
   //setting the navigation bar
   setNav("3");
+  const { user, wallet } = useWalletContext();
+
   const userr = useSelector((state) => state.user);
   console.log(userr, "befie redux");
   const dispatch = useDispatch();
@@ -41,10 +55,10 @@ export default function HomePageSendingCrypto({
     console.log(currentNumber);
   }
 
-  const wallet = urlParams.get("wallet");
-  if (wallet != null) {
-    console.log(wallet);
-    setCurrentWallet(wallet);
+  const wallett = urlParams.get("wallet");
+  if (wallett != null) {
+    console.log(wallett);
+    setCurrentWallet(wallett);
   } else {
     console.log(currentWallet);
   }
@@ -52,67 +66,105 @@ export default function HomePageSendingCrypto({
   const account = getAccount(connectConfig);
 
   //function to achive and view the numbers attached
-  async function viewNumbers() {
-    console.log(contract_connect);
-    // contract_connect.returnNumbers(currentWallet);
-    const res = await readContract(connectConfig, {
-      abi: contract_connect.abi,
-      address: contract_connect.address,
-      functionName: "returnNumbers",
-      args: [account.address],
-    });
-    console.log(res);
-    console.log(typeof res);
-    const numbers = await JSON.parse(
-      JSON.stringify(
-        res,
-        (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
-      )
-    );
-    console.log(numbers);
-    var real = [];
+  // async function viewNumbers() {
+  //   console.log(contract_connect);
 
-    numbers.map((number, i) => {
-      real.push(number);
-    });
-    setNums(real);
-    console.log(nums);
-  }
+  //   // contract_connect.returnNumbers(currentWallet);
+  //   const res = await readContract(connectConfig, {
+  //     abi: contract_connect.abi,
+  //     address: contract_connect.address,
+  //     functionName: "returnNumbers",
+  //     args: [account.address],
+  //   });
+  //   console.log(res);
+  //   console.log(typeof res);
+  //   const numbers = await JSON.parse(
+  //     JSON.stringify(
+  //       res,
+  //       (key, value) => (typeof value === "bigint" ? value.toString() : value) // return everything else unchanged
+  //     )
+  //   );
+  //   console.log(numbers);
+  //   var real = [];
 
-  viewNumbers();
+  //   numbers.map((number, i) => {
+  //     real.push(number);
+  //   });
+  //   setNums(real);
+  //   console.log(nums);
+  // }
 
+  // if (userr.rootId === "ncw") {
+  //   viewNumbers();
+  // }
   const getAccounts = async () => {
-    try {
-      const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
-        address: account.address,
-      });
-      console.log(res.data);
-      if (res.status === 200) {
-        console.log(res.data.mapping.virtuals);
-        setVirtual(res.data.mapping.virtuals);
-        setReal(res.data.mapping.phone);
-        console.log(res.data.mapping.phone);
-        console.log(res.data.mapping.countryCode);
-        setCountryCode(res.data.mapping.countryCode);
-        dispatch(
-          setUserData({
-            ...userr,
-            rootId: res.data.mapping.rootId,
-            phno: res.data.mapping.phone,
-            virtuals: res.data.mapping.virtuals,
-          })
-        );
+    if (userr.address === account.address) {
+      try {
+        const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+          address: account.address,
+        });
+        console.log(res.data);
+        if (res.status === 200) {
+          console.log(res.data.mapping.virtuals);
+          setVirtual(res.data.mapping.virtuals);
+          setReal(res.data.mapping.phone);
+          console.log(nums);
+          console.log(res.data.mapping.phone);
+          console.log(res.data.mapping.countryCode);
+          setCountryCode(res.data.mapping.countryCode);
+          dispatch(
+            setUserData({
+              ...userr,
+              rootId: res.data.mapping.rootId,
+              phno: res.data.mapping.phone,
+              virtuals: res.data.mapping.virtuals,
+            })
+          );
+        }
+        if (res.status === 204) {
+          alert("no mapping exist");
+        }
+      } catch (error) {
+        console.log(error);
       }
-      if (res.status === 204) {
-        alert("no mapping exist");
+    } else {
+      try {
+        console.log("calling conbase data");
+        const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+          address: userr.address,
+        });
+        console.log(res.data);
+        if (res.status === 200) {
+          console.log(res.data.mapping.virtuals);
+          setVirtual(res.data.mapping.virtuals);
+          setReal(res.data.mapping.phone);
+          console.log(nums);
+
+          console.log(res.data.mapping.phone);
+          console.log(res.data.mapping.countryCode);
+          setCountryCode(res.data.mapping.countryCode);
+          dispatch(
+            setUserData({
+              ...userr,
+              rootId: res.data.mapping.rootId,
+              phno: res.data.mapping.phone,
+              virtuals: res.data.mapping.virtuals,
+            })
+          );
+        }
+        if (res.status === 204) {
+          alert("no mapping exist");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
   useEffect(() => {
-    viewNumbers();
+    // if (userr.rootId === "ncw") {
+    //   viewNumbers();
+    // }
     getAccounts();
   }, []);
 
@@ -158,7 +210,7 @@ export default function HomePageSendingCrypto({
             View and manage your numbers
           </div>
           <div className="hp-box">
-            {nums != [] ? (
+            {nums != [] &&
               nums.map((number, i) => (
                 <div className="box2">
                   <svg
@@ -190,65 +242,64 @@ export default function HomePageSendingCrypto({
                     {number[0] == "0" ? "Real" : "Virtual"} Number
                   </span>
                 </div>
-              ))
-            ) : (
-              <>
-                <div className="box2">
-                  <svg
-                    width="18"
-                    height="16"
-                    viewBox="0 0 18 16"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                      fill="#5F6A85"
-                    />
-                  </svg>
-                  <span className="text4">Number </span>
-                  <span className="sub-text2">
-                    +{999}
-                    {virtual.map((data, index) => (
-                      <span>data</span>
-                    ))}{" "}
-                  </span>
-                  <span
-                    className={`sub-text2 ${
-                      number[0] == "0" ? "real" : "virtual"
-                    }-send`}
-                  >
-                    Virtual Number
-                  </span>
-                </div>
-              </>
-            )}
+              ))}
           </div>
-          <div
-            className="hp-box"
-            style={{ marginTop: "10px", marginBottom: "10px" }}
-          >
-            <div className="box2">
-              <svg
-                width="18"
-                height="16"
-                viewBox="0 0 18 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                  fill="#5F6A85"
-                />
-              </svg>
-              <span className="text4">Number </span>
-              <span className="sub-text2">
-                +{countryCode}
-                {real}
-              </span>
-              <span className="sub-text2 real-send">Real Number</span>
+
+          <div className="hp-box">
+            {virtual.map((data, index) => (
+              <div className="box2">
+                <svg
+                  width="18"
+                  height="16"
+                  viewBox="0 0 18 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                    fill="#5F6A85"
+                  />
+                </svg>
+                <span className="text4">Number {index + 1} </span>
+                <span className="sub-text2">
+                  +{999} <span>{""}</span> <span key={index}>{data}</span>
+                </span>
+                <span
+                  className={`sub-text2 
+              virtual-send`}
+                >
+                  Virtual Number
+                </span>
+              </div>
+            ))}
+          </div>
+          {real && (
+            <div
+              className="hp-box"
+              style={{ marginTop: "10px", marginBottom: "10px" }}
+            >
+              <div className="box2">
+                <svg
+                  width="18"
+                  height="16"
+                  viewBox="0 0 18 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                    fill="#5F6A85"
+                  />
+                </svg>
+                <span className="text4">Number </span>
+                <span className="sub-text2">
+                  +{countryCode}
+                  {real}
+                </span>
+                <span className="sub-text2 real-send">Real Number</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="hp-content">
           <div className="text button-buy" style={{ marginTop: "-5px" }}>
@@ -333,7 +384,7 @@ export default function HomePageSendingCrypto({
                       />
                     </svg>
                   </span>{" "}
-                  <span className="coming-send">Coming soon</span>
+                  z{" "}
                 </span>
               </div>
             )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./ConfirmationPageReal.css";
 import metaMaskLogo from "../../assets/Metamask.png";
 import OR from "../../assets/OR.png";
@@ -7,17 +7,20 @@ import config from "../../config.json";
 import conABI from "../../abi/abi1.json";
 import sponsor from "../../assets/home-page/sponsors.svg";
 import { useNavigate } from "react-router-dom";
-import { getAccount } from '@wagmi/core';
+import { getAccount } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { getContract, createPublicClient, http } from "viem";
 import { VirNumButton } from "../../ConnectKit/ConfirmationButton";
 import { bscTestnet } from "viem/chains";
+import { useSelector } from "react-redux";
 
 export default function ConfirmationPageVir({
   setwaddress,
   setsigner,
   setContract_connect,
 }) {
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "before redux");
   //setting contract in localstorage
   Storage.prototype.setObject = function (key, value) {
     this.setItem(key, JSON.stringify(value));
@@ -31,8 +34,7 @@ export default function ConfirmationPageVir({
   const publicClient = createPublicClient({
     chain: bscTestnet,
     transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
-  })
-
+  });
 
   async function connectWalletAndSetupVirtualNum() {
     try {
@@ -41,8 +43,7 @@ export default function ConfirmationPageVir({
         address: config.address,
         // 1a. Insert a single client
         client: publicClient,
-
-      })
+      });
       if (contract) {
         setContract_connect(contract);
         console.log(`Contract connected: ${contract.address}`);
@@ -56,7 +57,6 @@ export default function ConfirmationPageVir({
         setwaddress(account.address);
         //Routing
         navigate("/selection-page/virtual-number/home");
-
       }
     } catch (error) {
       console.error("Error setting up the contract:", error);
@@ -66,7 +66,6 @@ export default function ConfirmationPageVir({
   //connecting with BNB network
   async function connectingmetamask() {
     try {
-
       // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
       await window.ethereum.request({
         method: "wallet_switchEthereumChain",
@@ -156,9 +155,40 @@ export default function ConfirmationPageVir({
       });
   }
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userr.rootId !== "ncw") {
+      try {
+        const contract = getContract({
+          abi: conABI,
+          address: config.address,
+          // 1a. Insert a single client
+          client: publicClient,
+        });
+        if (contract) {
+          setContract_connect(contract);
+          console.log(`Contract connected: ${contract.address}`);
+
+          // console.log(account.chainId, ":chainId");
+
+          console.log("Wallet Address:", userr.address);
+
+          console.log("nokunney");
+
+          setwaddress(userr.address);
+          //Routing
+          navigate("/selection-page/virtual-number/home");
+        }
+      } catch (error) {
+        console.error("Error setting up the contract:", error);
+      }
+
+      // navigate("/selection-page/virtual-number/home");
+    }
+  }, []);
   return (
     <div className="confirmationPageReal1" style={{ marginTop: "-0.7rem" }}>
-      <div className="cpr1-icon" >
+      <div className="cpr1-icon">
         <svg
           width="144"
           height="48"
@@ -191,8 +221,9 @@ export default function ConfirmationPageVir({
       </div>
       <div className="cpr1-content">
         <div className="text" style={{ textAlign: "center" }}>
-          Securely connect your wallet now to enable us to read your wallet address.  <br></br> Please use a wallet that has BNB balance, {" "}
-          <br></br> as it’s currently the only accepted payment currency
+          Securely connect your wallet now to enable us to read your wallet
+          address. <br></br> Please use a wallet that has BNB balance, <br></br>{" "}
+          as it’s currently the only accepted payment currency
         </div>
       </div>
       <div className="cpr1-input">

@@ -9,6 +9,8 @@ export const userSlice = createSlice({
     phno: "",
     privKey: "",
     virtuals: [],
+    countryCode: "",
+    fulladdress: {},
   },
   reducers: {
     setUserData: (state, action) => {
@@ -22,6 +24,8 @@ export const userSlice = createSlice({
 
       state.privKey = action.payload.privKey;
       state.virtuals = action.payload.virtuals;
+      state.countryCode = action.payload.countryCode;
+      state.fulladdress = action.payload.fulladdress;
     },
   },
 });

@@ -30,6 +30,9 @@ export default function LoadingPageReal({
       if (userr.address && userr.phno) {
         setProceedTo("lastpage");
       }
+      if (userr.address && userr.virtuals) {
+        setProceedTo("lastpage");
+      }
     }
   }, []);
 

@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import React from 'react'
+import React from "react";
 import { useContext, useState } from "react";
 import { Web3Storage } from "web3.storage";
 import { UserContext } from "../../../../Hook.js";
@@ -10,20 +10,27 @@ import checkTotalPrice from "../../../../functions/checkTotalPrice";
 import PhoneNumberBox from "../../../../utils/boxes/PhoneNumberBox_show";
 import LoadPage from "../../../../utils/loaders/LoadPage";
 import "./cart_show.css";
-
+import { toViem } from "@coinbase/waas-sdk-viem";
+import { createWalletClient, http, parseEther } from "viem";
+import { baseSepolia, bscTestnet } from "viem/chains";
+import { Address } from "@coinbase/waas-sdk-web";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
 import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
+import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 
-
+import { useSelector } from "react-redux";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 // import {
 //   useSendTransaction,
 //   useWaitForTransactionReceipt
 // } from 'wagmi';
-import { getAccount, waitForTransactionReceipt, sendTransaction } from "@wagmi/core";
-import { parseEther, parseUnits } from 'viem';
-import { getContract, createPublicClient, http, createWalletClient, custom } from "viem";
-import { bscTestnet } from "viem/chains";
-
+import {
+  getAccount,
+  waitForTransactionReceipt,
+  sendTransaction,
+} from "@wagmi/core";
+import { parseUnits } from "viem";
+import { getContract, createPublicClient, custom } from "viem";
 
 function CartShow({
   cartArray,
@@ -37,6 +44,10 @@ function CartShow({
   setwalletaddress,
   setcontract,
 }) {
+  const { user, wallet } = useWalletContext();
+
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "before redux");
   //initializing and declaring various variables
   const [cart, setCart] = useState([]);
   const { flag1, setflag1 } = React.useContext(UserContext);
@@ -44,7 +55,7 @@ function CartShow({
   const [queryParam, setQueryParam] = useState(searchParams.get("n") || "");
   // const [tokenId,setTokenId]=useState("");
   const { tokenId, setTokenId } = React.useContext(UserContext);
-  console.log(tokenId)
+  console.log(tokenId);
   const data = {
     address: walletaddress,
     number: number,
@@ -57,9 +68,7 @@ function CartShow({
   const publicClient = createPublicClient({
     chain: bscTestnet,
     transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
-  })
-
-
+  });
 
   // const { sendTransaction } = useSendTransaction();
 
@@ -93,41 +102,74 @@ function CartShow({
 
     try {
       // Calculate transaction amount
-      amount = flag1 ? (parseInt(checkTotalPrice(cartArray)) - 5) * 0.0046790195017 : parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
+      amount = flag1
+        ? (parseInt(checkTotalPrice(cartArray)) - 5) * 0.0046790195017
+        : parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
       setflag1("0");
 
       // Convert amount to Wei
       const someAmt = parseInt(0.0046790195017 * 10);
-      const amt = parseEther((someAmt).toString());
+      const amt = parseEther(someAmt.toString());
       console.log("AMT:", amt);
 
       // Call sendTransaction
       if (amt !== 0) {
         // Call sendTransaction
         console.log("transaction sending started");
-        const { hash } = await sendTransaction(connectConfig, {
-          account: account.address,
-          to: toaddress,
-          value: amt,
-        });
-        // Wait for transaction receipt using the callback function
-        // const receipt = async () => {
+        if (userr.rootId === "ncw") {
+          const { hash } = await sendTransaction(connectConfig, {
+            account: account.address,
+            to: toaddress,
+            value: amt,
+          });
+          // Wait for transaction receipt using the callback function
+          // const receipt = async () => {
 
-        //   await waitForTransactionReceipt(connectConfig, {
-        //     hash,
-        //     // You can add other options like confirmations, onReplaced, etc. if needed
-        //   });
-        // }
-        // const txReceipt = await receipt();
-        console.log("Transaction hash:", hash);
+          //   await waitForTransactionReceipt(connectConfig, {
+          //     hash,
+          //     // You can add other options like confirmations, onReplaced, etc. if needed
+          //   });
+          // }
+          // const txReceipt = await receipt();
+          console.log("Transaction hash:", hash);
+        } else {
+          console.log("address", userr.address);
+          console.log("user", user);
+          console.log("wallet", wallet);
+          const address = await wallet.addresses.for(ProtocolFamily.EVM);
+          console.log("address", address);
+          const add = JSON.parse(localStorage.getItem("address"));
+          console.log("address", add);
+          const walletClient = createWalletClient({
+            account: toViem(address),
+            chain: bscTestnet,
+            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+          });
+          console.log("walletClient", walletClient);
+          console.log(
+            "signing a message with address " + userr.address + "..."
+          );
+          const signature = await walletClient.signMessage({
+            message: "hello from waas!",
+          });
+          console.log(`Got signature: ${signature}`);
+          console.log("full address", userr.fulladdress);
+          // console.log("full address", toViem(userr.fulladdress));
+          console.log("full address from wallet ", toViem(address));
+
+          const res = await walletClient.sendTransaction({
+            account: toViem(address),
+            to: toaddress, // recipient address
+            value: amt, // transaction amount
+            // ... other transaction parameters. see: https://viem.sh/docs/accounts/signTransaction.html
+          });
+          console.log("Transaction hash:", res);
+        }
 
         // console.log("Transaction receipt:", txReceipt);
       } else {
         console.error("amt not defined");
       }
-
-
-
 
       const contract = getContract({
         address: config.address_nft,
@@ -139,12 +181,14 @@ function CartShow({
         setcontract(contract);
         console.log("Contract set-up done:", contract);
         console.log("Wallet address:", account.address);
-        setwalletaddress(account.address);
+        if (userr.rootId === "ncw") {
+          setwalletaddress(account.address);
+        } else {
+          setwalletaddress(userr.fulladdress);
+        }
         setLoad(false);
         setProceedTo("purchaseConfirmation");
       }
-
-
     } catch (error) {
       console.error("Error processing buyNumber:", error);
       setError(true); // Set error state to true
@@ -152,24 +196,26 @@ function CartShow({
     }
   }
 
-
   //funcion to ensure virtual number purchase
   //funcion to ensure virtual number purchase
   async function uyNumber() {
     setLoad(true);
     // send to which address ?
     const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
-    var amount
-    if (flag1) { amount = parseInt(checkTotalPrice(cartArray) - 5) * 0.0046790195017 }
-    else { amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017; }
-    setflag1("0")
+    var amount;
+    if (flag1) {
+      amount = parseInt(checkTotalPrice(cartArray) - 5) * 0.0046790195017;
+    } else {
+      amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
+    }
+    setflag1("0");
     // var amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
-    console.log(amount)
+    console.log(amount);
     let amt = ethers.parseUnits(amount.toString());
     const transacamount = "0x" + amt.toString(16);
     await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: "0x61" }], // chainId must be in hexadecimal numbers
     });
     console.log(amt);
 
@@ -202,10 +248,8 @@ function CartShow({
               console.log(walletaddress);
               setwalletaddress(walletaddress);
 
-
               setLoad(false);
               setProceedTo("purchaseConfirmation");
-
             })
             .catch((err) => {
               console.log(err);
@@ -254,15 +298,16 @@ function CartShow({
           <button
             className="cartCheckout"
             onClick={async () => {
-
               // await NFT_Gen();
               buyNumber();
-
             }}
           >
             Complete my Purchase
           </button>
-          <p style={{ color: "white" }}>Please do NOT click ANY button on Ultimate Digits while your transaction is being completed</p>
+          <p style={{ color: "white" }}>
+            Please do NOT click ANY button on Ultimate Digits while your
+            transaction is being completed
+          </p>
           {error ? (
             <p
               style={{
@@ -275,7 +320,9 @@ function CartShow({
             >
               Insufficient Balance
             </p>
-          ) : false}
+          ) : (
+            false
+          )}
           {load ? (
             <div
               style={{
@@ -286,12 +333,11 @@ function CartShow({
             >
               <LoadPage />
             </div>
-          ) : false}
+          ) : (
+            false
+          )}
         </div>
-
       </div>
-
-
     </div>
   ) : (
     ""

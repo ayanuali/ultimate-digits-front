@@ -13,7 +13,7 @@ import ConfirmationPageVirtual1 from "../confirmation-page/ConfirmationPageVirtu
 import CartShow from "./components/cart-show/cart_show";
 import ellipse from "../../assets/Ellipse.png";
 import iphone from "../../assets/landing-page/iphone.svg";
-
+import { useSelector } from "react-redux";
 const AuthenticationPage = ({
   setwalletaddress,
   walletaddress,
@@ -31,6 +31,8 @@ const AuthenticationPage = ({
   cartArray,
   setcartArray,
 }) => {
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "before redux");
   //function to declare various variables
   const [headerTitle, setHeaderTitle] = useState("");
   const [check, setCheck] = useState(false);
@@ -157,7 +159,7 @@ const AuthenticationPage = ({
 
   useEffect(() => {
     setNav("1");
-    if (user.isLoggedIn) {
+    if (user.isLoggedIn || userr.rootId !== "ncw") {
       setProceedTo("showCart");
       setcartArray(cartArray1);
     }

@@ -6,14 +6,19 @@ import { useSelector, useDispatch } from "react-redux";
 export default function ConfirmationRealPage2({ number, waddress, code }) {
   const [address, setAddress] = useState("afasfas");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("");
   const navigate = useNavigate();
   const userr = useSelector((state) => state.user);
   console.log(userr, "befie redux");
 
   useEffect(() => {
-    const add = localStorage.getItem("address");
     setAddress(userr.address);
-    setPhoneNumber(userr.phno);
+    if (!userr.phno) {
+      setPhoneNumber(userr.virtuals[0]);
+    } else {
+      setPhoneNumber(userr.phno);
+    }
+    setCountryCode(userr.countryCode);
   }, []);
   return (
     <div className="confirmationPageReal2">
@@ -59,7 +64,7 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
       <div className="cpr2-number">
         <div className="text">Your current number</div>
         <div className="number">
-          +{code} {phoneNumber}
+          +{countryCode} {phoneNumber}
         </div>
       </div>
       <div className="cpr2-exchangeIcon">

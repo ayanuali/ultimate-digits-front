@@ -8,7 +8,14 @@ import nftLogo from "../../assets/ud-logo.png";
 import { UserContext } from "../../Hook.js";
 import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
-import { createPublicClient, http, getContract } from "viem";
+import { toViem } from "@coinbase/waas-sdk-viem";
+
+import {
+  createPublicClient,
+  http,
+  getContract,
+  createWalletClient,
+} from "viem";
 import { bscTestnet, sepolia } from "viem/chains";
 import {
   getAccount,
@@ -20,6 +27,9 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { connectConfig } from "../../ConnectKit/Web3Provider.jsx";
 import axios from "axios";
+import { ProtocolFamily } from "@coinbase/waas-sdk-web";
+import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+import { waitForTransactionReceipt, sendTransaction } from "@wagmi/core";
 
 export default function ConfirmationPageVirtual1({
   setProceedTo,
@@ -28,7 +38,10 @@ export default function ConfirmationPageVirtual1({
   contract_connect,
   cartArray,
 }) {
+  const { user, wallet } = useWalletContext();
+
   const userr = useSelector((state) => state.user);
+  console.log(userr, "before redux");
 
   // Get the query parameter string
   const queryString = window.location.search;
@@ -73,14 +86,37 @@ export default function ConfirmationPageVirtual1({
       // };
 
       const transaction = async () => {
-        await writeContract(connectConfig, {
-          abi: contract.abi,
-          address: contract.address,
-          functionName: "mint",
-          args: [
-            "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-          ],
-        });
+        if (userr.rootId === "ncw") {
+          await writeContract(connectConfig, {
+            abi: contract.abi,
+            address: contract.address,
+            functionName: "mint",
+            args: [
+              "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+            ],
+          });
+        } else {
+          console.log("user", user);
+          console.log("wallet", wallet);
+          const address = await wallet.addresses.for(ProtocolFamily.EVM);
+          console.log("address", address);
+
+          const walletClient = createWalletClient({
+            account: toViem(address),
+            chain: bscTestnet,
+            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+          });
+          console.log("walletClient", walletClient);
+          const hash = await walletClient.writeContract({
+            address: contract.address,
+            abi: contract.abi,
+            functionName: "mint",
+            args: [
+              "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+            ],
+          });
+          console.log("hash", hash);
+        }
       };
       await transaction();
 
@@ -145,16 +181,43 @@ export default function ConfirmationPageVirtual1({
     var check = 0;
     console.log(contract_connect);
 
+    // const hash = await walletClient.writeContract({
+    //      address: contract_connect.address,
+    //      abi: contract_connect.abi,
+    //      functionName: 'SettingUniqueId',
+    //      args: [number, "999"],
+    //    })
+
     cartArray.map(async (number, i) => {
       console.log("UID creation");
       var transaction = async () => {
-        await writeContract(connectConfig, {
-          abi: contract_connect.abi,
-          address: contract_connect.address,
-          functionName: "SettingUniqueId",
-          args: [number, "999"],
-        });
-        console.log("UID created");
+        if (userr.rootId === "ncw") {
+          await writeContract(connectConfig, {
+            abi: contract_connect.abi,
+            address: contract_connect.address,
+            functionName: "SettingUniqueId",
+            args: [number, "999"],
+          });
+        } else {
+          console.log("user", user);
+          console.log("wallet", wallet);
+          const address = await wallet.addresses.for(ProtocolFamily.EVM);
+          console.log("address", address);
+
+          const walletClient = createWalletClient({
+            account: toViem(address),
+            chain: bscTestnet,
+            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+          });
+          console.log("walletClient", walletClient);
+          const hash = await walletClient.writeContract({
+            address: contract_connect.address,
+            abi: contract_connect.abi,
+            functionName: "SettingUniqueId",
+            args: [number, "999"],
+          });
+          console.log("hash", hash);
+        }
       };
       await transaction();
       console.log("user", userr);

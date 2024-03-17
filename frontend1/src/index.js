@@ -12,7 +12,7 @@ root.render(
     <WalletProvider
       enableHostedBackups={true}
       collectAndReportMetrics
-      prod={true}
+      prod={false}
       projectId={"a6ff9b4c-9586-4920-a38f-6a77bf39a375"}
     >
       <Provider store={store}>

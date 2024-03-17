@@ -131,8 +131,10 @@ const LoginForm = ({
     console.log("logging in");
     setLoading(true);
     console.log("user", user);
-    const res1 = await waas.logout();
-    console.log(res1);
+    if (user) {
+      const res1 = await waas.logout();
+      console.log(res1);
+    }
     const res = await waas.login();
 
     console.log(res);

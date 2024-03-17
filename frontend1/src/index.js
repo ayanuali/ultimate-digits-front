@@ -11,7 +11,7 @@ root.render(
   <>
     <WalletProvider
       enableHostedBackups={true}
-      collectAndReportMetrics={true}
+      collectAndReportMetrics
       prod={true}
       projectId={"a6ff9b4c-9586-4920-a38f-6a77bf39a375"}
     >

@@ -60,6 +60,8 @@ const LoginForm = ({
 
   const [gotData, setGotData] = useState(false);
 
+  const [gotAddress, setGotAddress] = useState(false);
+
   const checkUser = async (rootId, address) => {
     try {
       const res = await axios.post("http://localhost:8080/coinbase/verify", {
@@ -264,10 +266,10 @@ const LoginForm = ({
             setUserData({
               ...userr,
               address: data.address,
-              phno: data.phoneNumber,
+              phno: data.phone,
             })
           );
-          navigate("/selection-page");
+          navigate("/real-number");
           setGotData(true);
         }
       } else if (res.status === 204) {
@@ -302,32 +304,35 @@ const LoginForm = ({
   });
 
   async function connectWalletAndSetupContract() {
-    setOpenPhone(false);
-    setOpenEmail(false);
-    if (!gotData) {
-      try {
-        const contract = getContract({
-          address: config.address_nft,
-          abi: conABI,
-          // 1a. Insert a single client
-          client: publicClient,
-        });
-        if (contract && setProceedTo) {
-          setcontract(contract);
-          console.log(`Contract connected: ${contract.address}`);
+    if (gotAddress === false) {
+      setOpenPhone(false);
+      setOpenEmail(false);
+      if (!gotData) {
+        try {
+          const contract = getContract({
+            address: config.address_nft,
+            abi: conABI,
+            // 1a. Insert a single client
+            client: publicClient,
+          });
+          if (contract && setProceedTo) {
+            setcontract(contract);
+            console.log(`Contract connected: ${contract.address}`);
 
-          setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
-          console.log("FinalLog:", log);
+            setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+            console.log("FinalLog:", log);
 
-          console.log(account.chainId, ":chainId");
-          // const res = await checkAddress(account);
+            console.log(account.chainId, ":chainId");
+            setGotAddress(true);
+            // const res = await checkAddress(account);
 
-          // Navigate based on the `log` state and presence of `setProceedTo` function
-          // const destination = log ? "/selection-page" : "/login";
-          // navigate(destination);
+            // Navigate based on the `log` state and presence of `setProceedTo` function
+            // const destination = log ? "/selection-page" : "/login";
+            // navigate(destination);
+          }
+        } catch (error) {
+          console.error("Error setting up the contract:", error);
         }
-      } catch (error) {
-        console.error("Error setting up the contract:", error);
       }
     }
   }

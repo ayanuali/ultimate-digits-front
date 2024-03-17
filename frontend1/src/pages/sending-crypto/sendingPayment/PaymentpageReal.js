@@ -9,6 +9,7 @@ import config from "../../../config.json";
 import { connectConfig } from "../../../ConnectKit/Web3Provider";
 import { readContract } from "@wagmi/core";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 
 export default function PaymentpageReal({
   currentWallet,
@@ -49,18 +50,32 @@ export default function PaymentpageReal({
     }
     console.log(tocodes);
     try {
-      const addressReturned = await readContract(connectConfig, {
-        abi: contract_connect.abi,
-        address: contract_connect.address,
-        functionName: "checkAccount",
-        args: [toNumber, tocodes],
-      });
-      if (addressReturned) {
-        console.log("addressReturned:", addressReturned);
-        setToAddress(addressReturned);
+      // const addressReturned = await readContract(connectConfig, {
+      //   abi: contract_connect.abi,
+      //   address: contract_connect.address,
+      //   functionName: "checkAccount",
+      //   args: [toNumber, tocodes],
+      // });
+
+      const res = await axios.post(
+        "http://localhost:8080/coinbase/getAddress",
+        {
+          phoneNumber: toNumber,
+        }
+      );
+      if (res.status === 200) {
+        console.log(res.data);
+        console.log(res.data.mapping);
+        setToAddress(res.data.mapping.address);
         setType("Real");
         navigate("/sending-crypto/confirmTransaction");
       }
+      // if (addressReturned) {
+      //   console.log("addressReturned:", addressReturned);
+      //   setToAddress(addressReturned);
+      //   setType("Real");
+      //   navigate("/sending-crypto/confirmTransaction");
+      // }
     } catch (e) {
       console.log(e);
       navigate("/sending-crypto/invalid-number");

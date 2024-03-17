@@ -170,6 +170,8 @@ export default function ConfirmationPageVirtual1({
             phoneNumber: number,
             address: userr.address,
             countryCode: "999",
+            rootId: "ncw",
+            type: "virtual",
           }
         );
 

@@ -87,7 +87,9 @@ export default function ConfirmationRealPage2({ number, waddress, code }) {
         <button
           onClick={() => {
             navigate(
-              `/sending-crypto/home-page?number=${number}&wallet=${waddress}`
+              `/sending-crypto/home-page?number=${
+                number || phoneNumber
+              }&wallet=${waddress || address}`
             );
           }}
         >

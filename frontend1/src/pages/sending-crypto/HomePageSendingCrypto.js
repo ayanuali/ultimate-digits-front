@@ -7,7 +7,8 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { getAccount, readContract } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
-
+import axios from "axios";
+import { setUserData } from "../../services/wallet/UserSlice";
 export default function HomePageSendingCrypto({
   setNav,
   setCurrentNumber,
@@ -20,12 +21,14 @@ export default function HomePageSendingCrypto({
   setNav("3");
   const userr = useSelector((state) => state.user);
   console.log(userr, "befie redux");
+  const dispatch = useDispatch();
 
   //setting states ofvarious variables
   const navigate = useNavigate();
   const [nums, setNums] = useState([]);
   const [virtual, setVirtual] = useState([]);
-  const [real, setReal] = useState([]);
+  const [real, setReal] = useState();
+  const [countryCode, setCountryCode] = useState("");
 
   //setting the number and wallet attached to the user
   const queryString = window.location.search;
@@ -77,8 +80,40 @@ export default function HomePageSendingCrypto({
   }
 
   viewNumbers();
+
+  const getAccounts = async () => {
+    try {
+      const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+        address: account.address,
+      });
+      console.log(res.data);
+      if (res.status === 200) {
+        console.log(res.data.mapping.virtuals);
+        setVirtual(res.data.mapping.virtuals);
+        setReal(res.data.mapping.phone);
+        console.log(res.data.mapping.phone);
+        console.log(res.data.mapping.countryCode);
+        setCountryCode(res.data.mapping.countryCode);
+        dispatch(
+          setUserData({
+            ...userr,
+            rootId: res.data.mapping.rootId,
+            phno: res.data.mapping.phone,
+            virtuals: res.data.mapping.virtuals,
+          })
+        );
+      }
+      if (res.status === 204) {
+        alert("no mapping exist");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     viewNumbers();
+    getAccounts();
   }, []);
 
   return (
@@ -123,63 +158,96 @@ export default function HomePageSendingCrypto({
             View and manage your numbers
           </div>
           <div className="hp-box">
-            {nums != []
-              ? nums.map((number, i) => (
-                  <div className="box2">
-                    <svg
-                      width="18"
-                      height="16"
-                      viewBox="0 0 18 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                        fill="#5F6A85"
-                      />
-                    </svg>
-                    <span className="text4">Number {i + 1}</span>
-                    <span className="sub-text2">
-                      +
-                      {number[0] == "0"
-                        ? number[1] == "0"
-                          ? number.substr(2)
-                          : number.substr(1)
-                        : number}
-                    </span>
-                    <span
-                      className={`sub-text2 ${
-                        number[0] == "0" ? "real" : "virtual"
-                      }-send`}
-                    >
-                      {number[0] == "0" ? "Real" : "Virtual"} Number
-                    </span>
-                  </div>
-                ))
-              : ""}
+            {nums != [] ? (
+              nums.map((number, i) => (
+                <div className="box2">
+                  <svg
+                    width="18"
+                    height="16"
+                    viewBox="0 0 18 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                      fill="#5F6A85"
+                    />
+                  </svg>
+                  <span className="text4">Number {i + 1}</span>
+                  <span className="sub-text2">
+                    +
+                    {number[0] == "0"
+                      ? number[1] == "0"
+                        ? number.substr(2)
+                        : number.substr(1)
+                      : number}
+                  </span>
+                  <span
+                    className={`sub-text2 ${
+                      number[0] == "0" ? "real" : "virtual"
+                    }-send`}
+                  >
+                    {number[0] == "0" ? "Real" : "Virtual"} Number
+                  </span>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="box2">
+                  <svg
+                    width="18"
+                    height="16"
+                    viewBox="0 0 18 16"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                      fill="#5F6A85"
+                    />
+                  </svg>
+                  <span className="text4">Number </span>
+                  <span className="sub-text2">
+                    +{999}
+                    {virtual.map((data, index) => (
+                      <span>data</span>
+                    ))}{" "}
+                  </span>
+                  <span
+                    className={`sub-text2 ${
+                      number[0] == "0" ? "real" : "virtual"
+                    }-send`}
+                  >
+                    Virtual Number
+                  </span>
+                </div>
+              </>
+            )}
           </div>
-          <div className="box2">
-            <svg
-              width="18"
-              height="16"
-              viewBox="0 0 18 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                fill="#5F6A85"
-              />
-            </svg>
-            <span className="text4">Number </span>
-            <span className="sub-text2">{userr.phno}</span>
-            <span
-              className={`sub-text2 ${
-                userr.phno == "0" ? "real" : "virtual"
-              }-send`}
-            >
-              {userr.phno == "0" ? "Real" : "Virtual"} Number
-            </span>
+          <div
+            className="hp-box"
+            style={{ marginTop: "10px", marginBottom: "10px" }}
+          >
+            <div className="box2">
+              <svg
+                width="18"
+                height="16"
+                viewBox="0 0 18 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                  fill="#5F6A85"
+                />
+              </svg>
+              <span className="text4">Number </span>
+              <span className="sub-text2">
+                +{countryCode}
+                {real}
+              </span>
+              <span className="sub-text2 real-send">Real Number</span>
+            </div>
           </div>
         </div>
         <div className="hp-content">
@@ -207,66 +275,68 @@ export default function HomePageSendingCrypto({
             You can view wallets connected to your phone
           </div>
           <div className="hp-box">
-            <div className="box1">
-              <svg
-                style={{ marginTop: "15px" }}
-                width="18"
-                height="16"
-                viewBox="0 0 18 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                  fill="#5F6A85"
-                />
-              </svg>
-              <div className="text">Metamask Wallet</div>
-              <div className="sub-text">{currentWallet}</div>
-            </div>
-
-            <div className="box1">
-              <svg
-                style={{ marginTop: "15px" }}
-                width="18"
-                height="16"
-                viewBox="0 0 18 16"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
-                  fill="#5F6A85"
-                />
-              </svg>
-              <div className="text">Ultimate Digits Wallet</div>
-              <div className="sub-text">{currentWallet}</div>
-              <span
-                className="sub-text2 "
-                style={{
-                  marginBottom: "15px",
-                  color: "rgba(95, 106, 133, 1)",
-                  fontWeight: "bold",
-                }}
-              >
-                Manage{" "}
-                <span style={{ margin: "10px" }}>
-                  <svg
-                    width="15"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M8.78109 5.33327L5.20509 1.75726L6.14789 0.814453L11.3334 5.99993L6.14789 11.1853L5.20509 10.2425L8.78109 6.6666H0.666687V5.33327H8.78109Z"
-                      fill="#5F6A85"
-                    />
-                  </svg>
-                </span>{" "}
-                <span className="coming-send">Coming soon</span>
-              </span>
-            </div>
+            {userr.rootId === "ncw" ? (
+              <div className="box1">
+                <svg
+                  style={{ marginTop: "15px" }}
+                  width="18"
+                  height="16"
+                  viewBox="0 0 18 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                    fill="#5F6A85"
+                  />
+                </svg>
+                <div className="text">Metamask Wallet</div>
+                <div className="sub-text">{currentWallet}</div>
+              </div>
+            ) : (
+              <div className="box1">
+                <svg
+                  style={{ marginTop: "15px" }}
+                  width="18"
+                  height="16"
+                  viewBox="0 0 18 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M0.670776 5.5H16.5041C16.9644 5.5 17.3375 5.8731 17.3375 6.33333V14.6667C17.3375 15.1269 16.9644 15.5 16.5041 15.5H1.50411C1.04388 15.5 0.670776 15.1269 0.670776 14.6667V5.5ZM1.50411 0.5H14.0041V3.83333H0.670776V1.33333C0.670776 0.8731 1.04388 0.5 1.50411 0.5ZM11.5041 9.66667V11.3333H14.0041V9.66667H11.5041Z"
+                    fill="#5F6A85"
+                  />
+                </svg>
+                <div className="text">Ultimate Digits Wallet</div>
+                <div className="sub-text">{currentWallet}</div>
+                <span
+                  className="sub-text2 "
+                  style={{
+                    marginBottom: "15px",
+                    color: "rgba(95, 106, 133, 1)",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Manage{" "}
+                  <span style={{ margin: "10px" }}>
+                    <svg
+                      width="15"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M8.78109 5.33327L5.20509 1.75726L6.14789 0.814453L11.3334 5.99993L6.14789 11.1853L5.20509 10.2425L8.78109 6.6666H0.666687V5.33327H8.78109Z"
+                        fill="#5F6A85"
+                      />
+                    </svg>
+                  </span>{" "}
+                  <span className="coming-send">Coming soon</span>
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

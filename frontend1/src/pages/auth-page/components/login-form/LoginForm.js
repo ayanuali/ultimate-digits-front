@@ -135,12 +135,12 @@ const LoginForm = ({
       const res1 = await waas.logout();
       console.log(res1);
     }
+    console.log("waas", waas);
+
     const res = await waas.login();
 
     console.log(res);
-
     console.log("wallet", wallet);
-    console.log("waas", waas);
     console.log("user", user);
     console.log("isCreatingWallet", isCreatingWallet);
 

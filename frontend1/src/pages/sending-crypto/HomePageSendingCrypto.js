@@ -10,7 +10,7 @@ import { connectConfig } from "../../ConnectKit/Web3Provider";
 import axios from "axios";
 import { setUserData } from "../../services/wallet/UserSlice";
 import { toViem } from "@coinbase/waas-sdk-viem";
-import config from "../../config.json";
+
 import {
   createPublicClient,
   http,
@@ -100,10 +100,12 @@ export default function HomePageSendingCrypto({
   const getAccounts = async () => {
     if (userr.address === account.address) {
       try {
-        const apiurl = config.backend;
-        const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
-          address: account.address,
-        });
+        const res = await axios.post(
+          "https://ud-backend-six.vercel.app/coinbase/getPhno",
+          {
+            address: account.address,
+          }
+        );
         console.log(res.data);
         if (res.status === 200) {
           console.log(res.data.mapping.virtuals);
@@ -131,10 +133,12 @@ export default function HomePageSendingCrypto({
     } else {
       try {
         console.log("calling conbase data");
-        const apiurl = config.backend;
-        const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
-          address: userr.address,
-        });
+        const res = await axios.post(
+          "https://ud-backend-six.vercel.app/coinbase/getPhno",
+          {
+            address: userr.address,
+          }
+        );
         console.log(res.data);
         if (res.status === 200) {
           console.log(res.data.mapping.virtuals);

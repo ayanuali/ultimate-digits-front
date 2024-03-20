@@ -10,11 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useWalletContext, useEVMAddress } from "@coinbase/waas-sdk-web-react";
 import { v4 as uuidv4 } from "uuid";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
-import udlogo from "../../assets/ud-square-logo.png";
 
-import { issueUserToken } from "@coinbase/waas-server-auth";
-// make sure your API KEY isn't visible on your web server :)
-// const coinbaseCloudApiKey = JSON.parse("coinbase_cloud_api_key.json");
+import config from "../../config.json";
 
 const coinbaseCloudApiKey = {
   name: "organizations/bc6d9ff7-1cff-410a-bf5e-22a495a69512/apiKeys/00e85827-60d3-44f7-9785-731f4d6a7354",
@@ -185,6 +182,7 @@ export default function ConfirmationPageRealRename({
   };
 
   const fetchAuthServerToken = async () => {
+    const apiurl = config.backend;
     const resp = await fetch("https://localhost:8082/auth", {
       method: "post",
       headers: {

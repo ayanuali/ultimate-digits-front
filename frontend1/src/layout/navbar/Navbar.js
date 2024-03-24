@@ -44,6 +44,8 @@ const Navbar = ({ loggedIn, setLog }) => {
     }
 
     disconnect(connectConfig);
+    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+
     navigate("/");
   };
 

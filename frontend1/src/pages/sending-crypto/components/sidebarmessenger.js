@@ -23,6 +23,8 @@ export default function Sidebarmessenger() {
     }
 
     disconnect(connectConfig);
+    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+
     navigate("/");
   };
   return (
@@ -161,7 +163,7 @@ export default function Sidebarmessenger() {
         </div>
       </div>
       <>
-        <div className="log_out" onClick={handleLogout}>
+        <div className="log_out" onClick={() => handleLogout()}>
           <div id="log">Log out</div>
           <span>
             <svg

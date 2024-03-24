@@ -2,6 +2,8 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 .landing-page {
   background: linear-gradient(221deg, #06061e 24.14%, #2070f4 127.74%);

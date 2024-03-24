@@ -543,19 +543,47 @@ const LoginForm = ({
       <CustomButton onSuccess={connectWalletAndSetupContract} />
 
       <button
-        className="loginWrapperTranspBtn"
+        className=""
         onClick={handleLogin}
-        style={{ color: "#3D4043" }}
+        style={{ color: "#3D4043", height: "60px" }}
       >
-        <img src={udIcon} />
-        Continue with Ultimate Wallet (Coinbase)
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              columnGap: "10px",
+            }}
+          >
+            {" "}
+            <img src={udIcon} />
+            Continue with Ultimate Wallet
+          </div>
+          <span>
+            <img
+              style={{
+                height: "fit-content",
+                width: "fit-content",
+                marginTop: "-30px",
+              }}
+              src={coinbase}
+              alt="coinbase"
+            />
+          </span>
+        </div>
       </button>
 
       <FullScreenLoader loading={loading} content={content} />
 
-      <div className="powered">
-        <img src={coinbase} alt="coinbase" />
-      </div>
+      <div className="powered"></div>
 
       <div className="companyrights">© Ultimate Digits 2024</div>
     </div>

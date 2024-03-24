@@ -416,7 +416,8 @@ export default function HomePageSendingCrypto({
                   />
                 </svg>
                 <div className="text">Metamask Wallet</div>
-                <div className="sub-text">{currentWallet}</div>
+                <div className="sub-text">{userr.address}</div>
+                <div className="sub-text">{balanceVal} TBNB</div>
               </div>
             ) : (
               <div className="box1">

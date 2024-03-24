@@ -96,6 +96,8 @@ export default function ConfirmationPageVirtual1({
               "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
             ],
           });
+
+          setNftMinted(true);
         } else {
           console.log("user", user);
           console.log("wallet", wallet);

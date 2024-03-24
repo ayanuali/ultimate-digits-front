@@ -178,6 +178,8 @@ const LoginForm = ({
     }
     if (res.hasWallet === true) {
       console.log("wallet created already");
+      console.log("res", res);
+
       const res2 = await res.restoreFromHostedBackup();
       console.log(res2);
       setContent("Restoring your wallet");
@@ -186,11 +188,13 @@ const LoginForm = ({
       console.log("waas", waas);
 
       const address = await res2.addresses.for(ProtocolFamily.EVM);
+      const priv = await res.backup;
+      console.log("private keys", priv);
       console.log("address", address);
       localStorage.setItem("address", JSON.stringify(address));
       console.log(`Got address: ${address.address}`);
 
-      dispatch(setUserData({ ...userr, fulladdress: address }));
+      dispatch(setUserData({ ...userr, privKey: priv }));
 
       if (res) {
         checkUser(res2.rootContainerID, address.address);

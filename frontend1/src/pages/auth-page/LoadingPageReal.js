@@ -26,7 +26,12 @@ export default function LoadingPageReal({
 
   useEffect(() => {
     setNav("1");
+
     if (userr) {
+      if (userr.address && userr.updateReal) {
+        setProceedTo("HomePage");
+        return;
+      }
       if (userr.address && userr.phno) {
         setProceedTo("lastpage");
       }

@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./SelectionPage.css";
 import currentImg from "../../assets/selection1.png";
 import virtualImg from "../../assets/selection2.png";
 import { useNavigate } from "react-router";
 import freeImg from "../../assets/free-img.png";
 import { useSelector, useDispatch } from "react-redux";
+import { connectConfig } from "../../ConnectKit/Web3Provider";
+import { getBalance } from "@wagmi/core";
 
 export default function SelectionPage({ setNav }) {
   //function setting navigation bar
+  const [balanceVal, setBalanceVal] = useState(0);
+
   setNav("1");
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   console.log(userr, "befie redux");
   const navigate = useNavigate();
+
+  const getingBalance = async () => {
+    const balance = await getBalance(connectConfig, {
+      address: userr.address,
+    });
+    console.log("blance", balance);
+    console.log("val", balance.formatted);
+    setBalanceVal(balance.formatted);
+    console.log("sy,", balance.symbol);
+    console.log("value", balance.value);
+  };
+
+  useEffect(() => {
+    getingBalance();
+  }, []);
+
+  const handleNavigate = () => {
+    if (userr.rootId !== "ncw") {
+      if (balanceVal > 0) {
+        navigate("virtual-number");
+      } else {
+        alert("Insufficient balance");
+        navigate("/walletaf");
+      }
+    } else {
+      navigate("virtual-number");
+    }
+  };
 
   return (
     <div className="selectionPage" style={{ marginTop: "-1.4rem" }}>
@@ -78,12 +110,7 @@ export default function SelectionPage({ setNav }) {
               Ethereum NFT
             </div>
             <div className="virtual-btn">
-              <button
-                onClick={() => {
-                  navigate("virtual-number");
-                }}
-                style={{ marginTop: "-12px" }}
-              >
+              <button onClick={handleNavigate} style={{ marginTop: "-12px" }}>
                 <span style={{ verticalAlign: 4 }}>Get a virtual number </span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

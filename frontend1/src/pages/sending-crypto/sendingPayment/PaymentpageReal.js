@@ -95,11 +95,11 @@ export default function PaymentpageReal({
   };
   async function check() {
     var data1;
-    console.log(currentWallet);
-    console.log(typeof currentWallet);
+    console.log(userr.address);
+    console.log(typeof userr.address);
     fetch(
       "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=" +
-        currentWallet +
+        userr.address +
         "&startblock=1&endblock=99999999&sort=asc&apikey=" +
         config.api
     )

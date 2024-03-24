@@ -31,7 +31,7 @@ export default function Sidebar() {
     <div className="sidebar">
       <div>
         <div className="logo">
-          <Link to="/">
+          <Link to="/sending-crypto/home-page">
             <img src={udLogo}></img>
           </Link>
         </div>

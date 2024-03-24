@@ -44,6 +44,7 @@ export default function HomePageSendingCrypto({
   const [real, setReal] = useState();
   const [countryCode, setCountryCode] = useState("");
   const [balanceVal, setBalanceVal] = useState(0);
+  const [haveReal, setHaveReal] = useState(false);
 
   //setting the number and wallet attached to the user
   const queryString = window.location.search;
@@ -109,6 +110,7 @@ export default function HomePageSendingCrypto({
         const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
           address: account.address,
         });
+
         console.log(res.data);
         if (res.status === 200) {
           console.log(res.data.mapping.virtuals);
@@ -118,6 +120,13 @@ export default function HomePageSendingCrypto({
           console.log(res.data.mapping.phone);
           console.log(res.data.mapping.countryCode);
           setCountryCode(res.data.mapping.countryCode);
+          if (
+            res.data.mapping.phone !== null ||
+            res.data.mapping.phone !== "" ||
+            res.data.mapping.phone !== undefined
+          ) {
+            setHaveReal(true);
+          }
           dispatch(
             setUserData({
               ...userr,
@@ -149,6 +158,13 @@ export default function HomePageSendingCrypto({
           console.log(res.data.mapping.phone);
           console.log(res.data.mapping.countryCode);
           setCountryCode(res.data.mapping.countryCode);
+          if (
+            res.data.mapping.phone !== null ||
+            res.data.mapping.phone !== "" ||
+            res.data.mapping.phone !== undefined
+          ) {
+            setHaveReal(true);
+          }
           dispatch(
             setUserData({
               ...userr,
@@ -188,11 +204,28 @@ export default function HomePageSendingCrypto({
   }, []);
 
   const handleNavigate = () => {
-    if (balanceVal !== 0) {
+    console.log("balance", balanceVal);
+    console.log("real", haveReal);
+    // if (haveReal === true) {
+    //   navigate("/selection-page");
+    // } else {
+    //   if (balanceVal != 0) {
+    //     navigate("/selection-page/virtual-number");
+    //   } else {
+    //     alert("You have insufficient balance");
+    //   }
+    // }
+
+    if (balanceVal != 0) {
       navigate("/selection-page/virtual-number");
     } else {
       alert("You have insufficient balance");
     }
+  };
+
+  const handleNavigateReal = () => {
+    dispatch(setUserData({ ...userr, updateReal: true }));
+    navigate("/real-number");
   };
 
   return (
@@ -210,6 +243,25 @@ export default function HomePageSendingCrypto({
         <div className="hp-content hp-navbar">
           <div className="text button-buy" style={{ marginTop: "-5px" }}>
             Your Numbers
+            {!haveReal === true && (
+              <button className="sending-buy" onClick={handleNavigateReal}>
+                Link Your Real Number
+                <span style={{ margin: "5px" }}>
+                  <svg
+                    width="15"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M8.78109 5.33327L5.20509 1.75726L6.14789 0.814453L11.3334 5.99993L6.14789 11.1853L5.20509 10.2425L8.78109 6.6666H0.666687V5.33327H8.78109Z"
+                      fill="#5F6A85"
+                    />
+                  </svg>
+                </span>
+              </button>
+            )}
             <button className="sending-buy" onClick={handleNavigate}>
               Buy A Number
               <span style={{ margin: "5px" }}>
@@ -382,7 +434,7 @@ export default function HomePageSendingCrypto({
                   />
                 </svg>
                 <div className="text">Ultimate Digits Wallet</div>
-                <div className="sub-text">{currentWallet}</div>
+                <div className="sub-text">{userr.address}</div>
                 <div className="sub-text">{balanceVal} TBNB</div>
                 <span
                   className="sub-text2 "
@@ -407,7 +459,6 @@ export default function HomePageSendingCrypto({
                       />
                     </svg>
                   </span>{" "}
-                  z{" "}
                 </span>
               </div>
             )}

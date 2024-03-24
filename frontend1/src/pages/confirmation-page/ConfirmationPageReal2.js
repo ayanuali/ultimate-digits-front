@@ -2,6 +2,7 @@ import React from "react";
 import "./ConfirmationPageReal2.css";
 import { useNavigate } from "react-router";
 import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 export default function ConfirmationPageReal2({
   number,
@@ -10,6 +11,10 @@ export default function ConfirmationPageReal2({
   setNumber,
 }) {
   // Get the query parameter string
+
+  const userr = useSelector((state) => state.user);
+  console.log(userr, "before redux");
+
   const queryString = window.location.search;
   const navigate = useNavigate();
 
@@ -86,7 +91,7 @@ export default function ConfirmationPageReal2({
       </div>
       <div className="cpr2-number">
         <div className="text">Crypto Wallet</div>
-        <div className="number">{walletaddress}</div>
+        <div className="number">{userr.address}</div>
       </div>
       <div className="cpr2-btn">
         <button

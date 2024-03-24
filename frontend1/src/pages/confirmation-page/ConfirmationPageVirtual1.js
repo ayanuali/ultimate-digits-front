@@ -235,7 +235,7 @@ export default function ConfirmationPageVirtual1({
             phoneNumber: number,
             address: userr.address,
             countryCode: "999",
-            rootId: "ncw",
+            rootId: userr.rootId,
             type: "virtual",
           }
         );
@@ -314,8 +314,8 @@ export default function ConfirmationPageVirtual1({
             </div>
           </div>
         </div>
-        <div className="cpv2-btn" style={{ margin: "4 rem" }}>
-          {!nftMinted && (
+        {!nftMinted && (
+          <div className="cpv2-btn" style={{ margin: "4 rem" }}>
             <button
               onClick={async () => {
                 // PerformAction();
@@ -324,9 +324,13 @@ export default function ConfirmationPageVirtual1({
             >
               Generate NFT
             </button>
-          )}
-          {nftMinted && <button disabled>NFT Generated</button>}
-        </div>
+          </div>
+        )}
+        {nftMinted && (
+          <div className="cpv2-btn2" style={{ margin: "4 rem" }}>
+            <button disabled>NFT Generated</button>
+          </div>
+        )}
         <div className="row-token">
           <h5 style={{ color: "white" }}>{add}</h5>
           <h5 style={{ color: "white" }}>{tid}</h5>

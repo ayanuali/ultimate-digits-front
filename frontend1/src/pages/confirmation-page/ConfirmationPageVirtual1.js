@@ -50,6 +50,7 @@ export default function ConfirmationPageVirtual1({
   const { tokenId, setTokenId } = info;
   const [add, setadd] = useState("");
   const [tid, settid] = useState("");
+  const [nftMinted, setNftMinted] = useState(false);
   // Extract the "cart" parameter value from the query string
   const urlParams = new URLSearchParams(queryString);
   const cartParam = urlParams.get("cart");
@@ -115,6 +116,7 @@ export default function ConfirmationPageVirtual1({
               "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
             ],
           });
+          setNftMinted(true);
           console.log("hash", hash);
         }
       };
@@ -313,14 +315,17 @@ export default function ConfirmationPageVirtual1({
           </div>
         </div>
         <div className="cpv2-btn" style={{ margin: "4 rem" }}>
-          <button
-            onClick={async () => {
-              // PerformAction();
-              await NFT_Gen();
-            }}
-          >
-            Generate NFT
-          </button>
+          {!nftMinted && (
+            <button
+              onClick={async () => {
+                // PerformAction();
+                await NFT_Gen();
+              }}
+            >
+              Generate NFT
+            </button>
+          )}
+          {nftMinted && <button disabled>NFT Generated</button>}
         </div>
         <div className="row-token">
           <h5 style={{ color: "white" }}>{add}</h5>

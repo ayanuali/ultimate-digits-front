@@ -5,7 +5,7 @@ import { resolveAddress } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { getAccount, readContract } from "@wagmi/core";
+import { getAccount, readContract, getBalance } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
 import axios from "axios";
 import { setUserData } from "../../services/wallet/UserSlice";
@@ -43,6 +43,7 @@ export default function HomePageSendingCrypto({
   const [virtual, setVirtual] = useState([]);
   const [real, setReal] = useState();
   const [countryCode, setCountryCode] = useState("");
+  const [balanceVal, setBalanceVal] = useState(0);
 
   //setting the number and wallet attached to the user
   const queryString = window.location.search;
@@ -98,6 +99,11 @@ export default function HomePageSendingCrypto({
   //   viewNumbers();
   // }
   const getAccounts = async () => {
+    const balance = await getBalance(connectConfig, {
+      address: userr.address,
+    });
+
+    console.log("blance", balance);
     if (userr.address === account.address) {
       try {
         const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
@@ -161,12 +167,33 @@ export default function HomePageSendingCrypto({
     }
   };
 
+  const getingBalance = async () => {
+    const balance = await getBalance(connectConfig, {
+      address: userr.address,
+    });
+    console.log("blance", balance);
+    console.log("val", balance.formatted);
+    setBalanceVal(balance.formatted);
+    console.log("sy,", balance.symbol);
+    console.log("value", balance.value);
+  };
+
   useEffect(() => {
     // if (userr.rootId === "ncw") {
     //   viewNumbers();
     // }
+    getingBalance();
+
     getAccounts();
   }, []);
+
+  const handleNavigate = () => {
+    if (balanceVal !== 0) {
+      navigate("/selection-page/virtual-number");
+    } else {
+      alert("You have insufficient balance");
+    }
+  };
 
   return (
     <div className="homepage">
@@ -183,12 +210,7 @@ export default function HomePageSendingCrypto({
         <div className="hp-content hp-navbar">
           <div className="text button-buy" style={{ marginTop: "-5px" }}>
             Your Numbers
-            <button
-              className="sending-buy"
-              onClick={() => {
-                navigate("/selection-page/virtual-number");
-              }}
-            >
+            <button className="sending-buy" onClick={handleNavigate}>
               Buy A Number
               <span style={{ margin: "5px" }}>
                 <svg
@@ -361,6 +383,7 @@ export default function HomePageSendingCrypto({
                 </svg>
                 <div className="text">Ultimate Digits Wallet</div>
                 <div className="sub-text">{currentWallet}</div>
+                <div className="sub-text">{balanceVal} TBNB</div>
                 <span
                   className="sub-text2 "
                   style={{

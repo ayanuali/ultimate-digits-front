@@ -47,13 +47,21 @@ const Navbar = ({ loggedIn, setLog }) => {
     navigate("/");
   };
 
+  const handleNavigate = () => {
+    if (userr.address !== "") {
+      navigate("sending-crypto/home-page");
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="navbar">
       <div className="navbarWrapper">
         <img
           src={Logo}
           alt="logo"
-          onClick={() => navigate("/")}
+          onClick={handleNavigate}
           className="navbarLogo"
         />
 

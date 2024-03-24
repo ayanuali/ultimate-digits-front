@@ -6,12 +6,13 @@ import { redirect, useNavigate } from "react-router-dom";
 
 import "./EmailInput.css";
 import Loader from "../../../../utils/loaders/Loader";
-
+import FullScreenLoader from "../login-form/FullScreenLoader";
 const EmailInput = ({ setProceedTo, user, setUser, log }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState("");
   const [error, setError] = useState(null);
+  const [content, setContent] = useState("Loading....");
   const emailToUuid = async (email) => {
     // Encode the email to a Uint8Array
     const encoder = new TextEncoder();
@@ -95,6 +96,7 @@ const EmailInput = ({ setProceedTo, user, setUser, log }) => {
           onChange={handleChangeEmail}
         />
       </div>
+      <FullScreenLoader loading={loading} content={content} />
 
       <div className="emailInputBtnBox">
         {loading ? (

@@ -497,9 +497,22 @@ const LoginForm = ({
             setOpenEmail(true);
             setOpenPhone(false);
           }}
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor: "pointer",
+            marginTop: "-0px",
+            marginBottom: "30px",
+            color: "#3D4043",
+          }}
         >
-          <img src={EmailIcon} />
+          <img
+            src={EmailIcon}
+            style={{
+              cursor: "pointer",
+              marginTop: "20px",
+              marginBottom: "0px",
+              color: "#3D4043",
+            }}
+          />
           Sign up with email
         </button>
       )}

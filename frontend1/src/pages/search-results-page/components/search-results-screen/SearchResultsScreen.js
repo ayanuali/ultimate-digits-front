@@ -72,7 +72,7 @@ const SearchResultsScreen = ({
   useEffect(() => {
     setQueryParam(searchParams.get("n"));
     generateNumbers();
-    console.log(queryParam);
+    console.log("queryParam", queryParam);
     checkAccFunc();
   }, [updatePage]);
 

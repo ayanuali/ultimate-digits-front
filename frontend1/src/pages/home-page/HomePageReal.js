@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAccount, switchChain, disconnect } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { setUserData } from "../../services/wallet/UserSlice";
+import { countries } from "../../constants";
 export default function HomePageReal({
   setNumber,
   setProceedTo,
@@ -42,6 +43,14 @@ export default function HomePageReal({
       );
     else if (code == "971") return setPlace("+971 056 678 8989");
     else return setPlace("+1 (555) 000-0000");
+  };
+
+  const handleChange = (e) => {
+    setCode(e.target.value);
+    // Assuming every country follows a generic placeholder initially.
+    // This can be customized for countries with different mobile number rules.
+    setPlace("Enter mobile number without country code & space");
+    dispatch(setUserData({ ...userr, countryCode: e.target.value }));
   };
 
   //function to send the otp for mobile number check
@@ -122,26 +131,15 @@ export default function HomePageReal({
             <select
               id="code1"
               style={{ height: "50px" }}
-              onChange={(e) => {
-                setCode(e.target.value);
-                if (e.target.value == "91")
-                  setPlace(
-                    "Enter 10 digit mobile number without\n country code & space"
-                  );
-                else if (e.target.value == "971")
-                  setPlace(
-                    "Enter 10 digit mobile number without country code & space"
-                  );
-                else
-                  setPlace(
-                    "Enter 10 digit mobile number without country code & space"
-                  );
-              }}
+              onChange={handleChange}
+              value={code}
             >
-              {/* <option></option>    */}
-              <option value="1">US</option>
-              <option value="91">IND</option>
-              <option value="971">UAE</option>
+              {/* Dynamically render options from the countries list */}
+              {countries.map((country, index) => (
+                <option key={index} value={country.code}>
+                  {country.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="type1">
@@ -149,6 +147,9 @@ export default function HomePageReal({
               type="number"
               placeholder={place}
               value={number}
+              onInput={(e) => {
+                e.target.value = e.target.value.replace(/[^0-9]/g, "");
+              }}
               onChange={(e) => {
                 setNumber(e.target.value);
               }}

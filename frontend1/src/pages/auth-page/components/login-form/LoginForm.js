@@ -62,16 +62,15 @@ const LoginForm = ({
 
   const [gotAddress, setGotAddress] = useState(false);
 
+  const [content, setContent] = useState("Loading .....");
+
   const checkUser = async (rootId, address) => {
     try {
       console.log("checking users");
       console.log("root id", rootId);
-      const res = await axios.post(
-        "https://ud-backend-six.vercel.app/coinbase/verify",
-        {
-          rootId: rootId,
-        }
-      );
+      const res = await axios.post("http://localhost:8080/coinbase/verify", {
+        rootId: rootId,
+      });
 
       console.log(res);
       if (res.status === 200) {
@@ -130,6 +129,7 @@ const LoginForm = ({
   const handleLogin = async () => {
     console.log("logging in");
     setLoading(true);
+    setContent("Fetching your wallet");
     console.log("user", user);
     if (user) {
       const res1 = await waas.logout();
@@ -149,6 +149,7 @@ const LoginForm = ({
       const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
+      setContent("Creating your wallet");
 
       const address = await wallet.addresses.for(ProtocolFamily.EVM);
       console.log("address", address);
@@ -179,6 +180,7 @@ const LoginForm = ({
       console.log("wallet created already");
       const res2 = await res.restoreFromHostedBackup();
       console.log(res2);
+      setContent("Restoring your wallet");
 
       console.log("wallet", wallet);
       console.log("waas", waas);
@@ -191,19 +193,6 @@ const LoginForm = ({
       dispatch(setUserData({ ...userr, fulladdress: address }));
 
       if (res) {
-        // updateUserInfo(address.address, res2.rootContainerID);
-        // console.log("beofre redux", address.address, res2.rootContainerID);
-        // dispatch(
-        //   setUserData({
-        //     address: address.address,
-        //     rootId: res2.rootContainerID,
-        //   })
-        // );
-
-        // console.log(userr, "after redux");
-
-        // navigate("/selection-page");
-
         checkUser(res2.rootContainerID, address.address);
       }
     }
@@ -269,12 +258,9 @@ const LoginForm = ({
   const checkAddress = async (address) => {
     console.log("Address", address);
     try {
-      const res = await axios.post(
-        "https://ud-backend-six.vercel.app/coinbase/getPhno",
-        {
-          address: address,
-        }
-      );
+      const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+        address: address,
+      });
       if (res.status === 200) {
         console.log("there", res);
         const data = res.data.mapping;
@@ -558,10 +544,10 @@ const LoginForm = ({
         style={{ color: "#3D4043" }}
       >
         <img src={udIcon} />
-        Continue with Ultimate Wallet
+        Continue with Ultimate Wallet (Coinbase)
       </button>
 
-      <FullScreenLoader loading={loading} content="Loading..." />
+      <FullScreenLoader loading={loading} content={content} />
 
       <div className="powered">
         <img src={coinbase} alt="coinbase" />

@@ -65,7 +65,7 @@ export default function AuthenticationPageReal({
         console.log(data.status);
         if (data.status == "approved") {
           console.log("approved");
-          dispatch(setUserData({ ...userr, phno: number }));
+          dispatch(setUserData({ ...userr, phno: number, countryCode: code }));
           setProceedTo("lastpage");
         } else {
           setError(true);

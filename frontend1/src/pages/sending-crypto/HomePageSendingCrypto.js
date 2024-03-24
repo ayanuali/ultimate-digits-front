@@ -100,12 +100,9 @@ export default function HomePageSendingCrypto({
   const getAccounts = async () => {
     if (userr.address === account.address) {
       try {
-        const res = await axios.post(
-          "https://ud-backend-six.vercel.app/coinbase/getPhno",
-          {
-            address: account.address,
-          }
-        );
+        const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+          address: account.address,
+        });
         console.log(res.data);
         if (res.status === 200) {
           console.log(res.data.mapping.virtuals);
@@ -133,12 +130,9 @@ export default function HomePageSendingCrypto({
     } else {
       try {
         console.log("calling conbase data");
-        const res = await axios.post(
-          "https://ud-backend-six.vercel.app/coinbase/getPhno",
-          {
-            address: userr.address,
-          }
-        );
+        const res = await axios.post("http://localhost:8080/coinbase/getPhno", {
+          address: userr.address,
+        });
         console.log(res.data);
         if (res.status === 200) {
           console.log(res.data.mapping.virtuals);

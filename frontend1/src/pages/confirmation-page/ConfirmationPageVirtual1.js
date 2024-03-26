@@ -9,7 +9,7 @@ import { UserContext } from "../../Hook.js";
 import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
 import { toViem } from "@coinbase/waas-sdk-viem";
-
+import config from "../../config.json";
 import {
   createPublicClient,
   http,
@@ -231,16 +231,14 @@ export default function ConfirmationPageVirtual1({
       console.log(check);
 
       try {
-        const res = await axios.post(
-          "https://ud-backend.vercel.app/coinbase/map-phno",
-          {
-            phoneNumber: number,
-            address: userr.address,
-            countryCode: "999",
-            rootId: userr.rootId,
-            type: "virtual",
-          }
-        );
+        const apiurl = config.backend;
+        const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+          phoneNumber: number,
+          address: userr.address,
+          countryCode: "999",
+          rootId: "ncw",
+          type: "virtual",
+        });
 
         if (res.status === 200 || res.status === 201) {
           console.log("Mapping successful");

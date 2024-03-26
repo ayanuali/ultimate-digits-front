@@ -57,12 +57,11 @@ export default function PaymentpageReal({
       //   args: [toNumber, tocodes],
       // });
 
-      const res = await axios.post(
-        "https://ud-backend.vercel.app/coinbase/getAddress",
-        {
-          phoneNumber: toNumber,
-        }
-      );
+      const apiurl = config.backend;
+
+      const res = await axios.post(`${apiurl}/coinbase/getAddress`, {
+        phoneNumber: toNumber,
+      });
       if (res.status === 200) {
         console.log(res.data);
         console.log(res.data.mapping);

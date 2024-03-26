@@ -68,12 +68,10 @@ const LoginForm = ({
     try {
       console.log("checking users");
       console.log("root id", rootId);
-      const res = await axios.post(
-        "https://ud-backend.vercel.app/coinbase/verify",
-        {
-          rootId: rootId,
-        }
-      );
+      const apiurl = config.backend;
+      const res = await axios.post(`${apiurl}/coinbase/verify`, {
+        rootId: rootId,
+      });
 
       console.log(res);
       if (res.status === 200) {
@@ -266,12 +264,10 @@ const LoginForm = ({
   const checkAddress = async (address) => {
     console.log("Address", address);
     try {
-      const res = await axios.post(
-        "https://ud-backend.vercel.app/coinbase/getPhno",
-        {
-          address: address,
-        }
-      );
+      const apiurl = config.backend;
+      const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
+        address: address,
+      });
       if (res.status === 200) {
         console.log("there", res);
         const data = res.data.mapping;

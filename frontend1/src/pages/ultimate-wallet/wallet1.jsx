@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 
-const Wallet = () => {
+const WalletAf = () => {
   const { waas, user, isCreatingWallet, wallet, isLoggingIn } =
     useWalletContext();
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ const Wallet = () => {
         {" "}
         <img src={frame} alt="frame" className="frame" />
       </div>
-      <div className="headerText">Congrats! Your Ultimate Wallet is ready</div>
+      <div className="headerText">Fund Your Wallet </div>
       <div className="address" onClick={copyToClipboard}>
         {address}
         <img src={clipboard} alt="clip" />{" "}
@@ -65,15 +65,6 @@ const Wallet = () => {
         <QRCodeSVG value={address} size={128} level={"H"} />
       </div>
 
-      <div
-        className="privatekey"
-        onClick={showPrivKey ? copyToClipboard : showPrivateKey}
-      >
-        {showPrivKey ? privatekey : " Show private Key"}
-        {showPrivKey ? <img src={clipboard} alt="clip" /> : ""}
-        {}
-      </div>
-
       <div className="link" onClick={handleLink}>
         link Mobile number
       </div>
@@ -81,4 +72,4 @@ const Wallet = () => {
   );
 };
 
-export default Wallet;
+export default WalletAf;

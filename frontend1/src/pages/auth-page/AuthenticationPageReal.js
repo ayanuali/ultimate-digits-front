@@ -22,6 +22,7 @@ export default function AuthenticationPageReal({
   const resend = async () => {
     console.log(code);
     console.log(number);
+    setconfirmationcode("");
     setError(false);
 
     fetch(`${config.backend}/twilio-sms/sendotp`, {
@@ -65,7 +66,7 @@ export default function AuthenticationPageReal({
         console.log(data.status);
         if (data.status == "approved") {
           console.log("approved");
-          dispatch(setUserData({ ...userr, phno: number }));
+          dispatch(setUserData({ ...userr, phno: number, countryCode: code }));
           setProceedTo("lastpage");
         } else {
           setError(true);
@@ -118,6 +119,7 @@ export default function AuthenticationPageReal({
               onChange={(e) => {
                 setconfirmationcode(e.target.value);
               }}
+              value={confirmationcode}
               placeholder="Enter the 6 digit confirmation code"
             ></input>
           </div>

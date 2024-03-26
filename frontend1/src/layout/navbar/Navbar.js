@@ -44,7 +44,17 @@ const Navbar = ({ loggedIn, setLog }) => {
     }
 
     disconnect(connectConfig);
+    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+
     navigate("/");
+  };
+
+  const handleNavigate = () => {
+    if (userr.address !== "") {
+      navigate("sending-crypto/home-page");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
@@ -53,7 +63,7 @@ const Navbar = ({ loggedIn, setLog }) => {
         <img
           src={Logo}
           alt="logo"
-          onClick={() => navigate("/")}
+          onClick={handleNavigate}
           className="navbarLogo"
         />
 

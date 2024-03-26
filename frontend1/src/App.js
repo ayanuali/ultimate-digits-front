@@ -23,6 +23,7 @@ import Cryptopage5 from "./pages/sending-crypto/sendingCrypto/Cryptopage5";
 import PaymentpageReal from "./pages/sending-crypto/sendingPayment/PaymentpageReal";
 import PaymentpageVirtual from "./pages/sending-crypto/sendingPayment/PaymentpageVirtual";
 import Wallet from "./pages/ultimate-wallet/wallet";
+import WalletAf from "./pages/ultimate-wallet/wallet1";
 import { checkUser } from "./services/magic";
 import Component1 from "./Hook";
 import { Provider } from "react-redux";
@@ -133,6 +134,7 @@ function App() {
                   }
                 />
                 <Route path={"/wallet"} element={<Wallet />} />
+                <Route path={"/walletaf"} element={<WalletAf />} />
                 <Route
                   path={"/selection-page/virtual-number/home"}
                   element={<HomePage setCode={setCode} />}

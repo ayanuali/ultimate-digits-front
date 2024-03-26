@@ -40,7 +40,7 @@ const LoginForm = ({
   log,
   setNav,
 }) => {
-  const { waas, user, isCreatingWallet, wallet, isLoggingIn } =
+  const { waas, user, isCreatingWallet, wallet, isLoggingIn , error } =
     useWalletContext();
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -61,6 +61,8 @@ const LoginForm = ({
   const [gotData, setGotData] = useState(false);
 
   const [gotAddress, setGotAddress] = useState(false);
+
+  const [content, setContent] = useState("Loading .....");
 
   const checkUser = async (rootId, address) => {
     try {
@@ -127,7 +129,9 @@ const LoginForm = ({
 
   const handleLogin = async () => {
     console.log("logging in");
+    console.log("if error",error)
     setLoading(true);
+    setContent("Fetching your wallet");
     console.log("user", user);
     if (user) {
       const res1 = await waas.logout();
@@ -147,6 +151,7 @@ const LoginForm = ({
       const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
+      setContent("Creating your wallet");
 
       const address = await wallet.addresses.for(ProtocolFamily.EVM);
       console.log("address", address);
@@ -175,33 +180,25 @@ const LoginForm = ({
     }
     if (res.hasWallet === true) {
       console.log("wallet created already");
+      console.log("res", res);
+
       const res2 = await res.restoreFromHostedBackup();
       console.log(res2);
+      setContent("Restoring your wallet");
 
       console.log("wallet", wallet);
       console.log("waas", waas);
 
       const address = await res2.addresses.for(ProtocolFamily.EVM);
+      const priv = await res.backup;
+      console.log("private keys", priv);
       console.log("address", address);
       localStorage.setItem("address", JSON.stringify(address));
       console.log(`Got address: ${address.address}`);
 
-      dispatch(setUserData({ ...userr, fulladdress: address }));
+      dispatch(setUserData({ ...userr, privKey: priv }));
 
       if (res) {
-        // updateUserInfo(address.address, res2.rootContainerID);
-        // console.log("beofre redux", address.address, res2.rootContainerID);
-        // dispatch(
-        //   setUserData({
-        //     address: address.address,
-        //     rootId: res2.rootContainerID,
-        //   })
-        // );
-
-        // console.log(userr, "after redux");
-
-        // navigate("/selection-page");
-
         checkUser(res2.rootContainerID, address.address);
       }
     }
@@ -503,9 +500,22 @@ const LoginForm = ({
             setOpenEmail(true);
             setOpenPhone(false);
           }}
-          style={{ cursor: "pointer" }}
+          style={{
+            cursor: "pointer",
+            marginTop: "-0px",
+            marginBottom: "30px",
+            color: "#3D4043",
+          }}
         >
-          <img src={EmailIcon} />
+          <img
+            src={EmailIcon}
+            style={{
+              cursor: "pointer",
+              marginTop: "20px",
+              marginBottom: "0px",
+              color: "#3D4043",
+            }}
+          />
           Sign up with email
         </button>
       )}
@@ -549,19 +559,47 @@ const LoginForm = ({
       <CustomButton onSuccess={connectWalletAndSetupContract} />
 
       <button
-        className="loginWrapperTranspBtn"
+        className=""
         onClick={handleLogin}
-        style={{ color: "#3D4043" }}
+        style={{ color: "#3D4043", height: "60px" }}
       >
-        <img src={udIcon} />
-        Continue with Ultimate Wallet
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              columnGap: "10px",
+            }}
+          >
+            {" "}
+            <img src={udIcon} />
+            Continue with Ultimate Wallet
+          </div>
+          <span>
+            <img
+              style={{
+                height: "fit-content",
+                width: "fit-content",
+                marginTop: "-30px",
+              }}
+              src={coinbase}
+              alt="coinbase"
+            />
+          </span>
+        </div>
       </button>
 
-      <FullScreenLoader loading={loading} content="Loading..." />
+      <FullScreenLoader loading={loading} content={content} />
 
-      <div className="powered">
-        <img src={coinbase} alt="coinbase" />
-      </div>
+      <div className="powered"></div>
 
       <div className="companyrights">© Ultimate Digits 2024</div>
     </div>

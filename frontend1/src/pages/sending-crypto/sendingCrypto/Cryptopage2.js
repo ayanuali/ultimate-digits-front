@@ -27,6 +27,8 @@ export default function Cryptopage2({
 }) {
   const { user, wallet } = useWalletContext();
 
+  console.log("reallt ipmpotat", user, wallet);
+
   const userr = useSelector((state) => state.user);
   console.log(userr, "before redux");
   //function to set navigation bar
@@ -239,7 +241,7 @@ export default function Cryptopage2({
               <button onClick={sendTransaction}>Pay Via Metamask</button>
             )}
 
-            {user && wallet && (
+            {user && wallet && userr.rootId !== "ncw" && (
               <button onClick={sendTransaction}>
                 Pay using ultimate digits wallet
               </button>

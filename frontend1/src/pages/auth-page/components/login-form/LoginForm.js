@@ -40,7 +40,7 @@ const LoginForm = ({
   log,
   setNav,
 }) => {
-  const { waas, user, isCreatingWallet, wallet, isLoggingIn } =
+  const { waas, user, isCreatingWallet, wallet, isLoggingIn , error } =
     useWalletContext();
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -131,6 +131,7 @@ const LoginForm = ({
 
   const handleLogin = async () => {
     console.log("logging in");
+    console.log("if error",error)
     setLoading(true);
     setContent("Fetching your wallet");
     console.log("user", user);

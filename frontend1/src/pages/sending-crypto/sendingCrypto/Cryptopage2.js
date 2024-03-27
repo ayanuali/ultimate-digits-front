@@ -10,7 +10,9 @@ import { useSelector } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
-
+import { getAccount, readContract, getBalance } from "@wagmi/core";
+import { useEffect, useState } from "react";
+import { connectConfig } from "../../../ConnectKit/Web3Provider";
 import { getContract, createPublicClient, custom } from "viem";
 
 export default function Cryptopage2({
@@ -26,6 +28,18 @@ export default function Cryptopage2({
   tocode,
 }) {
   const { user, wallet } = useWalletContext();
+  const [balanceVal, setBalanceVal] = useState(0);
+
+  const getingBalance = async () => {
+    const balance = await getBalance(connectConfig, {
+      address: userr.address,
+    });
+    console.log("blance", balance);
+    console.log("val", balance.formatted);
+    setBalanceVal(balance.formatted);
+    console.log("sy,", balance.symbol);
+    console.log("value", balance.value);
+  };
 
   console.log("reallt ipmpotat", user, wallet);
 
@@ -77,6 +91,10 @@ export default function Cryptopage2({
   async function sendTransaction() {
     console.log(totalfinalamount);
     console.log(number);
+    if(totalfinalamount > balanceVal){
+      alert("Insufficient Balance")
+      return
+    }
     fetch(
       `http://api.coinlayer.com/api/live?access_key=${config.convert_api}&symbols=BNB`
     )
@@ -189,11 +207,20 @@ export default function Cryptopage2({
               });
 
             console.log("Transaction hash:", res);
-          } catch (error) {}
+          } catch (error) {
+            console.log(error);
+            // navigate("/sending-crypto/last-page");
+          }
         }
       })
       .catch((e) => console.log(e));
+
+
   }
+
+  useEffect(()=>{
+    getingBalance()
+  },[])
   return (
     <div className="cryptopage2">
       <SidebarPayment />
@@ -264,6 +291,12 @@ export default function Cryptopage2({
                 Connected wallet
               </div>
               <div className="sub-text">{toAddress}</div>
+            </div>
+            <div className="box2">
+              <div className="text" style={{ marginTop: "-3px" }}>
+               Balance
+              </div>
+              <div className="sub-text">{balanceVal} TBNB</div>
             </div>
           </div>
         </div>

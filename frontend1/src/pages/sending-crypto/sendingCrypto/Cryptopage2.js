@@ -96,7 +96,7 @@ export default function Cryptopage2({
       return
     }
     fetch(
-      `http://api.coinlayer.com/api/live?access_key=${config.convert_api}&symbols=BNB`
+      `https://api.coinlayer.com/api/live?access_key=${config.convert_api}&symbols=BNB`
     )
       .then(async (res) => {
         let data = await res.json();

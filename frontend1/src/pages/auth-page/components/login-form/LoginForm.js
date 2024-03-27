@@ -561,7 +561,7 @@ const LoginForm = ({
       <button
         className=""
         onClick={handleLogin}
-        style={{ color: "#3D4043", height: "60px" }}
+        style={{ color: "#3D4043", height: "60px", background:"white" }}
       >
         <div
           style={{

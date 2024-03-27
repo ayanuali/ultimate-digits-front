@@ -11,6 +11,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
     <WalletProvider
+verbose={true}
       enableHostedBackups={true}
       collectAndReportMetrics
       prod={false}

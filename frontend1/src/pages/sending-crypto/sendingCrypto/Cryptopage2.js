@@ -115,9 +115,7 @@ export default function Cryptopage2({
 
         const provider = new ethers.BrowserProvider(window.ethereum);
         console.log(provider);
-        //This is used to acces the checked in accounts
-        // provider
-        //   .getSigner()
+
 
         if (!user && !wallet) {
           try {

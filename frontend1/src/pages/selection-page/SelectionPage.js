@@ -41,8 +41,14 @@ export default function SelectionPage({ setNav }) {
         alert("Insufficient balance");
         navigate("/walletaf");
       }
-    } else {
-      navigate("virtual-number");
+    } else  {
+      if(balanceVal > 0){
+        navigate("virtual-number/home");
+      }
+      else {
+        alert("Insufficient balance");
+        navigate("/walletaf");
+      }
     }
   };
 

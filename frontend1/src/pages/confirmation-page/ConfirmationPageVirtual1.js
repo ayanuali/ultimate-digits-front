@@ -9,6 +9,9 @@ import { UserContext } from "../../Hook.js";
 import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
 import { toViem } from "@coinbase/waas-sdk-viem";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+
 import config from "../../config.json";
 import {
   createPublicClient,
@@ -148,6 +151,8 @@ export default function ConfirmationPageVirtual1({
       // }
     } catch (error) {
       console.error("Error processing NFT_gen:", error);
+      toast.warn("Check your balance")
+      setNftMinted(false)
     }
   }
 
@@ -181,9 +186,12 @@ export default function ConfirmationPageVirtual1({
     //   method: 'wallet_switchEthereumChain',
     //   params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
     // })
+    console.log("called here")
+    console.log(cartArray)
+
     await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
-    console.log(contract_connect);
+    console.log("contract_connect",contract_connect);
 
     // const hash = await walletClient.writeContract({
     //      address: contract_connect.address,
@@ -191,11 +199,12 @@ export default function ConfirmationPageVirtual1({
     //      functionName: 'SettingUniqueId',
     //      args: [number, "999"],
     //    })
-
+console.log(cartArray)
     cartArray.map(async (number, i) => {
       console.log("UID creation");
       var transaction = async () => {
         if (userr.rootId === "ncw") {
+          console.log("ncw")
           await writeContract(connectConfig, {
             abi: contract_connect.abi,
             address: contract_connect.address,
@@ -343,15 +352,26 @@ export default function ConfirmationPageVirtual1({
           </div>
         </div>
         <div className="cpv2-btn" style={{ marginTop: "-1.8rem" }}>
-          <button
+        { !nftMinted &&   <button  disabled style={{"background":"#f2f2f2", "color": "#a9a9a9", "cursor": "not-allowed"}}
+            // onClick={async () => {
+            //   PerformAction();
+            //   // await NFT_Gen()
+            // }}
+          >
+            Mint then Link your number to a wallet
+          </button>}
+         { nftMinted && <button 
             onClick={async () => {
               PerformAction();
               // await NFT_Gen()
             }}
           >
             Link your number to a wallet
-          </button>
+          </button>}
         </div>
+
+        <ToastContainer />
+
       </div>
     </div>
   );

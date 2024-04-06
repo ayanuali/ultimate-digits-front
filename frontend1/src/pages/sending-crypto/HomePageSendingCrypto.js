@@ -121,9 +121,8 @@ export default function HomePageSendingCrypto({
           console.log(res.data.mapping.countryCode);
           setCountryCode(res.data.mapping.countryCode);
           if (
-            res.data.mapping.phone !== null ||
-            res.data.mapping.phone !== "" ||
-            res.data.mapping.phone !== undefined
+            res.data.mapping.phone === undefined
+           
           ) {
             setHaveReal(true);
           }
@@ -160,10 +159,9 @@ export default function HomePageSendingCrypto({
           console.log(res.data.mapping.countryCode);
           setCountryCode(res.data.mapping.countryCode);
           if (
-            res.data.mapping.phone !== null ||
-            res.data.mapping.phone !== "" ||
-            res.data.mapping.phone !== undefined
+            res.data.mapping.phone === undefined
           ) {
+            console.log("no real number")
             setHaveReal(true);
           }
           dispatch(
@@ -221,6 +219,7 @@ export default function HomePageSendingCrypto({
       navigate("/selection-page/virtual-number");
     } else {
       alert("You have insufficient balance");
+      navigate("/walletaf2")
     }
   };
 
@@ -244,7 +243,7 @@ export default function HomePageSendingCrypto({
         <div className="hp-content hp-navbar">
           <div className="text button-buy" style={{ marginTop: "-5px" }}>
             Your Numbers
-            {!haveReal === true && (
+            {haveReal === true && (
               <button className="sending-buy" onClick={handleNavigateReal}>
                 Link Your Real Number
                 <span style={{ margin: "5px" }}>

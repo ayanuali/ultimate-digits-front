@@ -30,6 +30,7 @@ import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
 import { setUserData } from "../../../../services/wallet/UserSlice";
+import ErrorBoundary from "../Error-Boundary/ErrorBoundary";
 const LoginForm = ({
   setProceedTo,
   setsigner,
@@ -473,6 +474,7 @@ const LoginForm = ({
   }
 
   return (
+    <ErrorBoundary>
     <div
       className="loginWrapper"
       style={{ textAlign: setProceedTo ? "left" : "center" }}
@@ -603,6 +605,7 @@ const LoginForm = ({
 
       <div className="companyrights">© Ultimate Digits 2024</div>
     </div>
+    </ErrorBoundary>
   );
 };
 

@@ -31,6 +31,7 @@ import { Web3Provider } from "./ConnectKit/Web3Provider";
 
 import { WalletProvider, useWalletContext } from "@coinbase/waas-sdk-web-react";
 import store from "./store";
+import WalletAf2 from "./pages/ultimate-wallet/wallet2";
 function App() {
   //function to set various variable states
   const [user, setUser] = useState({
@@ -135,6 +136,7 @@ function App() {
                 />
                 <Route path={"/wallet"} element={<Wallet />} />
                 <Route path={"/walletaf"} element={<WalletAf />} />
+                <Route path={"/walletaf2"} element={<WalletAf2 />} />
                 <Route
                   path={"/selection-page/virtual-number/home"}
                   element={<HomePage setCode={setCode} />}

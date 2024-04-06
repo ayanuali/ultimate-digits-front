@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ethers } from "ethers";
 import "./ConfirmationPageVirtual1.css";
 // import nftLogo from "../../assets/ud-logo.png";
 // import {address_NFT,abi_NFT} from "../../../../abi/Nft.js";
+import "../auth-page/components/login-form/FullScreenLoader.css";
 import { address_NFT, abi_NFT } from "../../abi/Nft.js";
 import nftLogo from "../../assets/ud-logo.png";
 import { UserContext } from "../../Hook.js";
@@ -27,12 +28,15 @@ import {
   switchChain,
 } from "@wagmi/core";
 import { useSelector, useDispatch } from "react-redux";
+import { getBalance } from "@wagmi/core";
+
 
 import { connectConfig } from "../../ConnectKit/Web3Provider.jsx";
 import axios from "axios";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { waitForTransactionReceipt, sendTransaction } from "@wagmi/core";
+import FullScreenLoader from "../auth-page/components/login-form/FullScreenLoader.js";
 
 export default function ConfirmationPageVirtual1({
   setProceedTo,
@@ -54,6 +58,11 @@ export default function ConfirmationPageVirtual1({
   const [add, setadd] = useState("");
   const [tid, settid] = useState("");
   const [nftMinted, setNftMinted] = useState(false);
+  const [balanceVal, setBalanceVal] = useState(0);
+
+  const [loading, setLoading] = useState(false)
+  const [content, setContent] = useState("Loading.....")
+
   // Extract the "cart" parameter value from the query string
   const urlParams = new URLSearchParams(queryString);
   const cartParam = urlParams.get("cart");
@@ -68,7 +77,29 @@ export default function ConfirmationPageVirtual1({
 
   const account = getAccount(connectConfig);
 
+
+  const getingBalance = async () => {
+    const balance = await getBalance(connectConfig, {
+      address: userr.address,
+    });
+    console.log("blance", balance);
+    console.log("val", balance.formatted);
+    setBalanceVal(balance.formatted);
+    console.log("sy,", balance.symbol);
+    console.log("value", balance.value);
+  };
+
+
+  useEffect(() => {
+    getingBalance();
+  }, []);
+
   async function NFT_Gen() {
+
+    getingBalance()
+
+    setLoading(true);
+    setContent("Generating and Minting NFT");
     // await window.ethereum.request({
     //   method: 'wallet_switchEthereumChain',
     //   params: [{ chainId: '0xAA36A7' }], // chainId must be in hexadecimal numbers
@@ -101,33 +132,45 @@ export default function ConfirmationPageVirtual1({
           });
 
           setNftMinted(true);
+          setLoading(false);
         } else {
           console.log("user", user);
           console.log("wallet", wallet);
           const address = await wallet.addresses.for(ProtocolFamily.EVM);
           console.log("address", address);
 
-          const walletClient = createWalletClient({
-            account: toViem(address),
-            chain: bscTestnet,
-            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
-          });
-          console.log("walletClient", walletClient);
-          const hash = await walletClient.writeContract({
-            address: contract.address,
-            abi: contract.abi,
-            functionName: "mint",
-            args: [
-              "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-            ],
-          });
-          setNftMinted(true);
-          console.log("hash", hash);
+          if(balanceVal !=0 ){
+            const walletClient = createWalletClient({
+              account: toViem(address),
+              chain: bscTestnet,
+              transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+            });
+            console.log("walletClient", walletClient);
+            const hash = await walletClient.writeContract({
+              address: contract.address,
+              abi: contract.abi,
+              functionName: "mint",
+              args: [
+                "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+              ],
+            });
+            setNftMinted(true);
+            console.log("hash", hash);
+            setLoading(false);
+          }
+          else{
+            alert("not sufficient sepolia balance")
+            setLoading(false);
+
+          }
+
+      
         }
       };
       await transaction();
 
       console.log("minting called");
+      setLoading(false);
 
       // const readTransactionConfig = {
       //   ...connectConfig,
@@ -153,6 +196,7 @@ export default function ConfirmationPageVirtual1({
       console.error("Error processing NFT_gen:", error);
       toast.warn("Check your balance")
       setNftMinted(false)
+      setLoading(false);
     }
   }
 
@@ -186,8 +230,11 @@ export default function ConfirmationPageVirtual1({
     //   method: 'wallet_switchEthereumChain',
     //   params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
     // })
+    setContent("Linking Number");
     console.log("called here")
     console.log(cartArray)
+
+    setLoading(true);
 
     await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
@@ -238,28 +285,54 @@ console.log(cartArray)
       console.log("settingUIDtransaction got through");
       check++;
       console.log(check);
+          
 
       try {
         const apiurl = config.backend;
-        const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
-          phoneNumber: number,
-          address: userr.address,
-          countryCode: "999",
-          rootId: "ncw",
-          type: "virtual",
-        });
+     if(userr.rootId === "ncw"){
+      const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+        phoneNumber: number,
+        address: userr.address,
+        countryCode: "999",
+        rootId: "ncw",
+        type: "virtual",
+      });
 
-        if (res.status === 200 || res.status === 201) {
-          console.log("Mapping successful");
-
-          if (check === cartArray.length) {
-            navigate(
-              `/selection-page/my-numbers/confirm-page?number=${number}`
-            );
-          }
+      if (res.status === 200 || res.status === 201) {
+        console.log("Mapping successful");
+setLoading(false);
+        if (check === cartArray.length) {
+          navigate(
+            `/selection-page/my-numbers/confirm-page?number=${number}`
+          );
         }
+      }
+     }
+     
+     else{
+      const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+        phoneNumber: number,
+        address: userr.address,
+        countryCode: "999",
+        rootId: userr.rootId,
+        type: "virtual",
+      });
+
+      if (res.status === 200 || res.status === 201) {
+        console.log("Mapping successful");
+setLoading(false);
+        if (check === cartArray.length) {
+          navigate(
+            `/selection-page/my-numbers/confirm-page?number=${number}`
+          );
+        }
+      }
+     }
+
+
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
 
       // if (transaction) {
@@ -270,6 +343,7 @@ console.log(cartArray)
       // }
     });
     console.log(cartArray.length);
+    setLoading(false);
   }
 
   async function PerfomAction() {
@@ -371,6 +445,8 @@ console.log(cartArray)
         </div>
 
         <ToastContainer />
+
+        <FullScreenLoader loading={loading} content={content} />
 
       </div>
     </div>

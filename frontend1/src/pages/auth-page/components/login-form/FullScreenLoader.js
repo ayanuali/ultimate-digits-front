@@ -6,7 +6,7 @@ const FullScreenLoader = ({ loading, content }) => {
 
   return (
     <div className="overlay">
-      <div className="loader">{content}</div>
+      <div className="loader" style={{color:"black"}}>{content}</div>
     </div>
   );
 };

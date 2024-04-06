@@ -17,7 +17,7 @@ import { Address } from "@coinbase/waas-sdk-web";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
 import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
-
+import "../login-form/FullScreenLoader.css"
 import { useSelector } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 // import {
@@ -31,6 +31,7 @@ import {
 } from "@wagmi/core";
 import { parseUnits } from "viem";
 import { getContract, createPublicClient, custom } from "viem";
+import FullScreenLoader from "../login-form/FullScreenLoader.js";
 
 function CartShow({
   cartArray,
@@ -324,15 +325,7 @@ function CartShow({
             false
           )}
           {load ? (
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "-40vh",
-              }}
-            >
-              <LoadPage />
-            </div>
+          <FullScreenLoader loading={load} content={"completing Purchase"} />
           ) : (
             false
           )}

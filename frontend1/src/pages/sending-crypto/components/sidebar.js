@@ -24,8 +24,12 @@ export default function Sidebar() {
       navigate("/");
     }
 
-    disconnect(connectConfig);
-    dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+   await disconnect(connectConfig);
+  await  dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+
+
+   await disconnect(connectConfig);
+ await   dispatch(setUserData({ rootId: "", address: "", phno: "" }));
 
     navigate("/");
   };

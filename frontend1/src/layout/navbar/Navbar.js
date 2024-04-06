@@ -43,7 +43,7 @@ const Navbar = ({ loggedIn, setLog }) => {
       navigate("/");
     }
 
-    disconnect(connectConfig);
+   await disconnect(connectConfig);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
 
     navigate("/");

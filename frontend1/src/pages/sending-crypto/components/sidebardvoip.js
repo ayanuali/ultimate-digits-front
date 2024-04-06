@@ -23,7 +23,7 @@ export default function Sidebardvoip() {
       navigate("/");
     }
 
-    disconnect(connectConfig);
+   await disconnect(connectConfig);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
 
     navigate("/");

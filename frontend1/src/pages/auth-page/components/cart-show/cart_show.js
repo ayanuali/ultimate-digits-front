@@ -110,7 +110,7 @@ function CartShow({
 
       // Convert amount to Wei
       const someAmt = parseInt(0.0046790195017 * 10);
-      const amt = parseEther(someAmt.toString()).toString();
+      const amt = parseEther(someAmt.toString());
       console.log("AMT:", amt);
 
       // Call sendTransaction
@@ -163,13 +163,15 @@ function CartShow({
           
           console.log("moments before desctruction", amt)
 
+          console.log(typeof(amt));
+
           const amosgsdg = parseInt(amt);
           console.log("god bless", amosgsdg);
 
           const res = await walletClient.sendTransaction({
             account: toViem(address),
             to: toaddress, // recipient address
-            value: amosgsdg, // transaction amount
+            value: amt, // transaction amount
             // ... other transaction parameters. see: https://viem.sh/docs/accounts/signTransaction.html
           });
           console.log("Transaction hash:", res);

@@ -158,10 +158,12 @@ function CartShow({
           // console.log("full address", toViem(userr.fulladdress));
           console.log("full address from wallet ", toViem(address));
 
+          console.log("issue guess 1:")
+
           const res = await walletClient.sendTransaction({
             account: toViem(address),
             to: toaddress, // recipient address
-            value: amt, // transaction amount
+            value: number(amt), // transaction amount
             // ... other transaction parameters. see: https://viem.sh/docs/accounts/signTransaction.html
           });
           console.log("Transaction hash:", res);

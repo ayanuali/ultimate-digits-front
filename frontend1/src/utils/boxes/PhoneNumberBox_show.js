@@ -43,11 +43,13 @@ const PhoneNumberBox = ({
 
   const checkAccFunc = async () => {
     try {
+      const numberAsNumber = parseInt(number);
+      console.log("afsafas",numberAsNumber);
       const addressReturned = await readContract(connectConfig, {
         abi: contract_connect.abi,
         address: contract_connect.address,
         functionName: "checkAccount",
-        args: [number, "999"]
+        args: [numberAsNumber, "999"]
       });
       var addrReturned = await addressReturned();
       if (addrReturned) {

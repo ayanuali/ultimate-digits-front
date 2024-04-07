@@ -110,7 +110,7 @@ function CartShow({
 
       // Convert amount to Wei
       const someAmt = parseInt(0.0046790195017 * 10);
-      const amt = parseEther(someAmt.toString());
+      const amt = parseEther(someAmt.toString()).toString();
       console.log("AMT:", amt);
 
       // Call sendTransaction

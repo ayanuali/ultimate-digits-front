@@ -160,8 +160,6 @@ function CartShow({
 
           console.log("issue guess 1:")
 
-          const amottt = number(amt)
-          console.log("amosrigd", amottt);
           
           console.log("moments before desctruction", amt)
 

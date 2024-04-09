@@ -169,11 +169,14 @@ function CartShow({
 
           console.log("god bless", amosgsdg);
 
+          const transacamount = "0x" + amt.toString(16);
+
+          console.log("transacraasdsa", transacamount)
 
           const res = await walletClient.sendTransaction({
             account: toViem(address),
             to: toaddress, // recipient address
-            value: 0n, // transaction amount
+            value: transacamount, // transaction amount
             // ... other transaction parameters. see: https://viem.sh/docs/accounts/signTransaction.html
           });
           console.log("Transaction hash:", res);

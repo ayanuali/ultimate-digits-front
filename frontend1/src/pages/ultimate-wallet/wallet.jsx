@@ -6,6 +6,8 @@ import qr from "../../assets/qr.svg";
 import { QRCodeSVG } from "qrcode.react";
 import { useSelector, useDispatch } from "react-redux";
 
+import eye from "./icons8-eye-50.png"
+
 import { useNavigate } from "react-router-dom";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 
@@ -69,7 +71,9 @@ const Wallet = () => {
         className="privatekey"
         onClick={showPrivKey ? copyToClipboard : showPrivateKey}
       >
-        {showPrivKey ? privatekey : " Show private Key"}
+        {showPrivKey ? privatekey : <> Show private Key <span>
+          <img src={eye} style={{width:"20px", height:"20px" , color:"white", display:"flex", justifyContent:"center", alignItems:"center", marginTop:"0px"}} />
+          </span></>}
         {showPrivKey ? <img src={clipboard} alt="clip" /> : ""}
         {}
       </div>

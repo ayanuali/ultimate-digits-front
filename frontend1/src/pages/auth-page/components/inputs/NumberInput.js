@@ -83,7 +83,7 @@ const PhoneInput = ({ setProceedTo, openEmail, user, setUser, log }) => {
                     setPlace("+971 056 678 8989");
                   else
                     setPlace(
-                      "Enter your Phone number without Country Code or Space"
+                      "Enter mobile number without country code"
                     );
                 }}
               >

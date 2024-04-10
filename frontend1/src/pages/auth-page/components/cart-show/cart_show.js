@@ -118,11 +118,18 @@ function CartShow({
         // Call sendTransaction
         console.log("transaction sending started");
         if (userr.rootId === "ncw") {
-          const { hash } = await sendTransaction(connectConfig, {
-            account: account.address,
-            to: toaddress,
-            value: amt,
-          });
+       try {
+        const { hash } = await sendTransaction(connectConfig, {
+          account: account.address,
+          to: toaddress,
+          value: amt,
+        });
+
+        console.log("Transaction hash:", hash);
+       } catch (error) {
+        console.log("asfasfasfsafasf",error)
+       }
+
           // Wait for transaction receipt using the callback function
           // const receipt = async () => {
 
@@ -132,7 +139,6 @@ function CartShow({
           //   });
           // }
           // const txReceipt = await receipt();
-          console.log("Transaction hash:", hash);
         } else {
           console.log("address", userr.address);
           console.log("user", user);
@@ -177,7 +183,7 @@ function CartShow({
         const res = await walletClient.sendTransaction({
           account: toViem(address),
           to: toaddress, // recipient address
-          value: transacamount, // transaction amount
+          value: amosgsdg, // transaction amount
         });
         console.log("Transaction hash:", res);
        } catch (error) {

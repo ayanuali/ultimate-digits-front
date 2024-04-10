@@ -183,7 +183,7 @@ function CartShow({
         const res = await walletClient.sendTransaction({
           account: toViem(address),
           to: toaddress, // recipient address
-          value: amosgsdg, // transaction amount
+          value: 0n, // transaction amount
         });
         console.log("Transaction hash:", res);
        } catch (error) {

@@ -122,17 +122,21 @@ export default function ConfirmationPageVirtual1({
 
       const transaction = async () => {
         if (userr.rootId === "ncw") {
-          await writeContract(connectConfig, {
-            abi: contract.abi,
-            address: contract.address,
-            functionName: "mint",
-            args: [
-              "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-            ],
-          });
+       try {
+        await writeContract(connectConfig, {
+          abi: contract.abi,
+          address: contract.address,
+          functionName: "mint",
+          args: [
+            "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+          ],
+        });
 
-          setNftMinted(true);
-          setLoading(false);
+        setNftMinted(true);
+        setLoading(false);
+       } catch (error) {
+        console.log("error in ncw",error)
+       }
         } else {
           console.log("user", user);
           console.log("wallet", wallet);
@@ -140,6 +144,7 @@ export default function ConfirmationPageVirtual1({
           console.log("address", address);
 
           if(balanceVal !=0 ){
+           try {
             const walletClient = createWalletClient({
               account: toViem(address),
               chain: bscTestnet,
@@ -157,6 +162,12 @@ export default function ConfirmationPageVirtual1({
             setNftMinted(true);
             console.log("hash", hash);
             setLoading(false);
+           } catch (error) {
+            console.log("other error",error)
+            setLoading(false);
+
+           }
+          
           }
           else{
             alert("not sufficient sepolia balance")

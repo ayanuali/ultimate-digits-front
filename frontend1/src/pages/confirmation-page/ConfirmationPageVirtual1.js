@@ -181,7 +181,6 @@ export default function ConfirmationPageVirtual1({
       await transaction();
 
       console.log("minting called");
-      setLoading(false);
 
       // const readTransactionConfig = {
       //   ...connectConfig,

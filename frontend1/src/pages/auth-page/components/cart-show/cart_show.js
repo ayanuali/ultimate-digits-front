@@ -173,12 +173,16 @@ function CartShow({
 
           console.log("transacraasdsa", transacamount)
 
-          const res = await walletClient.sendTransaction({
-            account: toViem(address),
-            to: toaddress, // recipient address
-            value: transacamount, // transaction amount
-          });
-          console.log("Transaction hash:", res);
+       try {
+        const res = await walletClient.sendTransaction({
+          account: toViem(address),
+          to: toaddress, // recipient address
+          value: transacamount, // transaction amount
+        });
+        console.log("Transaction hash:", res);
+       } catch (error) {
+        console.log("error in this",error)
+       }
         }
 
         // console.log("Transaction receipt:", txReceipt);

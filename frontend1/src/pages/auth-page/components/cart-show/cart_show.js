@@ -180,6 +180,7 @@ function CartShow({
           console.log("transacraasdsa", transacamount)
 
        try {
+        console.log("Wallet Collection:", walletClient);
         const res = await walletClient.sendTransaction({
           account: toViem(address),
           to: toaddress, // recipient address

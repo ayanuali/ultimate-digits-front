@@ -43,13 +43,19 @@ const PhoneNumberBox = ({
 
   const checkAccFunc = async () => {
     try {
+
       const numberAsNumber = parseInt(number);
+
+      const transacamount = "0x" + numberAsNumber.toString(16);
+
       console.log("afsafas",numberAsNumber);
+      console.log("transacraasdsa", transacamount)
+
       const addressReturned = await readContract(connectConfig, {
         abi: contract_connect.abi,
         address: contract_connect.address,
         functionName: "checkAccount",
-        args: [numberAsNumber, "999"]
+        args: [transacamount, "999"]
       });
       var addrReturned = await addressReturned();
       if (addrReturned) {

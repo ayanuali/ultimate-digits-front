@@ -218,7 +218,7 @@ function CartShow({
     } catch (error) {
       console.error("Error processing buyNumber:", error);
       setError(true); // Set error state to true
-      setLoad(false); // Set loading state to false
+   // Set loading state to false
     }
   }
 

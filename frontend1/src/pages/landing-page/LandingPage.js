@@ -24,6 +24,8 @@ export default function LandingPage({ setNav, setLog, setUser, user }) {
 
   return (
     <div className="landing-page">
+      {/* <stargate-widget theme="dark" /> */}
+
       <div className="landing-content">
         <div className="imageSection">
           <div className="icon">

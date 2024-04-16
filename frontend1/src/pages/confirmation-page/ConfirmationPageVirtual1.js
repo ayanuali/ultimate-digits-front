@@ -122,60 +122,60 @@ export default function ConfirmationPageVirtual1({
 
       const transaction = async () => {
         if (userr.rootId === "ncw") {
-       try {
-        await writeContract(connectConfig, {
-          abi: contract.abi,
-          address: contract.address,
-          functionName: "mint",
-          args: [
-            "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-          ],
-        });
+          try {
+            await writeContract(connectConfig, {
+              abi: contract.abi,
+              address: contract.address,
+              functionName: "mint",
+              args: [
+                "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+              ],
+            });
 
-        setNftMinted(true);
-        setLoading(false);
-       } catch (error) {
-        console.log("error in ncw",error)
-       }
+            setNftMinted(true);
+            setLoading(false);
+          } catch (error) {
+            console.log("error in ncw", error)
+          }
         } else {
           console.log("user", user);
           console.log("wallet", wallet);
           const address = await wallet.addresses.for(ProtocolFamily.EVM);
           console.log("address", address);
 
-          if(balanceVal !=0 ){
-           try {
-            const walletClient = createWalletClient({
-              account: toViem(address),
-              chain: bscTestnet,
-              transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
-            });
-            console.log("walletClient", walletClient);
-            const hash = await walletClient.writeContract({
-              address: contract.address,
-              abi: contract.abi,
-              functionName: "mint",
-              args: [
-                "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-              ],
-            });
-            setNftMinted(true);
-            console.log("hash", hash);
-            setLoading(false);
-           } catch (error) {
-            console.log("other error",error)
-            setLoading(false);
+          if (balanceVal != 0) {
+            try {
+              const walletClient = createWalletClient({
+                account: toViem(address),
+                chain: bscTestnet,
+                transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+              });
+              console.log("walletClient", walletClient);
+              const hash = await walletClient.writeContract({
+                address: contract.address,
+                abi: contract.abi,
+                functionName: "mint",
+                args: [
+                  "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+                ],
+              });
+              setNftMinted(true);
+              console.log("hash", hash);
+              setLoading(false);
+            } catch (error) {
+              console.log("other error", error)
+              setLoading(false);
 
-           }
-          
+            }
+
           }
-          else{
+          else {
             alert("not sufficient sepolia balance")
             setLoading(false);
 
           }
 
-      
+
         }
       };
       await transaction();
@@ -248,7 +248,7 @@ export default function ConfirmationPageVirtual1({
 
     await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
-    console.log("contract_connect",contract_connect);
+    console.log("contract_connect", contract_connect);
 
     // const hash = await walletClient.writeContract({
     //      address: contract_connect.address,
@@ -256,7 +256,7 @@ export default function ConfirmationPageVirtual1({
     //      functionName: 'SettingUniqueId',
     //      args: [number, "999"],
     //    })
-console.log(cartArray)
+    console.log(cartArray)
     cartArray.map(async (number, i) => {
       console.log("UID creation");
       var transaction = async () => {
@@ -295,49 +295,49 @@ console.log(cartArray)
       console.log("settingUIDtransaction got through");
       check++;
       console.log(check);
-          
+
 
       try {
         const apiurl = config.backend;
-     if(userr.rootId === "ncw"){
-      const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
-        phoneNumber: number,
-        address: userr.address,
-        countryCode: "999",
-        rootId: "ncw",
-        type: "virtual",
-      });
+        if (userr.rootId === "ncw") {
+          const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+            phoneNumber: number,
+            address: userr.address,
+            countryCode: "999",
+            rootId: "ncw",
+            type: "virtual",
+          });
 
-      if (res.status === 200 || res.status === 201) {
-        console.log("Mapping successful");
-setLoading(false);
-        if (check === cartArray.length) {
-          navigate(
-            `/selection-page/my-numbers/confirm-page?number=${number}`
-          );
+          if (res.status === 200 || res.status === 201) {
+            console.log("Mapping successful");
+            setLoading(false);
+            if (check === cartArray.length) {
+              navigate(
+                `/selection-page/my-numbers/confirm-page?number=${number}`
+              );
+            }
+          }
         }
-      }
-     }
-     
-     else{
-      const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
-        phoneNumber: number,
-        address: userr.address,
-        countryCode: "999",
-        rootId: userr.rootId,
-        type: "virtual",
-      });
 
-      if (res.status === 200 || res.status === 201) {
-        console.log("Mapping successful");
-setLoading(false);
-        if (check === cartArray.length) {
-          navigate(
-            `/selection-page/my-numbers/confirm-page?number=${number}`
-          );
+        else {
+          const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+            phoneNumber: number,
+            address: userr.address,
+            countryCode: "999",
+            rootId: userr.rootId,
+            type: "virtual",
+          });
+
+          if (res.status === 200 || res.status === 201) {
+            console.log("Mapping successful");
+            setLoading(false);
+            if (check === cartArray.length) {
+              navigate(
+                `/selection-page/my-numbers/confirm-page?number=${number}`
+              );
+            }
+          }
         }
-      }
-     }
 
 
       } catch (error) {
@@ -408,16 +408,23 @@ setLoading(false);
           </div>
         </div>
         {!nftMinted && (
-          <div className="cpv2-btn" style={{ margin: "4 rem" }}>
-            <button
-              onClick={async () => {
-                // PerformAction();
-                await NFT_Gen();
-              }}
-            >
-              Generate NFT
-            </button>
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="stargate-widget-container">
+              <div className="stargate-widget-wrapper">
+                <stargate-widget theme="dark" />
+              </div>
+            </div>
+            <div className="cpv2-btn" style={{ margin: "4 rem" }}>
+              <button
+                onClick={async () => {
+                  // PerformAction();
+                  await NFT_Gen();
+                }}
+              >
+                Generate NFT
+              </button>
+            </div>
+          </div >
         )}
         {nftMinted && (
           <div className="cpv2-btn2" style={{ margin: "4 rem" }}>
@@ -436,15 +443,15 @@ setLoading(false);
           </div>
         </div>
         <div className="cpv2-btn" style={{ marginTop: "-1.8rem" }}>
-        { !nftMinted &&   <button  disabled style={{"background":"#f2f2f2", "color": "#a9a9a9", "cursor": "not-allowed"}}
-            // onClick={async () => {
-            //   PerformAction();
-            //   // await NFT_Gen()
-            // }}
+          {!nftMinted && <button disabled style={{ "background": "#f2f2f2", "color": "#a9a9a9", "cursor": "not-allowed" }}
+          // onClick={async () => {
+          //   PerformAction();
+          //   // await NFT_Gen()
+          // }}
           >
             Mint then Link your number to a wallet
           </button>}
-         { nftMinted && <button 
+          {nftMinted && <button
             onClick={async () => {
               PerformAction();
               // await NFT_Gen()

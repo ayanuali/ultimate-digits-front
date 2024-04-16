@@ -89,3 +89,29 @@
   margin-top: 90px;
   padding: 10px 5px;
 }
+.stargate-widget-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto; /* Add some top and bottom margin */
+  padding: 1rem; /* Add some padding around the container */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Add a subtle background color */
+  border-radius: 10px; /* Add some rounded corners */
+}
+
+.stargate-widget-wrapper {
+  width: 100%;
+  max-width: 400px; /* Adjust the maximum width as needed */
+  height: auto; /* Allow the height to adjust based on the content */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}

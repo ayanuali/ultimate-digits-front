@@ -16,11 +16,11 @@ const Cart = ({ cartArray, currentState }) => {
   const [flag, setFlag] = useState(true);
   const[textCoupon,setTextCoupon]=useState("Add Coupon")
   const [coupon1, setcoupon1] = useState("0");
-  const [coupon2, setcoupon2] = useState(checkTotalPrice(cartArray));
+  const [coupon2, setcoupon2] = useState(checkTotalPrice(cartArray) * 150);
   const [color,setColor]=useState("white")
   const [flag2,setFlag2]=useState(false);
 
-
+console.log('nvbjhkgv',cartArray.length)
 
   async function ClaimCoupon(coupon){
     if(checkTotalPrice(cartArray)<=5)
@@ -109,13 +109,13 @@ const Cart = ({ cartArray, currentState }) => {
           <PhonePrice
             number={`${num}`}
             tier={checkTier(num.toString())}
-            price={`${checkPrice(num.toString())}`}
+            price={`150`}
             key={i}
           />
         ))}
       </div>
 
-      <div className="cartWrapperRow">
+      {/* <div className="cartWrapperRow">
         <div className="cartWrapperTotalCount " style={{ border: "0px" }}>
           <div className="cartWrapperSubtotal">Subtotal</div>
           <div className="cartWrapperPrice">{`$${checkTotalPrice(
@@ -126,16 +126,16 @@ const Cart = ({ cartArray, currentState }) => {
           <div className="cartWrapperSubtotal">Referral reward</div>
           <div className="cartWrapperPrice" id="cart1">{`$${coupon1}`}</div>
         </div>
-      </div>
+      </div> */}
 
       <div className="cartWrapperTotalCount">
         <div className="cartWrapperTotal">Total</div>
-        <div className="cartWrapperPrice" id="cart2">{`$${coupon2}`}</div>
+        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 150} DEGEN</div>
       </div>
 
       
 
-      {(currentState === "claimOrder" || currentState === "showCart") && (
+      {/* {(currentState === "claimOrder" || currentState === "showCart") && (
         <div className="cartWrapperCoupon">
           Coupon code
           <form className="cartWrapperCouponForm" onSubmit={async(e)=>{e.preventDefault();await ClaimCoupon(coupon)}}>
@@ -149,7 +149,7 @@ const Cart = ({ cartArray, currentState }) => {
             </button>
           </form>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

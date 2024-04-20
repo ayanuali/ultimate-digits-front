@@ -13,17 +13,32 @@ import { setUserData } from "../../services/wallet/UserSlice";
 import { getAccount, switchChain, disconnect } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { useDisconnect } from "wagmi";
-
+import {
+  createPublicClient,
+  getContract,
+  http,
+  createWalletClient,
+} from "viem";
+import { CustomButton } from "../../ConnectKit/ConnectKitButton";
+// import { connectConfig } from "../../ConnectKit/Web3Provider";
+import config from "../../../src/config.json"
+import conABI from "../../../src/abi/abi.json"
 const Navbar = ({ loggedIn, setLog }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { disconnect } = useDisconnect();
 
   const [loginStatus, setLoginStatus] = useState(false);
+  const [gotAddress, setGotAddress] = useState(false);
+  const [gotData, setGotData] = useState(false);
+
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
 
   const navigate = useNavigate();
   console.log(userr, "before redux");
+
+
+
 
   useEffect(() => {
     if (userr) {
@@ -56,6 +71,10 @@ const Navbar = ({ loggedIn, setLog }) => {
       navigate("/");
     }
   };
+
+  const handlesuccess = async () => {
+    console.log("connecrted")
+  }
 
   return (
     <div className="navbar">
@@ -101,15 +120,18 @@ const Navbar = ({ loggedIn, setLog }) => {
               </svg>
             </div>
           ) : (
-            <div
-              className="navbarRightDiv"
-              onClick={() => {
-                setLog(false);
-                navigate("/");
-              }}
-            >
-              Sign in
-            </div>
+            // <div
+            //   className="navbarRightDiv"
+            //   onClick={() => {
+            //     setLog(false);
+            //     navigate("/");
+            //   }}
+            // >
+            //   Sign in
+            // </div>
+
+            <CustomButton onSuccess={handlesuccess} />
+
           )}
         </div>
 

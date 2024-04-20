@@ -3,12 +3,16 @@ import checkPrice from './checkPrice'
 
 const checkTotalPrice = (arr) => {
     let totalPrice = 0;
-    arr.map((num) => {
-        totalPrice = totalPrice + parseInt(checkPrice(num.toString()))
+    // arr.map((num) => {
+    //     totalPrice = totalPrice + parseInt(checkPrice(num.toString()))
        
-    })
+    // })
 
-    return totalPrice;
+    
+
+    totalPrice = 150*arr.lenght;
+
+    return arr.lenght;
 }
 
 export default checkTotalPrice

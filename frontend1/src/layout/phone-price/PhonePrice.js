@@ -15,7 +15,7 @@ const PhonePrice = ({ number, tier, price }) => {
           </div>
         </div>
       </div>
-      ${price}
+      ${price} DEGEN
     </div>
   );
 };

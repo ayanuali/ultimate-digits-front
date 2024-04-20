@@ -32,6 +32,10 @@ import {
 import { parseUnits } from "viem";
 import { getContract, createPublicClient, custom } from "viem";
 import FullScreenLoader from "../login-form/FullScreenLoader.js";
+import { mint } from "../../../../blockchain/integration.js";
+import { Await } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function CartShow({
   cartArray,
@@ -95,131 +99,86 @@ function CartShow({
   // };
   const account = getAccount(connectConfig);
 
+
+  async function uploadJSONToPinata(jsonData) {
+    const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
+    const headers = {
+      "Content-Type": "application/json",
+      pinata_api_key: "66b871c91c1137d97b82",
+      pinata_secret_api_key:
+        "71ad43206bd6b413d1bdcb0d839e3cc52f09591f1940e7bddefc4fe1947d335f",
+    };
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(jsonData),
+    });
+  
+    if (!response.ok) {
+      throw new Error(`IPFS pinning error: ${response.statusText}`);
+    }
+
+    console.log(response);
+
+    const Injson = await response.json();
+
+    console.log("Vwefasfasd",Injson)
+
+           const res = await mint({uri:Injson.IpfsHash})
+        console.log("mint",res)
+
+  
+    return res;
+  }
+
+
   async function buyNumber() {
     setLoad(true);
-    // Send to which address?
-    const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
-    var amount;
+
+
+    const json = {
+      "name":"Ultimate Digits X Degen",
+      "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
+      "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
+      "attributes": [
+        {
+          "color": "Blue",
+          "value": number
+        }
+      ],
+    }
 
     try {
-      // Calculate transaction amount
-      amount = flag1
-        ? (parseInt(checkTotalPrice(cartArray)) - 5) * 0.0046790195017
-        : parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
-      setflag1("0");
+      const res = await uploadJSONToPinata(json);
+      console.log("res",res)
 
-      // Convert amount to Wei
-      const someAmt = parseInt(0.0046790195017 * 10);
-      const amt = parseEther(someAmt.toString());
-      console.log("AMT:", amt);
 
-      // Call sendTransaction
-      if (amt !== 0) {
-        // Call sendTransaction
-        console.log("transaction sending started");
-        if (userr.rootId === "ncw") {
-       try {
-        const { hash } = await sendTransaction(connectConfig, {
-          account: account.address,
-          to: toaddress,
-          value: amt,
-        });
+      try {
+        const res = await axios.post('http://localhost:8080/degen/setMinted',{
+          number:number
+        })
 
-        console.log("Transaction hash:", hash);
-       } catch (error) {
-        console.log("asfasfasfsafasf",error)
-       }
-
-          // Wait for transaction receipt using the callback function
-          // const receipt = async () => {
-
-          //   await waitForTransactionReceipt(connectConfig, {
-          //     hash,
-          //     // You can add other options like confirmations, onReplaced, etc. if needed
-          //   });
-          // }
-          // const txReceipt = await receipt();
-        } else {
-          console.log("address", userr.address);
-          console.log("user", user);
-          console.log("wallet", wallet);
-          const address = await wallet.addresses.for(ProtocolFamily.EVM);
-          console.log("address", address);
-          const add = JSON.parse(localStorage.getItem("address"));
-          console.log("address", add);
-          const walletClient = createWalletClient({
-            account: toViem(address),
-            chain: bscTestnet,
-            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
-          });
-          console.log("walletClient", walletClient);
-          console.log(
-            "signing a message with address " + userr.address + "..."
-          );
-          const signature = await walletClient.signMessage({
-            message: "hello from waas!",
-          });
-          console.log(`Got signature: ${signature}`);
-          console.log("full address", userr.fulladdress);
-          // console.log("full address", toViem(userr.fulladdress));
-          console.log("full address from wallet ", toViem(address));
-
-          console.log("issue guess 1:")
-
-          
-          console.log("moments before desctruction", amt)
-
-          console.log(typeof(amt));
-
-          const amosgsdg = parseInt(amt);
-
-          console.log("god bless", amosgsdg);
-
-          const transacamount = "0x" + amt.toString(16);
-
-          console.log("transacraasdsa", transacamount)
-
-       try {
-        console.log("Wallet Collection:", walletClient);
-        const res = await walletClient.sendTransaction({
-          account: toViem(address),
-          to: toaddress, // recipient address
-          value: 1n, // transaction amount
-        });
-        console.log("Transaction hash:", res);
-       } catch (error) {
-        console.log("error in this",error)
-       }
+        if(res.status === 200){
+          setProceedTo("purchaseConfirmation")
+          setLoad(false);
         }
-
-        // console.log("Transaction receipt:", txReceipt);
-      } else {
-        console.error("amt not defined");
+      } catch (error) {
+        toast("number already bought")
       }
 
-      const contract = getContract({
-        address: config.address_nft,
-        abi: conABI,
-        client: publicClient,
-      });
-
-      if (contract) {
-        setcontract(contract);
-        console.log("Contract set-up done:", contract);
-        console.log("Wallet address:", account.address);
-        if (userr.rootId === "ncw") {
-          setwalletaddress(account.address);
-        } else {
-          setwalletaddress(userr.fulladdress);
-        }
-        setLoad(false);
-        setProceedTo("purchaseConfirmation");
-      }
+    
+      
+      //   return;
+      // }
     } catch (error) {
-      console.error("Error processing buyNumber:", error);
-      setError(true); // Set error state to true
-   // Set loading state to false
+      console.log("error",error)
+      setLoad(false);
+      return;
     }
+ 
+
+ 
+
   }
 
   //funcion to ensure virtual number purchase

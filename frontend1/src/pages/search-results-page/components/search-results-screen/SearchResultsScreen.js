@@ -11,6 +11,7 @@ import { generateRandomNumbers } from "../../../../functions/random-numbers/gene
 
 import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { readContract } from "@wagmi/core";
+import axios from "axios";
 
 const SearchResultsScreen = ({
   setProceedTo,
@@ -28,16 +29,33 @@ const SearchResultsScreen = ({
 
   const [generatedNumbers, setGeneratedNumbers] = useState([]);
 
-  const generateNumbers = () => {
+  const generateNumbers = async () => {
     const tempArr = [];
     const nums = generateDiamondNumbers(queryParam);
     const nums2 = generateGoldNumbers(queryParam);
     const nums3 = generateSilverNumbers(queryParam);
     const nums4 = generateRandomNumbers();
 
-    generatedNumbers.concat(nums, nums2, nums3, nums4);
 
-    setGeneratedNumbers([...nums, ...nums2, ...nums3, ...nums4]);
+    try {
+      const res = await axios.post(`http://localhost:8080/degen/generateNumbers`,{
+        number:queryParam
+      })
+console.log("res",res)
+
+if(res.status === 200){
+  const sfdas = res.data.similarNumbers;
+  setGeneratedNumbers([...sfdas ]);
+
+}
+  
+    } catch (error) {
+      console.log("sjbai",error)
+    }
+
+    // generatedNumbers.concat(nums, nums2, nums3, nums4);
+
+    // setGeneratedNumbers([...nums, ]);
   };
 
   const checkAccFunc = async () => {
@@ -100,7 +118,7 @@ const SearchResultsScreen = ({
         <div className="searchResultsMidBorder" />
 
         <div className="searchResultsTable">
-          Similar numbers
+          Other available numbers
           {/* dropdown */}
           {/* numbers boxes */}
           <div className="searchResultsTableCol">

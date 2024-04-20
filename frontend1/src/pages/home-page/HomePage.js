@@ -12,10 +12,30 @@ import voipIcon from "../../assets/virtual/voip.svg";
 import PhoneSearchInput from "../../utils/inputs/PhoneSearchInput";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { CustomButton } from "../../ConnectKit/ConnectKitButton";
+
+import { mint } from "../../blockchain/integration";
+import PhoneNumberInput from "./PhonenumberInput";
 const HomePage = ({ setCode, contract_connect }) => {
+
+
   //update page on pressing search
   const [updatePage, setUpdatePage] = useState(false);
   const navigate = useNavigate();
+
+  
+
+  const handleMint = async() => {
+    try {
+      const res = await mint({uri:"hi"});
+      console.log("res",res)
+    } catch (error) {
+      console.log("minting issue", error)
+    }
+  }
+
+
 
   useEffect(() => {
     setCode("999");
@@ -23,11 +43,11 @@ const HomePage = ({ setCode, contract_connect }) => {
 
   return (
     <div className="homePage">
-      <div
+      {/* <div
         className="back"
-        onClick={() => {
-          navigate("/sending-crypto/home-page");
-        }}
+        onClick={
+          navigate("/")
+        }
         style={{ marginTop: "2rem", width: "5rem" }}
       >
         <svg
@@ -48,7 +68,7 @@ const HomePage = ({ setCode, contract_connect }) => {
         <span className="back-text" style={{ marginLeft: "5px" }}>
           Go back
         </span>
-      </div>
+      </div> */}
 
       <div className="homePageTitle" style={{ marginTop: "5rem" }}>
         <div className="homePageBackgroundGradient" />
@@ -57,23 +77,21 @@ const HomePage = ({ setCode, contract_connect }) => {
           <img src={Logo} />
         </div>
 
-        <h3>Your Web3 Mobile Number</h3>
+        <h3>Your Degen Mobile Number</h3>
 
         <p>
-          The only wallet address you ever need to share
-          <br />
-          Secured by Ethereum
+        Your custom mobile number. Your Web3 identity. <br /> The only wallet address you ever need to share.          <br />
         </p>
       </div>
 
       {/* Input Field */}
       <div className="homePageInputWrapper">
-        <PhoneSearchInput update={updatePage} setUpdate={setUpdatePage} />
+        <PhoneSearchInput update={updatePage} setUpdate={setUpdatePage} onSub= {handleMint} />
         <p>
           <div style={{ marginTop: "-10px" }}>
-            <img src={CheckIcon} />
+            {/* <img src={CheckIcon} /> */}
           </div>
-          Enter minimum 10 digits
+          Enter 5 digits
         </p>
       </div>
 

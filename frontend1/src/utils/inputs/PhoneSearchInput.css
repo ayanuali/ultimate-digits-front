@@ -113,3 +113,33 @@
 .switchActive {
   background: #2070F4;
 }
+
+
+.toggle-container{
+  background-color: #292B3D;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 50px;
+}
+
+.toggle-button.active {
+  background-color: #2070F4;
+  color: white;
+}
+
+.toggle-button.inactive {
+
+  color: white;
+  background-color: transparent;
+}
+
+.toggle-button {
+  padding: 8px 16px;
+  border: none;
+  color: #a0aec0;
+  margin: 0 4px;
+  border-radius: 16px;
+  cursor: pointer;
+}

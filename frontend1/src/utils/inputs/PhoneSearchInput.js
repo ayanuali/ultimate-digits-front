@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import TelephoneIcon from "../../assets/home-page/icons/telephone.png";
 
 import { useNavigate } from "react-router-dom";
@@ -7,8 +7,11 @@ import "./PhoneSearchInput.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserData } from "../../services/wallet/UserSlice";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-const PhoneSearchInput = ({ initialValue, update, setUpdate }) => {
+const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   console.log(userr, "befie redux");
@@ -27,6 +30,7 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate }) => {
 
   //value for submission
   const [phoneValue, setPhoneValue] = useState("");
+  const [isWords, setIsWords] = useState(false);
 
   function handleChange(event) {
     const inputValue = event.target.value;
@@ -43,13 +47,78 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate }) => {
     // Update state for real value
     setPhoneValue(numericValue);
   }
+  function handleChangeWords(event) {
+    const inputValue = event.target.value;
 
-  const onSearch = () => {
-    setUpdate(!update);
+    // Remove all non-numeric characters from input value
+    const numericValue = inputValue.replace(/[^a-zA-Z]/g, "").toUpperCase();
+    // Format the numeric value with spaces
+    const formattedValue = numericValue;
+
+    console.log("afsdasds",formattedValue)
+
+    // Update state with the formatted value
+    setValue(formattedValue);
+
+
+    const keypadMapping = {
+      A: '2', B: '2', C: '2',
+      D: '3', E: '3', F: '3',
+      G: '4', H: '4', I: '4',
+      J: '5', K: '5', L: '5',
+      M: '6', N: '6', O: '6',
+      P: '7', Q: '7', R: '7', S: '7',
+      T: '8', U: '8', V: '8',
+      W: '9', X: '9', Y: '9', Z: '9'
+    };
+  
+    // Convert each letter to its corresponding number
+    const numericValueInL = formattedValue.split('')
+      .map(letter => keypadMapping[letter] || '')
+      .join('');
+  
+
+
+console.log("Sdfsdf",numericValueInL.length)
+    // Update state for real value
+if(numericValueInL.length ===  5){
+  setPhoneValue(numericValueInL);
+
+}
+    console.log("len",phoneValue.length)
+
+    console.log(phoneValue)
+  }
+
+  useEffect(() => {
+    // This will log every time phoneValue changes.
+    console.log("phoneValue length:", phoneValue.length);
+    console.log("phoneValue:", phoneValue);
+  }, [phoneValue]);
+
+  const onSearch = async () => {
+    // setUpdate(!update);
     console.log("searching");
-    console.log(phoneValue);
-    dispatch(setUserData({ ...userr, phno: phoneValue }));
-    navigate(`/search-results?n=${phoneValue}`);
+
+    console.log("val",phoneValue)
+
+  try {
+
+    const queryurl = 'http://localhost:8080/degen/checkDegen'
+    const res = await axios.post(queryurl,{
+      number:phoneValue
+    })
+
+    if(res.status === 203){
+      navigate(`/search-results?n=${phoneValue}`);
+
+    }
+  } catch (error) {
+    toast.warn("number already taken")
+  }
+
+
+    // onSub();
   };
 
   return (
@@ -61,32 +130,65 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate }) => {
     <div className="phoneSearchInputSwitchBtn">
       Phone words
     </div> */}
+
+      <div className="toggle-container">
+        <button
+          className={!isWords ? 'toggle-button active' : 'toggle-button inactive'}
+          onClick={() => {setIsWords(false);
+          setValue("")}}
+        >
+          Numbers
+        </button>
+        <button
+          className={isWords ? 'toggle-button active' : 'toggle-button inactive'}
+          onClick={() => {setIsWords(true);
+            setValue("")}}
+        >
+          Words
+        </button>
+        </div>
       </div>
       <div className="phoneSearchInput">
         <div className="phoneSearchInputIcon">
           <img src={TelephoneIcon} alt="icon" />
         </div>
-        <div className="phoneSearchInputBox" onClick={handleFocus}>
+        {!isWords && <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-            +999
-            <input
+<span style={{width:"fit-content"}}>            +999 DEGEN
+</span>            <input
               type="text"
               value={value}
               onChange={handleChange}
-              maxLength={12}
+              maxLength={5}
               ref={ref}
-              placeholder="123 456 7890"
+              placeholder="12345"
             />
           </div>
-        </div>
+        </div>}
+   { isWords &&    <div className="phoneSearchInputBox" onClick={handleFocus}>
+          Phone number
+          <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
+<span style={{width:"fit-content"}}>            +999 DEGEN
+</span>            <input
+              type="text"
+              value={value}
+              onChange={handleChangeWords}
+              maxLength={5}
+              ref={ref}
+              placeholder="CHAIN"
+            />
+          </div>
+        </div>}
         <button
           onClick={onSearch}
-          disabled={phoneValue.length < 10 ? true : false}
+          disabled={phoneValue.length < 5 ? true : false}
         >
-          Search
+          LFG!
         </button>
       </div>
+
+      <ToastContainer />
     </>
   );
 };

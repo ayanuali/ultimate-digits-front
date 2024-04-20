@@ -97,7 +97,7 @@ function App() {
             {exist()}
             <Component1>
               <Routes>
-                <Route
+                {/* <Route
                   path={"/"}
                   element={
                     <LandingPage
@@ -107,7 +107,7 @@ function App() {
                       setLog={setLog}
                     />
                   }
-                />
+                /> */}
                 <Route
                   path={"/home"}
                   element={<LandingPage setNav={setNav} setLog={setLog} />}
@@ -138,7 +138,7 @@ function App() {
                 <Route path={"/walletaf"} element={<WalletAf />} />
                 <Route path={"/walletaf2"} element={<WalletAf2 />} />
                 <Route
-                  path={"/selection-page/virtual-number/home"}
+                  path={"/"}
                   element={<HomePage setCode={setCode} />}
                 />
                 <Route

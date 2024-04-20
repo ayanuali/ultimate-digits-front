@@ -35,7 +35,7 @@ import FullScreenLoader from "../login-form/FullScreenLoader.js";
 import { mint } from "../../../../blockchain/integration.js";
 import { Await } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast , ToastContainer} from "react-toastify";
 
 function CartShow({
   cartArray,
@@ -167,6 +167,8 @@ function CartShow({
         }
       } catch (error) {
         toast("number already bought")
+        setLoad(false);
+        console.log("eriir",error)
       }
 
     
@@ -253,7 +255,10 @@ function CartShow({
           )}
         </div>
       </div>
+      <ToastContainer />
+
     </div>
+
   ) : (
     ""
   );

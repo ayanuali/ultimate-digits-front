@@ -111,10 +111,18 @@ if(numericValueInL.length ===  5){
 
     if(res.status === 203){
       navigate(`/search-results?n=${phoneValue}`);
+// return;
+    }
+
+    else if(res.status === 200 || res.status === 201){
+      toast.warn("number already taken")
 
     }
+
   } catch (error) {
+
     toast.warn("number already taken")
+    console.log("erdutdkutu",error)
   }
 
 

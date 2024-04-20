@@ -31,13 +31,13 @@ export default function Sidebarmessenger() {
     <div className="sidebar">
       <div>
         <div className="logo">
-          <Link to="/sending-crypto/home-page">
+          <Link to="/">
             <img src={udLogo}></img>
           </Link>
         </div>
         <div className="links">
           <div className="home">
-            <Link to="/sending-crypto/home-page">
+            <Link to="/">
               <div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

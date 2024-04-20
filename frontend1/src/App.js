@@ -112,7 +112,7 @@ function App() {
                   path={"/home"}
                   element={<LandingPage setNav={setNav} setLog={setLog} />}
                 />
-                <Route
+                {/* <Route
                   path={"/selection-page/virtual-number"}
                   element={
                     <ConfirmationPageVir
@@ -121,7 +121,7 @@ function App() {
                       setsigner={setsigner}
                     />
                   }
-                />
+                /> */}
                 <Route
                   path={"/login"}
                   element={
@@ -169,7 +169,7 @@ function App() {
                     />
                   }
                 />
-                <Route
+                {/* <Route
                   path={"/selection-page/my-numbers"}
                   element={
                     <MyNumbersPage
@@ -181,12 +181,12 @@ function App() {
                       setUser={setUser}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/selection-page"}
                   element={<SelectionPage setNav={setNav} />}
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/real-number"}
                   element={
                     <LoadingPageReal
@@ -198,8 +198,8 @@ function App() {
                       setNav={setNav}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/selection-page/my-numbers/confirm-page"}
                   element={
                     <ConfirmationPageReal2
@@ -210,8 +210,8 @@ function App() {
                       setNumber={setNumber}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/sending-crypto/home-page"}
                   element={
                     <HomePageSendingCrypto
@@ -223,8 +223,8 @@ function App() {
                       contract_connect={contract_connect}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/sending-crypto/paymentRealNumber"}
                   element={
                     <PaymentpageReal
@@ -240,8 +240,8 @@ function App() {
                       tocode={tocode}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/sending-crypto/paymentVirtualNumber"}
                   element={
                     <PaymentpageVirtual
@@ -256,8 +256,8 @@ function App() {
                       settoCode={settoCode}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/sending-crypto/confirmTransaction"}
                   element={
                     <Cryptopage1
@@ -270,8 +270,8 @@ function App() {
                       type={type}
                     />
                   }
-                />
-                <Route
+                /> */}
+                {/* <Route
                   path={"/sending-crypto/confirmPayment"}
                   element={
                     <Cryptopage2
@@ -327,7 +327,7 @@ function App() {
                       number={currentNumber}
                     />
                   }
-                />
+                /> */}
               </Routes>
             </Component1>
           </div>

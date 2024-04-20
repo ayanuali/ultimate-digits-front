@@ -66,7 +66,7 @@ const Navbar = ({ loggedIn, setLog }) => {
 
   const handleNavigate = () => {
     if (userr.address !== "") {
-      navigate("sending-crypto/home-page");
+      navigate("/");
     } else {
       navigate("/");
     }

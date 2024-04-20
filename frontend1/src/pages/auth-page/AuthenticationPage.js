@@ -117,15 +117,17 @@ const AuthenticationPage = ({
         );
       default:
         return (
-          <LoginForm
+          <CartShow
             setProceedTo={setProceedTo}
-            setsigner={setsigner}
+            cartArray={cartArray}
+            setcartArray={setcartArray}
+            contract_connect={contract_connect}
+            setContract_connect={setContract_connect}
+            signer={signer}
+            walletaddress={walletaddress}
+            number={number}
             setwalletaddress={setwalletaddress}
             setcontract={setcontract}
-            setUser={setUser}
-            user={user}
-            log={log}
-            setNav={setNav}
           />
         );
     }

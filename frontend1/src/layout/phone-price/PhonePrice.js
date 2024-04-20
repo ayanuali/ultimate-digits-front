@@ -9,10 +9,10 @@ const PhonePrice = ({ number, tier, price }) => {
       <div className="phonePriceMain">
         <img src={SimIcon} />
         <div className="phonePriceNum">
-          +999 {`${number && formatPhoneNumber(number)}`}
-          <div className={`phonePriceNumTier ${tier}Tier`}>
+          +999 DEGEN {`${number && formatPhoneNumber(number)}`}
+          {/* <div className={`phonePriceNumTier ${tier}Tier`}>
             {`${tier}`} tier
-          </div>
+          </div> */}
         </div>
       </div>
       ${price} DEGEN

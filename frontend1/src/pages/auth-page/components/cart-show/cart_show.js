@@ -157,7 +157,7 @@ function CartShow({
 
 
       try {
-        const res = await axios.post('http://localhost:8080/degen/setMinted',{
+        const res = await axios.post('https://degen-backend.vercel.app/degen/setMinted',{
           number:cartArray[0]
         })
 

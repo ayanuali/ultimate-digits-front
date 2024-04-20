@@ -104,7 +104,7 @@ if(numericValueInL.length ===  5){
 
   try {
 
-    const queryurl = 'http://localhost:8080/degen/checkDegen'
+    const queryurl = 'https://degen-backend.vercel.app/degen/checkDegen'
     const res = await axios.post(queryurl,{
       number:phoneValue
     })

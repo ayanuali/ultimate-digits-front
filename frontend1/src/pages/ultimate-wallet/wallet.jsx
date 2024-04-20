@@ -44,7 +44,7 @@ const Wallet = () => {
     setShowPrivKey(true);
   };
   const handleLink = () => {
-    navigate("/selection-page");
+    // navigate("/selection-page");
   };
 
   useEffect(() => {

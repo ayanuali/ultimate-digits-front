@@ -121,7 +121,7 @@ const LoginForm = ({
         dispatch(setUserData({ ...userr, rootId: rootId, address: address }));
         setLoading(false);
 
-        navigate("/selection-page");
+        // navigate("/selection-page");
       }
     } catch (error) {
       console.log("error checking users", error);
@@ -311,7 +311,7 @@ const LoginForm = ({
             rootId: "ncw",
           })
         );
-        navigate("/selection-page");
+        // navigate("/selection-page");
         setGotData(true);
       }
     } catch (error) {

@@ -13,7 +13,7 @@ if (!ethereum) {
 }
 
 
-const contractAddress = "0x5fa76C0a6bF070cdbc9F153dfb786aC1da231bbF";
+const contractAddress = "0x080dB0b9281e23AF7Df31985B846Ad05a615565E";
 
 export const mint = async ({uri}) => {
 
@@ -52,6 +52,11 @@ console.log(provider)
 
 const signer = await provider.getSigner()
 
+console.log("singer",signer)
+const bal = await provider.getBalance(signer);
+
+console.log("bal",bal)
+
 console.log(signer)
 
 const poc = new ethers.Contract(contractAddress, abi, signer); 
@@ -68,6 +73,14 @@ console.log("srtroinsa",totalString);
 
 
   const value = ethers.parseEther(totalString); 
+
+
+
+  console.log("valnefe", value)
+
+  if(bal < value){
+    return false;
+  }
   const tx = await poc.mintMultipleNFTs(uri,{value});
   await tx.wait();
   return tx;

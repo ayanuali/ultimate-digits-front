@@ -170,6 +170,14 @@ console.log("arry",cartArray)
 
       try {
         const resp = await multipleMint({uri:responses});
+
+        if(resp === false){
+          toast.warn("not enough balance")
+          setLoad(false)
+
+          return
+        }
+
         console.log("resp",resp.hash);
         localStorage.setItem("link",resp.hash)
         setLoad(false)

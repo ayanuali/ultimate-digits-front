@@ -109,10 +109,7 @@ function App() {
                     />
                   }
                 /> */}
-                <Route
-                  path={"/home"}
-                  element={<LandingPage setNav={setNav} setLog={setLog} />}
-                />
+              
                 {/* <Route
                   path={"/selection-page/virtual-number"}
                   element={
@@ -123,21 +120,8 @@ function App() {
                     />
                   }
                 /> */}
-                <Route
-                  path={"/login"}
-                  element={
-                    <ConfirmationPageRealRename
-                      setContract_connect={setContract_connect}
-                      setwaddress={setwaddress}
-                      setsigner={setsigner}
-                      setCode={setCode}
-                      setNumber={setNumber}
-                    />
-                  }
-                />
-                <Route path={"/wallet"} element={<Wallet />} />
-                <Route path={"/walletaf"} element={<WalletAf />} />
-                <Route path={"/walletaf2"} element={<WalletAf2 />} />
+              
+        
                 <Route
                   path={"/"}
                   element={<HomePage setCode={setCode} />}

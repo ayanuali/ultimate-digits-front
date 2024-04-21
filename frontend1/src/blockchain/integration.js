@@ -13,7 +13,7 @@ if (!ethereum) {
 }
 
 
-const contractAddress = "0xfE54C825f1D96392C85c147BbCE587D6a3239cBB";
+const contractAddress = "0x6d195828E204453B72Ee62Cba01B6079c59B2850";
 
 export const mint = async ({uri}) => {
 

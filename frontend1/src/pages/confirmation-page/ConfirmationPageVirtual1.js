@@ -205,7 +205,7 @@ Mint more
 
 
     </div> */}
-<a href={`https://explorer.degen.tips/tx/${link}`}>
+<a href={`https://explorer.degen.tips/tx/${link}`} target="_blank">
     <div style={{marginTop:"20px", display:"flex", justifyContent:"center", alignItems:"flex-end", gap:"5px"}}>
 
 

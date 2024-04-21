@@ -17,6 +17,7 @@ const SearchResultsScreen = ({
   setProceedTo,
   setCartArray,
   contract_connect,
+  types
 }) => {
   const navigate = useNavigate();
 
@@ -94,9 +95,43 @@ if(res.status === 200){
     checkAccFunc();
   }, [updatePage]);
 
+
+  const handleGoBack = () => {
+    navigate("/")
+
+  }
+
   return (
     <div className="searchResultsScreen">
+
+       <div
+        className="back"
+        onClick={
+          handleGoBack
+        }
+        style={{ marginTop: "2rem", width: "5rem" }}
+      >
+        <svg
+          width="12"
+          height="10"
+          viewBox="0 0 12 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.16667 0.833344L1 5.00001M1 5.00001L5.16667 9.16668M1 5.00001H11"
+            stroke="white"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span className="back-text" style={{ marginLeft: "5px" }}>
+          Go back
+        </span>
+      </div>
       <PhoneSearchInput
+      dis={true}
         initialValue={queryParam}
         update={updatePage}
         setUpdate={setUpdatePage}
@@ -104,7 +139,19 @@ if(res.status === 200){
 
       <div className="searchResultsMain">
         <h3>Search results</h3>
-        <p>The number you are looking for is unavailable!</p>
+     {types &&  <><p>The number you are looking for is Available!</p>
+        <div className="searchResultsTableCol">
+          <PhoneNumberBox
+            number={queryParam}
+            cart={cart}
+            setCart={setCart}
+            showAvailability={true}
+            available={ava}
+          />
+        </div>
+        </>  
+        }
+     {!types &&  <><p>The number you are looking for is unavailable!</p>
         {/* <div className="searchResultsTableCol">
           <PhoneNumberBox
             number={queryParam}
@@ -114,6 +161,8 @@ if(res.status === 200){
             available={ava}
           />
         </div> */}
+        </>  
+        }
 
         <div className="searchResultsMidBorder" />
 
@@ -131,6 +180,7 @@ if(res.status === 200){
                     setCart={setCart}
                     showAvailability={false}
                     key={i}
+
                   />
                 )
             )}

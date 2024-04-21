@@ -3,7 +3,7 @@ import SearchResultsScreen from "./components/search-results-screen/SearchResult
 import CheckoutScreen from "./components/checkout-screen/CheckoutScreen";
 import "./SearchResultsPage.css";
 
-const SearchResultsPage = ({ contract_connect }) => {
+const SearchResultsPage = ({ contract_connect, types }) => {
   //function to set variables
   const [proceedTo, setProceedTo] = useState("searchResults");
   const [cartArray, setCartArray] = useState([]);
@@ -13,7 +13,7 @@ const SearchResultsPage = ({ contract_connect }) => {
     switch (type) {
       case "searchResults":
         return (
-          <SearchResultsScreen
+          <SearchResultsScreen types={types}
             setProceedTo={setProceedTo}
             setCartArray={setCartArray}
             contract_connect={contract_connect}
@@ -24,7 +24,7 @@ const SearchResultsPage = ({ contract_connect }) => {
           <CheckoutScreen cartArray={cartArray} setCartArray={setCartArray} />
         );
       default:
-        return <SearchResultsScreen />;
+        return <SearchResultsScreen types={types} />;
     }
   };
 

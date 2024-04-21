@@ -45,32 +45,7 @@ const HomePage = ({ setCode, contract_connect }) => {
 
   return (
     <div className="homePage">
-      {/* <div
-        className="back"
-        onClick={
-          navigate("/")
-        }
-        style={{ marginTop: "2rem", width: "5rem" }}
-      >
-        <svg
-          width="12"
-          height="10"
-          viewBox="0 0 12 10"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M5.16667 0.833344L1 5.00001M1 5.00001L5.16667 9.16668M1 5.00001H11"
-            stroke="white"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <span className="back-text" style={{ marginLeft: "5px" }}>
-          Go back
-        </span>
-      </div> */}
+     
 
       <div className="homePageTitle" style={{ marginTop: "5rem" }}>
         <div className="homePageBackgroundGradient" />

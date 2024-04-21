@@ -154,7 +154,7 @@ console.log("arry",cartArray)
     try {
       const responses = await Promise.all(cartArray.map(async (number) => {
         const json = {
-          "name":"Ultimate Digits X Degen",
+          "name":"Ultimate Digits Degen Mobile Number",
           "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
           "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
           "attributes": [

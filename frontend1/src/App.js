@@ -145,13 +145,13 @@ function App() {
                 <Route
                   path={"/search-results"}
                   element={
-                    <SearchResultsPage contract_connect={contract_connect} />
+                    <SearchResultsPage contract_connect={contract_connect} types={true} />
                   }
                 />
                 <Route
                   path={"/search-results-now"}
                   element={
-                    <SearchResultsPageNow contract_connect={contract_connect} />
+                    <SearchResultsPageNow contract_connect={contract_connect} type={false} />
                   }
                 />
                 <Route

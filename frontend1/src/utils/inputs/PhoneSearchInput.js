@@ -14,10 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useAccount } from 'wagmi'
 
 
-const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub }) => {
+const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub, dis=false }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(userr, "befie redux");
   const navigate = useNavigate();
 
   const account = useAccount()
@@ -29,7 +28,7 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub }) => {
     ref.current.focus();
   };
   
-  console.log("Acas",account.isConnected)
+  // console.log("Acas",account.isConnected)
   //fake value
   const [value, setValue] = useState(
     initialValue ? formatPhoneNumber(initialValue) : ""
@@ -97,6 +96,32 @@ if(numericValueInL.length ===  5){
     console.log(phoneValue)
   }
 
+
+  const wordsToNum = (word) => {
+
+    const keypadMapping = {
+      A: '2', B: '2', C: '2',
+      D: '3', E: '3', F: '3',
+      G: '4', H: '4', I: '4',
+      J: '5', K: '5', L: '5',
+      M: '6', N: '6', O: '6',
+      P: '7', Q: '7', R: '7', S: '7',
+      T: '8', U: '8', V: '8',
+      W: '9', X: '9', Y: '9', Z: '9'
+    };
+  
+    // Convert each letter to its corresponding number
+    const numericValueInL = word.split('')
+      .map(letter => keypadMapping[letter] || '')
+      .join('');
+  
+
+      console.log("nuim",numericValueInL);
+
+      return numericValueInL;
+
+  }
+
   useEffect(() => {
     // This will log every time phoneValue changes.
     console.log("phoneValue length:", phoneValue.length);
@@ -153,6 +178,10 @@ return
     // onSub();
   };
 
+
+
+
+
   return (
     <>
       <div className="phoneSearchInputSwitch">
@@ -163,22 +192,34 @@ return
       Phone words
     </div> */}
 
-      <div className="toggle-container">
+{!dis &&       <div className="toggle-container">
         <button
           className={!isWords ? 'toggle-button active' : 'toggle-button inactive'}
           onClick={() => {setIsWords(false);
-          setValue("")}}
+            if(!dis){
+              setValue("")
+            }
+            else if(dis){
+
+              const temp=     wordsToNum(value)
+              console.log("temp", temp)
+              setValue(temp)
+                 }
+       }}
         >
           Numbers
         </button>
         <button
           className={isWords ? 'toggle-button active' : 'toggle-button inactive'}
           onClick={() => {setIsWords(true);
-            setValue("")}}
+            if(!dis){
+              setValue("")
+            }
+   }}
         >
           Words
         </button>
-        </div>
+        </div>}
       </div>
       <div className="phoneSearchInput">
         <div className="phoneSearchInputIcon">
@@ -189,6 +230,7 @@ return
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
 <div className="Degen">            +999 DEGEN
 </div>            <input
+disabled={dis}
               type="text"
               value={value}
               onChange={handleChange}
@@ -212,12 +254,18 @@ return
             />
           </div>
         </div>}
-        <button
+     {!dis &&    <button
           onClick={onSearch}
         
         >
           LFG!
-        </button>
+        </button>}
+     {dis &&    <button
+          // onClick={onSearch}
+        
+        >
+          HERE
+        </button>}
       </div>
 
       <ToastContainer />

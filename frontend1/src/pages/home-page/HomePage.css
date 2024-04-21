@@ -304,3 +304,8 @@ filter: blur(16.29px);
   font-weight: 500;
   color: #5293FF;
 }
+
+.smallimg{
+  width: 20px !important;
+  height: 20px !important;
+}

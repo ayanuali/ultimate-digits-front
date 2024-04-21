@@ -94,7 +94,7 @@ const Navbar = ({ loggedIn, setLog }) => {
         </div> */}
 
         <div className="navbarRightSide">
-          {userr.address !== "" ? (
+          {/* {userr.address !== "" ? (
             <div
               className="navbarRightDiv"
               onClick={() => {
@@ -130,9 +130,11 @@ const Navbar = ({ loggedIn, setLog }) => {
             //   Sign in
             // </div>
 
-            <CustomButton onSuccess={handlesuccess} />
 
-          )}
+          )} */}
+
+<CustomButton onSuccess={handlesuccess} />
+
         </div>
 
         {/* {loggedIn && <button onClick={logoutUser}>logout</button>}

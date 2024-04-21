@@ -2,6 +2,8 @@ import "./HomePage.css";
 import LowerArcImg from "../../assets/home-page/lower-arc.png";
 import IphoneImg from "../../assets/home-page/iphone.png";
 import Logo from "../../assets/ud-square-logo2.png";
+import DegenLogo from "../../assets/assets/degenlogo.png";
+import Chain from "../../assets/assets/chain.png";
 import CheckIcon from "../../assets/virtual/hash.svg";
 import bellIcon from "../../assets/virtual/bell.svg";
 import rewardIcon from "../../assets/virtual/reward.svg";
@@ -73,15 +75,49 @@ const HomePage = ({ setCode, contract_connect }) => {
       <div className="homePageTitle" style={{ marginTop: "5rem" }}>
         <div className="homePageBackgroundGradient" />
 
-        <div style={{ textAlign: "center" }}>
+     <div style={{display:"flex", justifyContent:"center", alignItems:"center", gap:"10px"}}>
+
+     <div style={{ textAlign: "center" }}>
           <img src={Logo} />
         </div>
+        <div style={{ textAlign: "center", width:"20px", marginRight:"0px",  }} >
+          <img src={Chain} style={{    width: "20px",
+    height: "20px",
+    marginTop: "0px",
+    marginBottom: "0px"
+}}  />
+        </div>
+        <div style={{ textAlign: "center" }}>
+          <img src={DegenLogo} />
+        </div>
+
+     </div>
 
         <h3>Your Degen Mobile Number</h3>
 
         <p>
         Your custom mobile number. Your Web3 identity. <br /> The only wallet address you ever need to share.          <br />
         </p>
+      </div>
+
+      <div style={{display: "flex", gap:"10px", border:"1px solid white", borderRadius:"11px", padding:"3px", marginBottom:"50px", alignItems:"center"}}>
+
+        <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px"}}>
+<span style={{color:"white"}}>+999 DEGEN CHAIN
+</span>        </div>
+
+        <div>
+
+        <span style={{color:"white"}}> = 
+</span> 
+        </div>
+
+        <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px", color:"white"}}>
++999 33436 24236
+
+        </div>
+
+
       </div>
 
       {/* Input Field */}

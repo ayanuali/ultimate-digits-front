@@ -35,6 +35,7 @@
   flex-direction: row;
   gap: 32px;
   align-items: center;
+  margin-bottom: 40px;
 }
 
 .navbarRightDiv {

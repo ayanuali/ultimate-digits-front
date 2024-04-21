@@ -11,18 +11,25 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useAccount } from 'wagmi'
+
+
 const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   console.log(userr, "befie redux");
   const navigate = useNavigate();
 
+  const account = useAccount()
+
+
   const ref = useRef(null);
 
   const handleFocus = () => {
     ref.current.focus();
   };
-
+  
+  console.log("Acas",account.isConnected)
   //fake value
   const [value, setValue] = useState(
     initialValue ? formatPhoneNumber(initialValue) : ""
@@ -102,6 +109,21 @@ if(numericValueInL.length ===  5){
 
     console.log("val",phoneValue)
 
+    
+
+
+    if(!account.isConnected){
+toast.warn("Connect your wallet please");
+return
+    }
+
+    if(phoneValue.length !==5){
+      toast.warn("5 digits is required");
+      return;
+
+    }
+    
+
   try {
 
     const queryurl = 'https://degen-backend.vercel.app/degen/checkDegen'
@@ -115,7 +137,7 @@ if(numericValueInL.length ===  5){
     }
 
     else if(res.status === 200 || res.status === 201){
-      toast.warn("number already taken")
+      toast("number already taken")
 
     }
 
@@ -163,8 +185,8 @@ if(numericValueInL.length ===  5){
         {!isWords && <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-<span style={{width:"fit-content"}}>            +999 DEGEN
-</span>            <input
+<div className="Degen">            +999 DEGEN
+</div>            <input
               type="text"
               value={value}
               onChange={handleChange}
@@ -177,7 +199,7 @@ if(numericValueInL.length ===  5){
    { isWords &&    <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-<span style={{width:"fit-content"}}>            +999 DEGEN
+<span className="Degen">            +999 DEGEN
 </span>            <input
               type="text"
               value={value}
@@ -190,7 +212,7 @@ if(numericValueInL.length ===  5){
         </div>}
         <button
           onClick={onSearch}
-          disabled={phoneValue.length < 5 ? true : false}
+        
         >
           LFG!
         </button>

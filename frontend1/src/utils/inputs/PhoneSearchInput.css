@@ -1,6 +1,7 @@
 .phoneSearchInput {
   display: flex;
   flex-direction: row;
+  
 }
 
 .phoneSearchInput button {
@@ -142,4 +143,9 @@
   margin: 0 4px;
   border-radius: 16px;
   cursor: pointer;
+}
+
+.Degen{
+  padding-right: 20px;
+  white-space: nowrap;
 }

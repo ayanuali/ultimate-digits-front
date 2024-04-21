@@ -137,7 +137,9 @@ return
     }
 
     else if(res.status === 200 || res.status === 201){
-      toast("number already taken")
+      // toast("number already taken")
+      navigate(`/search-results-now?n=${phoneValue}`);
+
 
     }
 

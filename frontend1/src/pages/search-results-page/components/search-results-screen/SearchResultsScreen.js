@@ -104,8 +104,8 @@ if(res.status === 200){
 
       <div className="searchResultsMain">
         <h3>Search results</h3>
-        <p>The number you are looking for is available!</p>
-        <div className="searchResultsTableCol">
+        <p>The number you are looking for is unavailable!</p>
+        {/* <div className="searchResultsTableCol">
           <PhoneNumberBox
             number={queryParam}
             cart={cart}
@@ -113,7 +113,7 @@ if(res.status === 200){
             showAvailability={true}
             available={ava}
           />
-        </div>
+        </div> */}
 
         <div className="searchResultsMidBorder" />
 

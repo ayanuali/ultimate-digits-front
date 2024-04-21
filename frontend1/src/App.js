@@ -32,6 +32,7 @@ import { Web3Provider } from "./ConnectKit/Web3Provider";
 import { WalletProvider, useWalletContext } from "@coinbase/waas-sdk-web-react";
 import store from "./store";
 import WalletAf2 from "./pages/ultimate-wallet/wallet2";
+import SearchResultsPageNow from "./pages/search-results-page/SearchResultsPageNow";
 function App() {
   //function to set various variable states
   const [user, setUser] = useState({
@@ -145,6 +146,12 @@ function App() {
                   path={"/search-results"}
                   element={
                     <SearchResultsPage contract_connect={contract_connect} />
+                  }
+                />
+                <Route
+                  path={"/search-results-now"}
+                  element={
+                    <SearchResultsPageNow contract_connect={contract_connect} />
                   }
                 />
                 <Route

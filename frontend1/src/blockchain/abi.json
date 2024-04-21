@@ -207,6 +207,25 @@
   {
     "inputs": [
       {
+        "internalType": "string[]",
+        "name": "tokenURIs",
+        "type": "string[]"
+      }
+    ],
+    "name": "mintMultipleNFTs",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "string",
         "name": "tokenURI",
         "type": "string"

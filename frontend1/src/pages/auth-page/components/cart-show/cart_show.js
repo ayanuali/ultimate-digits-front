@@ -32,7 +32,7 @@ import {
 import { parseUnits } from "viem";
 import { getContract, createPublicClient, custom } from "viem";
 import FullScreenLoader from "../login-form/FullScreenLoader.js";
-import { mint } from "../../../../blockchain/integration.js";
+import { mint, multipleMint } from "../../../../blockchain/integration.js";
 import { Await } from "react-router-dom";
 import axios from "axios";
 import { toast , ToastContainer} from "react-toastify";
@@ -127,41 +127,67 @@ function CartShow({
 
     console.log("Vwefasfasd",Injson)
 
-           const res = await mint({uri:Injson.IpfsHash})
-        console.log("mint",res)
+        //    const res = await mint({uri:Injson.Injson})
+        // console.log("mint",res)
 
   
-    return res;
+    return Injson.IpfsHash;
   }
 
 
   async function buyNumber() {
     setLoad(true);
+console.log("arry",cartArray)
 
-
-    const json = {
-      "name":"Ultimate Digits X Degen",
-      "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
-      "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
-      "attributes": [
-        {
-          "color": "Blue",
-          "value": number
-        }
-      ],
-    }
+    // const json = {
+    //   "name":"Ultimate Digits X Degen",
+    //   "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
+    //   "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
+    //   "attributes": [
+    //     {
+    //       "color": "Blue",
+    //       "value": number
+    //     }
+    //   ],
+    // }
 
     try {
-      const res = await uploadJSONToPinata(json);
-      console.log("res",res)
-
+      const responses = await Promise.all(cartArray.map(async (number) => {
+        const json = {
+          "name":"Ultimate Digits X Degen",
+          "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
+          "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
+          "attributes": [
+            {
+              "color": "Blue",
+              "value": "33436" + number
+            }
+          ],
+        }
+        return await uploadJSONToPinata(json);
+      }));
+      console.log("responses", responses);
 
       try {
-        const res = await axios.post('https://degen-backend.vercel.app/degen/setMinted',{
-          number:cartArray[0]
+        const resp = await multipleMint({uri:responses});
+        console.log("resp",resp.hash);
+        localStorage.setItem("link",resp.hash)
+        setLoad(false)
+      } catch (error) {
+        setLoad(false)
+
+        console.log("error",error)
+
+      }
+
+      try {
+        const res = await axios.post('https://degen-backend.vercel.app/degen/setMintedBulk',{
+          numbers:cartArray
         })
 
-        if(res.status === 200){
+        console.log("resdss",res)
+
+        if(res.status === 200 || res.status === 201){
           setProceedTo("purchaseConfirmation")
           setLoad(false);
         }
@@ -173,14 +199,12 @@ function CartShow({
 
     
       
-      //   return;
-      // }
+      
     } catch (error) {
       console.log("error",error)
       setLoad(false);
       return;
     }
- 
 
  
 

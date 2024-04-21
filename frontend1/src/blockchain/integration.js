@@ -13,36 +13,12 @@ if (!ethereum) {
 }
 
 
-const contractAddress = "0x6d195828E204453B72Ee62Cba01B6079c59B2850";
+const contractAddress = "0x6299661f475A7Ca32Ef4572E4F38043E1b0a1F44";
 
 export const mint = async ({uri}) => {
 
     console.log("minting started", uri)
 
-    // const prov = Provider
-  //provider, signer and contract instance
-//   const provider =
-//     window.ethereum != null
-//       ? new ethers.providers.Web3Provider(window.ethereum)
-//       : ethers.providers.getDefaultProvider();
-
-// console.log("prov",provider)
-//   const signer = provider.getSigner();
-//   console.log("signer",signer)
-
-//   const contract = new ethers.Contract(contractAddress, abi, signer); //contract addresss, abi of the contract, signer
-//   console.log("contrc",contract)
-//   const tx = await contract.mintNFT(uri);
-//   await tx.wait();
-//   return tx;
-
-// const provider = new ethers.providers.Web3Provider(ethereum);
-// console.log('Provider:', provider);
-
-// // Get the signer from the provider
-// const signer = provider.getSigner();
-// console.log('Signer:', signer);
-// 
 const provider = new ethers.BrowserProvider(window.ethereum)
 
 console.log(provider)
@@ -58,6 +34,37 @@ console.log("poc",poc)
 
   const value = ethers.parseEther("0.01");
   const tx = await poc.mintNFT(uri,{value});
+  await tx.wait();
+  return tx;
+
+};
+export const multipleMint = async ({uri}) => {
+
+    console.log("minting started", uri)
+
+const provider = new ethers.BrowserProvider(window.ethereum)
+
+console.log(provider)
+
+const signer = await provider.getSigner()
+
+console.log(signer)
+
+const poc = new ethers.Contract(contractAddress, abi, signer); 
+
+console.log("poc",poc)
+
+const total = 0.01 * uri.length;
+
+console.log("total in num", total);
+
+const totalString = total.toString();
+
+console.log("srtroinsa",totalString);
+
+
+  const value = ethers.parseEther(totalString); 
+  const tx = await poc.mintMultipleNFTs(uri,{value});
   await tx.wait();
   return tx;
 

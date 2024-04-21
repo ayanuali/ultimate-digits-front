@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import 'react-toastify/dist/ReactToastify.css';
+
+import LinkIcon from "../../assets/assets/linkicon.png"
 import { ToastContainer, toast } from 'react-toastify';
 
 import config from "../../config.json";
@@ -65,12 +67,15 @@ export default function ConfirmationPageVirtual1({
   const [loading, setLoading] = useState(false)
   const [content, setContent] = useState("Loading.....")
 
+  const [link, setLink] = useState("");
+
   // Extract the "cart" parameter value from the query string
   const urlParams = new URLSearchParams(queryString);
   const cartParam = urlParams.get("cart");
   console.log(cartParam);
   console.log(typeof cartParam);
   const flag = 0;
+
 
   const publicClient = createPublicClient({
     chain: sepolia,
@@ -94,6 +99,8 @@ export default function ConfirmationPageVirtual1({
 
   useEffect(() => {
     getingBalance();
+    const asd = localStorage.getItem("link");
+    setLink(asd);
   }, []);
 
 
@@ -111,8 +118,13 @@ export default function ConfirmationPageVirtual1({
       }}
     >
       <div className="confirmationPageVirtual1">
-        <div className="cpv1-nft">
-          <div className="nft-logo">
+        <div>
+     <div style={{display:"flex", gap:"20px"}} >
+
+     {
+          cartArray.map((val,index)=>(
+            <div  className="cpv1-nft" >
+            <div className="nft-logo" key={index}>
             <img
               src={nftLogo}
               alt="image"
@@ -120,9 +132,13 @@ export default function ConfirmationPageVirtual1({
               style={{ width: "10rem" }}
             ></img>
             <div className="nft-number" style={{ color: "white" }}>
-              {`+999 DEGEN ${cartArray}`}
+           <b>   {`+999 DEGEN ${val}`} </b>
             </div>
           </div>
+          </div>
+          ))
+         }
+     </div>
         </div>
      
         {nftMinted && (
@@ -189,15 +205,21 @@ Mint more
 
 
     </div> */}
+<a href={`https://explorer.degen.tips/tx/${link}`}>
+    <div style={{marginTop:"20px", display:"flex", justifyContent:"center", alignItems:"flex-end", gap:"5px"}}>
 
-    <div style={{textAlign:"center", marginTop:"30px"}}>
 
-<span style={{color:"#D8E4FD", fontSize:"12px", textDecoration:"underline"}}>View Transaction
-</span>  
+<div style={{color:"#D8E4FD", fontSize:"12px", textDecoration:"underline" , display:"flex", justifyContent:"center", alignItems:"center"}}>View Transaction
+</div>  
 
-<span>
-  icon
-  </span>  </div>
+<div style={{ display:"flex", justifyContent:"center", alignItems:"center"}}>
+  <img src={LinkIcon} alt="link" />
+  </div> 
+
+
+
+ </div>
+ </a>
         
 
         {/* <FullScreenLoader loading={loading} content={content} /> */}

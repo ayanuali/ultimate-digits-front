@@ -24,6 +24,8 @@ const HomePage = ({ setCode, contract_connect }) => {
 
   //update page on pressing search
   const [updatePage, setUpdatePage] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
   const navigate = useNavigate();
 
   
@@ -40,12 +42,24 @@ const HomePage = ({ setCode, contract_connect }) => {
 
 
   useEffect(() => {
+    const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Set initial code and remove event listener on cleanup
     setCode("999");
-  }, []);
+    return () => window.removeEventListener('resize', handleResize);
+}, [setCode]);
 
   return (
     <div className="homePage">
-     
+       {isMobile && (
+                <div className="overlay">
+                    Please open this page in a desktop browser for the best experience.
+                </div>
+            )}
 
       <div className="homePageTitle" style={{ marginTop: "5rem" }}>
         <div className="homePageBackgroundGradient" />

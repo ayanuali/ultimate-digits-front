@@ -32,10 +32,14 @@ const poc = new ethers.Contract(contractAddress, abi, signer);
 console.log("poc",poc)
 
 
-  const value = ethers.parseEther("0.01");
+  const value = ethers.parseEther("150");
+try {
   const tx = await poc.mintNFT(uri,{value});
   await tx.wait();
   return tx;
+} catch (error) {
+  return error
+}
 
 };
 export const multipleMint = async ({uri}) => {
@@ -54,7 +58,7 @@ const poc = new ethers.Contract(contractAddress, abi, signer);
 
 console.log("poc",poc)
 
-const total = 0.01 * uri.length;
+const total = 150 * uri.length;
 
 console.log("total in num", total);
 

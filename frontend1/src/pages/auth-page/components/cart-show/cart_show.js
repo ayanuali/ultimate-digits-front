@@ -175,8 +175,12 @@ console.log("arry",cartArray)
         setLoad(false)
       } catch (error) {
         setLoad(false)
+  
+        toast.warn("Check network and Balance")
 
         console.log("error",error)
+
+        return
 
       }
 

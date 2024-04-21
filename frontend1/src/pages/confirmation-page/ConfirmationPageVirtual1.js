@@ -153,7 +153,7 @@ export default function ConfirmationPageVirtual1({
         <div className="cpv1-content" style={{ marginTop: "3rem" }}>
           <div className="text">Purchase successful</div>
           <div className="sub-text">
-            Congratulations! Your have successfully purchased a <br></br> DEGEN web3
+            Congratulations! You have successfully purchased a <br></br> DEGEN web3
             phone number.
           </div>
         </div>

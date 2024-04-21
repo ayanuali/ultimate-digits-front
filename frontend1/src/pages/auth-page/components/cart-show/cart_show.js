@@ -249,7 +249,7 @@ function CartShow({
             false
           )}
           {load ? (
-          <FullScreenLoader loading={load} content={"completing Purchase"} />
+          <FullScreenLoader loading={load} content={"Completing Purchase"} />
           ) : (
             false
           )}

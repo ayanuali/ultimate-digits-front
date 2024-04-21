@@ -6,6 +6,7 @@ import "./ConfirmationPageVirtual1.css";
 import "../auth-page/components/login-form/FullScreenLoader.css";
 import { address_NFT, abi_NFT } from "../../abi/Nft.js";
 import nftLogo from "../../assets/ud-logo.png";
+import nftnew from "../../assets/assets/nfti.png"
 import { UserContext } from "../../Hook.js";
 import { useNavigate } from "react-router-dom";
 import { useWriteContract } from "wagmi";
@@ -179,13 +180,24 @@ hashtags={['DEGEN', 'ethereum']}
 
 
 
-          <div className="cpv2-btn" style={{ margin: "4 rem" }}>
+          {/* <div className="cpv2-btn" style={{ margin: "4 rem" }}>
             <button onClick={handleBack}
            
             >
 Mint more      
 </button>
-    </div>
+
+
+    </div> */}
+
+    <div style={{textAlign:"center", marginTop:"30px"}}>
+
+<span style={{color:"#D8E4FD", fontSize:"12px", textDecoration:"underline"}}>View Transaction
+</span>  
+
+<span>
+  icon
+  </span>  </div>
         
 
         {/* <FullScreenLoader loading={loading} content={content} /> */}

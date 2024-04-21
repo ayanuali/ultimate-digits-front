@@ -126,9 +126,9 @@
 }
 
 .bronzeTier {
-  background: rgba(147, 102, 63, 0.16);
+  background: #9B71E6;
   border: 0.5px solid rgba(175, 176, 244, 0.12);
-  color: #EFBC8F;
+  color: #FFFFFF;
 }
 
 .goldenTier {

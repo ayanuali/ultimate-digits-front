@@ -23,6 +23,8 @@ import { CustomButton } from "../../ConnectKit/ConnectKitButton";
 // import { connectConfig } from "../../ConnectKit/Web3Provider";
 import config from "../../../src/config.json"
 import conABI from "../../../src/abi/abi.json"
+
+import  {ethers}  from "ethers";
 const Navbar = ({ loggedIn, setLog }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -31,6 +33,9 @@ const Navbar = ({ loggedIn, setLog }) => {
   const [loginStatus, setLoginStatus] = useState(false);
   const [gotAddress, setGotAddress] = useState(false);
   const [gotData, setGotData] = useState(false);
+
+  const [currentAccount, setCurrentAccount] = useState(null);
+
 
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
 
@@ -72,8 +77,66 @@ const Navbar = ({ loggedIn, setLog }) => {
     }
   };
 
+
+  const connectWalletOnLoad = async () => {
+    if (window.ethereum) {
+        try {
+            const provider =  ethers.BrowserProvider(window.ethereum);
+            const accounts = await provider.send("eth_requestAccounts", []);
+            setCurrentAccount(accounts[0]);
+            checkAndChangeNetwork();
+        } catch (error) {
+            console.error("Failed to load accounts:", error);
+        }
+    } else {
+        console.error("MetaMask is not installed!");
+    }
+};
+
+const checkAndChangeNetwork = async () => {
+    if (!window.ethereum) return;
+
+    try {
+        // Replace with the actual Degen Chain details
+        const degenChainId = "666666666"; // The chainId must be in hexadecimal
+        const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+
+        if (chainId !== degenChainId) {
+            await window.ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{ chainId: degenChainId }],
+            });
+        }
+    } catch (switchError) {
+        console.error("Failed to switch to Degen Chain:", switchError);
+        if (switchError.code === 4902) {
+            try {
+                // Add Degen Chain to MetaMask if it's not there
+                await window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [{
+                        chainId: '666666666',
+                        chainName: 'Degen Chain',
+                        rpcUrls: ['https://rpc.degen.tips'], // Example RPC URL
+                        nativeCurrency: {
+                            name: 'DEGEN',
+                            symbol: 'DEGEN', // Typically 2-4 characters
+                            decimals: 18,
+                        },
+                        blockExplorerUrls: ['	https://explorer.degen.tips']
+                    }],
+                });
+            } catch (addError) {
+                console.error("Failed to add Degen Chain:", addError);
+            }
+        }
+    }
+};
+
+
   const handlesuccess = async () => {
     console.log("connecrted")
+    connectWalletOnLoad();
   }
 
   return (

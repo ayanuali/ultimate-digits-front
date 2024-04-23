@@ -150,7 +150,7 @@ export default function ConfirmationPageVirtual1({
           <h5 style={{ color: "white" }}>{add}</h5>
           <h5 style={{ color: "white" }}>{tid}</h5>
         </div>
-        <div className="cpv1-content" style={{ marginTop: "3rem" }}>
+        <div className="cpv1-content" style={{ marginTop: "1rem" }}>
           <div className="text">Purchase successful</div>
           <div className="sub-text">
             Congratulations! You have successfully purchased a <br></br> DEGEN web3
@@ -220,7 +220,19 @@ Mint more
 
  </div>
  </a>
-        
+ <div className="cpv1-content1" style={{ marginTop: "1rem" }}>
+          <div className="text">       Congratulations!</div>
+          <div className="sub-text">
+      You are Eligible for an airdrop of $DEGEN as well as $ULT tokens <br></br>
+            
+          
+          </div>
+          <div className="sub-text">
+            
+          
+         <span>   Visit <a style={{color:"white"}} href="https://airdrop.ultimatedigits.com/" target="_blank">airdrop.ultimatedigits.com</a> to claim!</span>
+          </div>
+        </div>
 
         {/* <FullScreenLoader loading={loading} content={content} /> */}
 

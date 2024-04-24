@@ -137,6 +137,7 @@ function CartShow({
 
   async function buyNumber() {
     setLoad(true);
+    // return
 console.log("arry",cartArray)
 
     // const json = {
@@ -284,11 +285,10 @@ console.log("arry",cartArray)
           ) : (
             false
           )}
-          {load ? (
-          <FullScreenLoader loading={load} content={"Completing Purchase"} />
-          ) : (
-            false
-          )}
+          {load &&
+          <FullScreenLoader loading={load} content={"Completing Purchase"} /> 
+         
+          }
         </div>
       </div>
       <ToastContainer />

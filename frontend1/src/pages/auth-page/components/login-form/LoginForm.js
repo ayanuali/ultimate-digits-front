@@ -95,7 +95,7 @@ const LoginForm = ({
           );
           console.log(userr, "after redux");
           setLoading(false);
-          navigate("/real-number");
+          // navigate("/real-number");
         } else {
           dispatch(
             setUserData({
@@ -115,7 +115,7 @@ const LoginForm = ({
           // });
           console.log(userr, "after redux");
           setLoading(false);
-          navigate("/real-number");
+          // navigate("/real-number");
         }
       } else if (res.status === 204) {
         dispatch(setUserData({ ...userr, rootId: rootId, address: address }));
@@ -287,7 +287,7 @@ const LoginForm = ({
               countryCode: data.countryCode,
             })
           );
-          navigate("/real-number");
+          // navigate("/real-number");
           setGotData(true);
         } else {
           dispatch(
@@ -298,7 +298,7 @@ const LoginForm = ({
               countryCode: data.countryCode,
             })
           );
-          navigate("/real-number");
+          // navigate("/real-number");
           setGotData(true);
         }
       } else if (res.status === 204) {

@@ -80,7 +80,7 @@ export default function SelectionPage({ setNav }) {
               <div className="virtual-btn">
                 <button
                   onClick={() => {
-                    navigate("/real-number");
+                    // navigate("/real-number");
                   }}
                   style={{ marginTop: "-12px" }}
                 >

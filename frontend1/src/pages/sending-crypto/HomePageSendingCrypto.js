@@ -225,7 +225,7 @@ export default function HomePageSendingCrypto({
 
   const handleNavigateReal = () => {
     dispatch(setUserData({ ...userr, updateReal: true }));
-    navigate("/real-number");
+    // navigate("/real-number");
   };
 
   return (

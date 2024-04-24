@@ -80,6 +80,7 @@ const PhoneNumberBox = ({
 
 
     const filteredCart = cart.filter((item) => item !== number);
+    console.log("fil", filteredCart)
     setCart(filteredCart);
     const filter = [];
     cartArray.map((num, i) => {
@@ -88,9 +89,14 @@ const PhoneNumberBox = ({
     console.log(filter);
     setcartArray(filter);
     console.log(cartArray);
-    // navigate(`/signup?cart=${filter}`) 
-    // window.location.reload(false);
-    // setProceedTo("showCart")
+
+    console.log("cartarray length", filter.length)
+
+    if(filter.length == 0){
+      console.log("removed to 0")
+      navigate("/")
+    }
+
   };
 
   useEffect(() => {

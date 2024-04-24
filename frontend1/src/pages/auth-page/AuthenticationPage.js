@@ -14,6 +14,7 @@ import CartShow from "./components/cart-show/cart_show";
 import ellipse from "../../assets/Ellipse.png";
 import iphone from "../../assets/landing-page/iphone.svg";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const AuthenticationPage = ({
   setwalletaddress,
   walletaddress,
@@ -36,6 +37,7 @@ const AuthenticationPage = ({
   //function to declare various variables
   const [headerTitle, setHeaderTitle] = useState("");
   const [check, setCheck] = useState(false);
+// const navigate = useNavigate()
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState("");
@@ -140,8 +142,24 @@ const AuthenticationPage = ({
   const urlParams = new URLSearchParams(queryString);
   const cartParam = urlParams.get("cart");
 
+  console.log("cart oarmasd",cartParam)
+
   // Split the cart parameter string at each comma and convert each element to a number
   const cartArray1 = cartParam ? cartParam.split(",").map(Number) : [];
+  console.log("Avjhsckhjbscjvbdvd",cartArray1,cartArray)
+
+
+  if(cartArray1.length === 0) {
+    navigate("/")
+  }
+
+
+  useEffect(()=>{
+    if(cartArray1.length === 0) {
+      navigate("/")
+    }
+  },[cartArray1])
+
 
   //function to check the user logged in
   const validateUser = async () => {
@@ -158,14 +176,14 @@ const AuthenticationPage = ({
       setLoading(false);
     }
   };
-
+const navigate = useNavigate()
   useEffect(() => {
     setNav("1");
     if (user.isLoggedIn || userr.rootId !== "ncw") {
       setProceedTo("showCart");
       setcartArray(cartArray1);
     }
-    if (cartArray.length == 0) {
+    if (cartArray1.length == 0) {
       setHeaderTitle("Sign up");
     } else {
       setHeaderTitle("Claim your nft number");
@@ -205,5 +223,6 @@ const AuthenticationPage = ({
     </div>
   );
 };
+
 
 export default AuthenticationPage;

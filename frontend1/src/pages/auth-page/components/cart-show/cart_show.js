@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import React from "react";
-import { useContext, useState } from "react";
+import { useContext, useState,useRef } from "react";
 import { Web3Storage } from "web3.storage";
 import { UserContext } from "../../../../Hook.js";
 import { abi_NFT, address_NFT } from "../../../../abi/Nft.js";
@@ -20,6 +20,8 @@ import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import "../login-form/FullScreenLoader.css"
 import { useSelector } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
+
+import nftimage from "../../../../assets/assets/nftbg.png";
 // import {
 //   useSendTransaction,
 //   useWaitForTransactionReceipt
@@ -103,6 +105,86 @@ function CartShow({
   console.log("aefefdsfcadsfasf",queryParam)
 
 
+   async function uploadFileToPinata(file) {
+    const url = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+    let data = new FormData();
+    data.append("file", file);
+  
+    const headers = {
+      pinata_api_key: "66b871c91c1137d97b82",
+      pinata_secret_api_key:
+        "71ad43206bd6b413d1bdcb0d839e3cc52f09591f1940e7bddefc4fe1947d335f",
+    };
+  
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: data,
+    });
+  
+    if (!response.ok) {
+      throw new Error(`IPFS pinning error: ${response.statusText}`);
+    }
+  
+    return response.json();
+  }
+  
+
+
+    const canvasRef = useRef(null);
+
+    // Effect to draw image and text on canvas
+ 
+
+    // Function to handle the upload to IPFS
+ // Function to handle the upload to IPFS
+const uploadToIPFS = async (number) => {
+  if (!canvasRef.current) {
+      console.error("Canvas is not yet available.");
+      return;
+  }
+
+  try {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext('2d');
+      const image = new Image();
+      image.src = nftimage;  // Make sure this is correctly defined and accessible
+      image.onload = async () => {
+        const canvasWidth = 190;
+        const canvasHeight = 210;
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+    
+        const scaleWidth = canvas.width / image.width;
+        const scaleHeight = canvas.height / image.height;
+        const scale = Math.max(scaleWidth, scaleHeight);
+        const x = (canvas.width / 2) - (image.width / 2) * scale;
+        const y = (canvas.height / 2) - (image.height / 2) * scale;
+        ctx.drawImage(image, x, y, image.width * scale, image.height * scale);
+        ctx.fillStyle = 'white';  // Text color
+          ctx.font = 'bold 20px Arial';  // Bold, 35px high, using Arial font
+          // Text size and font
+          // Make sure to handle `number` correctly if it's an array
+      
+          ctx.fillText("DEGEN " + number[0], canvas.width / 8, canvas.height -50);  // Position text
+          ctx.fillText("+999 ", canvas.width / 8, canvas.height -100);  // Position text
+
+          canvas.toBlob(async (blob) => {
+              const file = new File([blob], 'overlay-image.png', { type: 'image/png' });
+              const result = await uploadFileToPinata(file);
+              console.log('Uploaded to IPFS with path:', result);
+              alert(`Image uploaded to IPFS with path: ${result.path}`);
+          }, 'image/png');
+      };
+  } catch (error) {
+      console.error('Error uploading file to IPFS', error);
+      alert('Failed to upload to IPFS');
+  }
+};
+
+
+  
+
   async function uploadJSONToPinata(jsonData) {
     const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
     const headers = {
@@ -150,6 +232,16 @@ console.log("arry",cartArray)
     //     }
     //   ],
     // }
+
+    try {
+      const res = await uploadToIPFS(cartArray);
+
+      console.log("res",res)
+      return
+    } catch (error) {
+      console.log("errerosdfa",error)
+      return;
+    }
 
     try {
       const responses = await Promise.all(cartArray.map(async (number) => {
@@ -256,6 +348,9 @@ console.log("arry",cartArray)
               )}
             </div>
           </div>
+
+          <canvas  ref={canvasRef} style={{ width: 'fit-content', height: 'fit-content' , display:""}}></canvas>
+
           <button
             className="cartCheckout"
             onClick={async () => {

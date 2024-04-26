@@ -151,7 +151,7 @@ return
 
   try {
 
-    const queryurl = 'https://degen-backend.vercel.app/degen/checkDegen'
+    const queryurl = 'https://degenbackend.ultimatedigits.com/degen/checkDegen'
     const res = await axios.post(queryurl,{
       number:phoneValue
     })

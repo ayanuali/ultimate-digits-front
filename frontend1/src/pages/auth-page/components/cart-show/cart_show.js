@@ -194,7 +194,7 @@ console.log("arry",cartArray)
       }
 
       try {
-        const res = await axios.post('https://degen-backend.vercel.app/degen/setMintedBulk',{
+        const res = await axios.post('https://degenbackend.ultimatedigits.com/degen/setMintedBulk',{
           numbers:cartArray
         })
 

@@ -39,7 +39,7 @@ const SearchResultsScreen = ({
 
 
     try {
-      const res = await axios.post(`https://degen-backend.vercel.app/degen/generateNumbers`,{
+      const res = await axios.post(`https://degenbackend.ultimatedigits.com/degen/generateNumbers`,{
         number:queryParam
       })
 console.log("res",res)

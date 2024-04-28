@@ -203,8 +203,11 @@ console.log("Account",account)
           const request = await walletClient.prepareTransactionRequest({
             account,
             to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-            value: 0, 
-            gasPrice: BigInt('21000')
+            value: 1, 
+          
+            maxFeePerGas:2100000000,
+            maxPriorityFeePerGas:2100000000
+            
             
           })
           console.log("Transaction hash:", request);

@@ -181,12 +181,21 @@ function CartShow({
           console.log("transacraasdsa", transacamount)
 
        try {
+        const walletClient = createWalletClient({
+          account: toViem(address),
+          chain: bscTestnet,
+          transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+        });
+
         console.log("Wallet Collection:", walletClient);
+
         const res = await walletClient.sendTransaction({
           
           to: toaddress, // recipient address
           value: 1n, // transaction amount
         });
+
+     
         console.log("Transaction hash:", res);
         toast.success("payment done successfully to atharva")
 
@@ -196,6 +205,8 @@ function CartShow({
         )
 
         setLoad(false);
+
+        return;
 
        }
         }

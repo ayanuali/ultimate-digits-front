@@ -6,6 +6,10 @@ import { UserContext } from "../../../../Hook.js";
 import { abi_NFT, address_NFT } from "../../../../abi/Nft.js";
 import conABI from "../../../../abi/abi.json";
 import config from "../../../../config.json";
+
+import { useEVMAddress, useWalletContext } from "@coinbase/waas-sdk-web-react";
+
+
 import checkTotalPrice from "../../../../functions/checkTotalPrice";
 import PhoneNumberBox from "../../../../utils/boxes/PhoneNumberBox_show";
 import LoadPage from "../../../../utils/loaders/LoadPage";
@@ -48,6 +52,8 @@ function CartShow({
   setcontract,
 }) {
   const { user, wallet } = useWalletContext();
+
+  const addressNew = useEVMAddress(wallet);
 
   const userr = useSelector((state) => state.user);
   console.log(userr, "before redux");
@@ -189,7 +195,7 @@ function CartShow({
         });
 
         console.log("Wallet Collection:", walletClient);
-        const account = toViem(address);
+        const account = toViem(addressNew);
 
         const res = await walletClient.sendTransaction({
           account,

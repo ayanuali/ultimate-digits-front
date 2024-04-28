@@ -158,7 +158,7 @@ function CartShow({
           const walletClient = createWalletClient({
             account: toViem(address),
             chain: bscTestnet,
-            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+            transport: http(),
           });
           console.log("walletClient", walletClient);
           console.log(
@@ -188,19 +188,21 @@ function CartShow({
           console.log("transacraasdsa", transacamount)
 
        try {
+
+        const account = toViem(addressNew);
+console.log("Account",account)
         const walletClient = createWalletClient({
-          account: toViem(address),
+          account,
           chain: bscTestnet,
-          transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+          transport: http(),
         });
 
         console.log("Wallet Collection:", walletClient);
-        const account = toViem(addressNew);
 
         const res = await walletClient.sendTransaction({
           account,
           to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-          value: 1n, // transaction amount
+          value: 0n, // transaction amount
         });
 
      

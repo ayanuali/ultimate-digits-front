@@ -207,7 +207,7 @@ console.log("Account",account)
           })
           console.log("Transaction hash:", request);
 
-          const signature = await client.signTransaction(request)
+          const signature = await walletClient.signTransaction(request)
 
           console.log("sign",signature)
 

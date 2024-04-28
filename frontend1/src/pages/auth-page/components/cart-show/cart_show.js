@@ -209,11 +209,15 @@ function CartShow({
         console.log("Wallet address:", account.address);
         if (userr.rootId === "ncw") {
           setwalletaddress(account.address);
+          setProceedTo("purchaseConfirmation");
+
         } else {
           setwalletaddress(userr.fulladdress);
+          setProceedTo("purchaseConfirmation");
+
         }
         setLoad(false);
-        setProceedTo("purchaseConfirmation");
+        // setProceedTo("purchaseConfirmation");
       }
     } catch (error) {
       console.error("Error processing buyNumber:", error);

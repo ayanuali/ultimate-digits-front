@@ -32,6 +32,7 @@ import {
 import { parseUnits } from "viem";
 import { getContract, createPublicClient, custom } from "viem";
 import FullScreenLoader from "../login-form/FullScreenLoader.js";
+import { toast, ToastContainer } from "react-toastify";
 
 function CartShow({
   cartArray,
@@ -182,13 +183,20 @@ function CartShow({
        try {
         console.log("Wallet Collection:", walletClient);
         const res = await walletClient.sendTransaction({
-          account: toViem(address),
+          
           to: toaddress, // recipient address
           value: 1n, // transaction amount
         });
         console.log("Transaction hash:", res);
+        toast.success("payment done successfully to atharva")
+
        } catch (error) {
         console.log("error in this",error)
+        toast.warn( "payment didn't went through"
+        )
+
+        setLoad(false);
+
        }
         }
 
@@ -226,74 +234,8 @@ function CartShow({
     }
   }
 
-  //funcion to ensure virtual number purchase
-  //funcion to ensure virtual number purchase
-  async function uyNumber() {
-    setLoad(true);
-    // send to which address ?
-    const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
-    var amount;
-    if (flag1) {
-      amount = parseInt(checkTotalPrice(cartArray) - 5) * 0.0046790195017;
-    } else {
-      amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
-    }
-    setflag1("0");
-    // var amount = parseInt(checkTotalPrice(cartArray)) * 0.0046790195017;
-    console.log(amount);
-    let amt = ethers.parseUnits(amount.toString());
-    const transacamount = "0x" + amt.toString(16);
-    await window.ethereum.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: "0x61" }], // chainId must be in hexadecimal numbers
-    });
-    console.log(amt);
 
-    try {
-      signer
-        .sendTransaction({
-          to: toaddress,
-          value: transacamount,
-        })
-        .then(async (txHash) => {
-          console.log(txHash.hash);
-          const provider = new ethers.BrowserProvider(window.ethereum);
-          console.log(provider);
 
-          //This is used to acces the checked in accounts
-          provider
-            .getSigner()
-            .then(async (res) => {
-              console.log(res);
-
-              const contract = new ethers.Contract(
-                config.address_nft,
-                conABI,
-                res
-              );
-              setcontract(contract);
-
-              var walletaddress = res.address;
-
-              console.log(walletaddress);
-              setwalletaddress(walletaddress);
-
-              setLoad(false);
-              setProceedTo("purchaseConfirmation");
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((e) => {
-          console.log(e);
-          setError(true);
-          setLoad(false);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  }
   return cartArray.length != 0 ? (
     <div>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -360,6 +302,8 @@ function CartShow({
           )}
         </div>
       </div>
+
+      <ToastContainer />
     </div>
   ) : (
     ""

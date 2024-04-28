@@ -216,7 +216,7 @@ console.log("Account",account)
           console.log("error in this in prepare ",error)
           toast.warn( "prepare didn't went through"
           )
-
+setLoad(false)
           return;
         }
 

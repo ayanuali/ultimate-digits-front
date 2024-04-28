@@ -7,7 +7,7 @@ import { abi_NFT, address_NFT } from "../../../../abi/Nft.js";
 import conABI from "../../../../abi/abi.json";
 import config from "../../../../config.json";
 
-import { useEVMAddress, useWalletContext } from "@coinbase/waas-sdk-web-react";
+import { useEVMAddress } from "@coinbase/waas-sdk-web-react";
 
 
 import checkTotalPrice from "../../../../functions/checkTotalPrice";

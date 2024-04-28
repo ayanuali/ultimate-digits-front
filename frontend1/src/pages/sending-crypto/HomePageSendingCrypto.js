@@ -4,6 +4,8 @@ import "./HomePageSendingCrypto.css";
 import { resolveAddress } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import {  parseEther } from "viem";
+import { useEVMAddress } from "@coinbase/waas-sdk-web-react";
 
 import { getAccount, readContract, getBalance } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
@@ -17,6 +19,8 @@ import {
   getContract,
   createWalletClient,
 } from "viem";
+
+import { sendTransaction } from "@wagmi/core";
 import { bscTestnet, sepolia } from "viem/chains";
 import { writeContract, switchChain } from "@wagmi/core";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
@@ -181,6 +185,64 @@ export default function HomePageSendingCrypto({
       }
     }
   };
+  const addressNew = useEVMAddress(wallet);
+
+
+  const handleTest1 = async() => {
+   try {
+    const { hash } = await sendTransaction(connectConfig, {
+      account: account.address,
+      to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
+      value: 1,
+    });
+
+    console.log("Transaction hash:", hash);
+   } catch (error) {
+    console.log("Aasdasdasdsadas",error)
+   }
+  }
+
+
+  const handleTest = async() => {
+    console.log("test")
+
+console.log("Add",addressNew)
+console.log("Acc",account)
+
+    const account = toViem(addressNew);
+
+
+    const walletClient = createWalletClient({
+      account,
+      chain: bscTestnet,
+      transport: http(),
+    });
+    console.log("walletClient", walletClient);
+
+    try {
+
+
+      const request = await walletClient.prepareTransactionRequest({
+        account,
+        to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+        value: 1, 
+        
+        
+      })
+      console.log("Transaction hash:", request);
+
+      const signature = await walletClient.signTransaction(request)
+
+      console.log("sign",signature)
+
+
+    } catch (error) {
+      console.log("error in this in prepare ",error)
+    
+    }
+
+
+  }
 
   const getingBalance = async () => {
     const balance = await getBalance(connectConfig, {
@@ -464,6 +526,13 @@ export default function HomePageSendingCrypto({
               </div>
             )}
           </div>
+        </div>
+
+        <div>
+
+          <button onClick={handleTest}>test</button>
+          <button onClick={handleTest1}>test1</button>
+
         </div>
       </div>
     </div>

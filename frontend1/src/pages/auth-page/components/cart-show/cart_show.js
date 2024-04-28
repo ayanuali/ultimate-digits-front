@@ -200,12 +200,16 @@ console.log("Account",account)
         console.log("Wallet Collection:", walletClient);
         
         try {
-          const asss = await walletClient.prepareTransactionRequest({
+          const request = await walletClient.prepareTransactionRequest({
             account,
             to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
             value: 0n, // transaction amount
           })
-          console.log("Transaction hash:", asss);
+          console.log("Transaction hash:", request);
+
+          const signature = await client.signTransaction(request)
+
+          console.log("sign",signature)
 
 
         } catch (error) {

@@ -1,6 +1,140 @@
+"use client"
 import Image from "next/image";
+import { useWalletContext, useEVMAddress } from "@coinbase/waas-sdk-web-react";
+import { toViem } from "@coinbase/waas-sdk-viem";
+import { createWalletClient, http } from "viem";
+import { baseSepolia, bscTestnet } from "viem/chains";
+import { useEffect } from "react";
+import { DappWalletView } from "./Comp";
+import { ProtocolFamily } from "@coinbase/waas-sdk-web";
+
+
+
+
+
 
 export default function Home() {
+  const { waas, user, isCreatingWallet, wallet, isLoggingIn , error } =useWalletContext(); 
+   const address = useEVMAddress(wallet);
+
+  
+
+
+  const handelLogin = async() => {
+
+    console.log("user", user);
+
+    const res = await waas!.login();
+
+
+    console.log(res);
+    console.log("wallet", wallet);
+    console.log("user", user);
+    console.log("isCreatingWallet", isCreatingWallet);
+
+    if(res.hasWallet === false){
+      console.log("wallet not created");
+      const wallet = await res.create();
+      console.log("wallet", wallet);
+      console.log("waas", waas);
+
+      const address = await wallet.addresses.for(ProtocolFamily.EVM);
+      console.log("address", address);
+      console.log(`Got address: ${address.address}`);
+      // const privateKeys = await wallet.exportKeysFromHostedBackup(passcode);
+      const privateKeys = await wallet.backup;
+      console.log("private keys", privateKeys);
+    }
+
+    if (res.hasWallet === true) {
+      console.log("wallet created already");
+      console.log("res", res);
+
+      const res2 = await res.restoreFromHostedBackup();
+      console.log(res2);
+
+      console.log("wallet", wallet);
+      console.log("waas", waas);
+
+      const address = await res2.addresses.for(ProtocolFamily.EVM);
+      const priv = await res.backup;
+      console.log("private keys", priv);
+      console.log("address", address);
+      localStorage.setItem("address", JSON.stringify(address));
+      console.log(`Got address: ${address.address}`);
+
+
+   
+    }
+
+  }
+
+  const handleLogout = async () => {
+    console.log("logging out");
+    const res = await waas!.logout();
+    console.log(res);
+  };
+
+  const addressNew = useEVMAddress(wallet);
+
+  const handleTest = async() => {
+    
+    console.log("test")
+
+    console.log("Addressnew",addressNew)
+
+    console.log("wak",wallet)
+
+    console.log("usewr",user)
+
+const address = await wallet!.addresses.for(ProtocolFamily.EVM);
+
+    const account = toViem(addressNew);
+
+    console.log("Acc",account)
+
+    const walletClient = createWalletClient({
+      account,
+      chain: bscTestnet,
+      transport: http(),
+    });
+    console.log("walletClient", walletClient);
+
+    try {
+
+
+      const request = await walletClient.prepareTransactionRequest({
+        account,
+        to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+        value: 1n, 
+        
+        
+      })
+      console.log("Transaction hash:", request);
+
+      const signature = await walletClient.signTransaction(request)
+
+      console.log("sign",signature)
+
+
+    } catch (error) {
+      console.log("error in this in prepare ",error)
+    
+    }
+
+
+  }
+
+
+
+
+  const handleSend = async () => {
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
@@ -39,75 +173,34 @@ export default function Home() {
         />
       </div>
 
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+    <div>\
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+      <button onClick={handelLogin}>login</button>
+      <button onClick={handleLogout}>logout</button>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <button onClick={handleTest}>send</button>
+
+      {/* <LoginButton />
+
+
+
+
+      <CreateOrResumeWalletButton />
+      <LogoutButton /> */}
+
+{/* <LogoutButton />
+{!address && <LoginButton />}
+<SignTransactionButton address  />
+      {address && <>
+        <ViewMyAddressLabel />
+        <SignTransactionButton />
+        <LogoutButton />
+      </>} */}
+
+      {/* <DappWalletView /> */}
+
+    </div>
     </main>
   );
 }

@@ -12,6 +12,7 @@ import LoadPage from "../../../../utils/loaders/LoadPage";
 import "./cart_show.css";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { createWalletClient, http, parseEther } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import { Address } from "@coinbase/waas-sdk-web";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
@@ -188,10 +189,11 @@ function CartShow({
         });
 
         console.log("Wallet Collection:", walletClient);
+        const account = toViem(address);
 
         const res = await walletClient.sendTransaction({
-          
-          to: toaddress, // recipient address
+          account,
+          to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
           value: 1n, // transaction amount
         });
 

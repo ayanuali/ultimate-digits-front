@@ -107,7 +107,7 @@ console.log("Asfasfas",address)
     try {
 
 
-      const request = await walletClient.prepareTransactionRequest({
+      const request = await walletClient.sendTransaction({
         account,
         to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
         value: 1n, 

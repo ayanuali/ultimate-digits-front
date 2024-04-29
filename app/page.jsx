@@ -1,6 +1,6 @@
 "use client"
 import Image from "next/image";
-import { useWalletContext, useEVMAddress } from "@coinbase/waas-sdk-web-react";
+import { useWalletContext, useEVMAddress, TReactUser } from "@coinbase/waas-sdk-web-react";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { createWalletClient, http } from "viem";
 import { baseSepolia, bscTestnet } from "viem/chains";
@@ -24,7 +24,7 @@ export default function Home() {
 
     console.log("user", user);
 
-    const res = await waas!.login();
+    const res = await waas.login();
 
 
     console.log(res);
@@ -49,10 +49,12 @@ export default function Home() {
     if (res.hasWallet === true) {
       console.log("wallet created already");
       console.log("res", res);
-
-      const res2 = await res.restoreFromHostedBackup();
-      console.log(res2);
-
+      if (res !== undefined) {
+        const res2 = await res .restoreFromHostedBackup(); // Replace 'TypeOfRes' with the actual type of 'res'
+        console.log(res2);
+      } else {
+        console.error("Error: 'res' is undefined");
+      }
       console.log("wallet", wallet);
       console.log("waas", waas);
 
@@ -71,7 +73,7 @@ export default function Home() {
 
   const handleLogout = async () => {
     console.log("logging out");
-    const res = await waas!.logout();
+    const res = await waas.logout();
     console.log(res);
   };
 
@@ -87,7 +89,9 @@ export default function Home() {
 
     console.log("usewr",user)
 
-const address = await wallet!.addresses.for(ProtocolFamily.EVM);
+const address = await wallet.addresses.for(ProtocolFamily.EVM);
+
+console.log("Asfasfas",address)
 
     const account = toViem(addressNew);
 

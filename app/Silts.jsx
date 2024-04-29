@@ -20,7 +20,7 @@ export const SignTransactionButton = () => {
 
           console.log(wallet);
   
-          const account = toViem(address!);
+          const account = toViem(address);
   
           // use viem to send eth.
           const walletClient = createWalletClient({
@@ -58,13 +58,13 @@ export const SignTransactionButton = () => {
         onClick={() => {
 
          
-          waas!.login();
-          if (user!.hasWallet) {
+          waas.login();
+          if (user.hasWallet) {
             // restores the user's existing wallet.
-            user!.restoreFromHostedBackup!();
+            user.restoreFromHostedBackup();
           } else {
             // creates a new wallet.
-            user!.create();
+            user.create();
           }
         }}
       >
@@ -72,7 +72,7 @@ export const SignTransactionButton = () => {
       </button>
       <button
         onClick={() => {
-          waas!.logout();
+          waas.logout();
         }}
       >
         Logout
@@ -80,7 +80,7 @@ export const SignTransactionButton = () => {
       <button
         onClick={async() => {
             console.log("user",user)
-            const account = toViem(address!);
+            const account = toViem(address);
 
             const walletClient = createWalletClient({
                 account,
@@ -114,12 +114,12 @@ export const SignTransactionButton = () => {
         disabled={!waas || !user || isCreatingWallet || !!wallet}
         onClick={async () => {
           // check if your user has a wallet, and restore it if they do!
-          if (user!.hasWallet) {
+          if (user.hasWallet) {
             // restores the user's existing wallet.
-            user!.restoreFromHostedBackup!();
+            user.restoreFromHostedBackup();
           } else {
             // creates a new wallet.
-            user!.create();
+            user.create();
           }
         }}
       >

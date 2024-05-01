@@ -203,7 +203,7 @@ console.log("Account",account)
           const request = await walletClient.prepareTransactionRequest({
             account,
             to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-            value: ethers.parseEther(0.000000000000001), 
+            value: ethers.parseEther("0.000000000000001"), 
           
          
             

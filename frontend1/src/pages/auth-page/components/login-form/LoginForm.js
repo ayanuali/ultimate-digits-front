@@ -135,12 +135,18 @@ const LoginForm = ({
     setContent("Fetching your wallet");
     console.log("user", user);
     console.log("Waas",waas)
-    if ( user !== undefined && user.hasWallet) {
-      console.log("user already erukan so kaathirupom")
-      const res1 = await waas.logout();
-      console.log(res1); 
-      alert("already line la erukom bro")
-      handleLogin();
+    if ( user !== undefined) {
+
+      if(  user.hasWallet){
+        console.log("user already erukan so kaathirupom")
+        const res1 = await waas.logout();
+        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
+        console.log(res1); 
+        alert("already line la erukom bro")
+        handleLogin();
+
+      }
+     
     }
     console.log("waas", waas);
 

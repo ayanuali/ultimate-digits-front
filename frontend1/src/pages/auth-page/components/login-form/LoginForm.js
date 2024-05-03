@@ -134,9 +134,11 @@ const LoginForm = ({
     setLoading(true);
     setContent("Fetching your wallet");
     console.log("user", user);
-    if (user) {
+    console.log("Waas",waas)
+    if ( user !== undefined && user.hasWallet) {
       const res1 = await waas.logout();
-      console.log(res1);
+      console.log(res1); 
+      handleLogin();
     }
     console.log("waas", waas);
 
@@ -181,6 +183,8 @@ const LoginForm = ({
     }
     if (res.hasWallet === true) {
       console.log("wallet created already");
+      console.log("user",user)
+      console.log("wass",waas)
       console.log("res", res);
 
       const res2 = await res.restoreFromHostedBackup();

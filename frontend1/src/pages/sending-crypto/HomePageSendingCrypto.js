@@ -530,8 +530,8 @@ console.log("Acc",account)
 
         <div>
 
-          <button onClick={handleTest}>test</button>
-          <button onClick={handleTest1}>test1</button>
+          {/* <button onClick={handleTest}>test</button>
+          <button onClick={handleTest1}>test1</button> */}
 
         </div>
       </div>

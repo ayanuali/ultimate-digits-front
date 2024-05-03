@@ -136,8 +136,10 @@ const LoginForm = ({
     console.log("user", user);
     console.log("Waas",waas)
     if ( user !== undefined && user.hasWallet) {
+      console.log("user already erukan so kaathirupom")
       const res1 = await waas.logout();
       console.log(res1); 
+      alert("already line la erukom bro")
       handleLogin();
     }
     console.log("waas", waas);

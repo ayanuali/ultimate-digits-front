@@ -157,7 +157,7 @@ function CartShow({
           console.log("address", add);
           const walletClient = createWalletClient({
             account: toViem(address),
-            chain: bscTestnet,
+            chain: baseSepolia,
             transport: http(),
           });
           console.log("walletClient", walletClient);
@@ -193,7 +193,7 @@ function CartShow({
 console.log("Account",account)
         const walletClient = createWalletClient({
           account,
-          chain: bscTestnet,
+          chain: baseSepolia,
           transport: http(),
         });
 
@@ -218,7 +218,7 @@ console.log("Account",account)
 
         } catch (error) {
           console.log("error in this in prepare ",error)
-          toast.warn( "prepare didn't went through"
+          toast.warn( "Not enough balance"
           )
 setLoad(false)
           return;

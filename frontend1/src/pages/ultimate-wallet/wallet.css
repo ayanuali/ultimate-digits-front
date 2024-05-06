@@ -52,9 +52,9 @@
 
 .privatekey {
   display: flex;
-  width: max-content;
+  width: 550px;
   height: 20px;
-  padding: 16px 20px;
+  padding: 16px 0px;
   justify-content: center;
   align-items: center;
   flex-shrink: 0;
@@ -64,7 +64,7 @@
   color: #fff;
   text-align: center;
   font-family: "Avenir Next";
-  font-size: 16px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 700;
   line-height: 16px; /* 100% */
@@ -76,7 +76,7 @@
 
 .link {
   display: flex;
-  width: 455px;
+  width: 550px;
   height: 20px;
   padding: 16px 0px;
   justify-content: center;

@@ -71,13 +71,17 @@ const Wallet = () => {
         className="privatekey"
         onClick={showPrivKey ? copyToClipboard : showPrivateKey}
       >
-        {showPrivKey ? privatekey : <> Show private Key <span>
+        {showPrivKey ? privatekey : <><span style={{fontSize:"16px"}}> Show private Key </span><span>
           <img src={eye} style={{width:"20px", height:"20px" , color:"white", display:"flex", justifyContent:"center", alignItems:"center", marginTop:"0px"}} />
           </span></>}
-        {showPrivKey ? <img src={clipboard} alt="clip" /> : ""}
+        {showPrivKey ? <><img src={clipboard} style={{marginTop:"30px"}} alt="clip" />   </> : ""}
         {}
       </div>
 
+{showPrivKey &&   <div>   <button style={{background:"transparent", padding:"10px", border:"1px solid white", borderRadius:"50px", color:"white", marginTop:"20px", fontSize:"15px", fontStyle:"normal" }} onClick={()=>setShowPrivKey(false)}>
+<img src={eye} style={{width:"20px", height:"20px" , color:"white", display:"flex", justifyContent:"center", alignItems:"center", marginTop:"0px"}} />
+  </button> </div>
+}
       <div className="link" onClick={handleLink}>
         link Mobile number
       </div>

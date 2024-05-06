@@ -8,6 +8,8 @@ import { getAccount, switchChain, disconnect } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { setUserData } from "../../services/wallet/UserSlice";
 import { countries } from "../../constants";
+import { useNavigate } from "react-router-dom";
+
 export default function HomePageReal({
   setNumber,
   setProceedTo,
@@ -15,6 +17,9 @@ export default function HomePageReal({
   code,
   setCode,
 }) {
+
+  const navigate = useNavigate();
+
   const account = getAccount(connectConfig);
   const dispatch = useDispatch();
 
@@ -97,6 +102,32 @@ export default function HomePageReal({
   };
   return (
     <div className="homePageReal">
+        <div
+        className="back"
+        onClick={() => {
+          navigate("/selection-page");
+        }}
+        style={{ marginTop: "-2rem", width: "5rem" }}
+      >
+        <svg
+          width="12"
+          height="10"
+          viewBox="0 0 12 10"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M5.16667 0.833344L1 5.00001M1 5.00001L5.16667 9.16668M1 5.00001H11"
+            stroke="white"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span className="back-text" style={{ marginLeft: "5px" }}>
+          Go back
+        </span>
+      </div>
       <div className="hpr-icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"

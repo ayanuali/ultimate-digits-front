@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import topLogo from "../src/assets/ud-logo.png";
 import "./App.css";
@@ -9,7 +9,6 @@ import ConfirmationPageReal2 from "./pages/confirmation-page/ConfirmationPageRea
 import ConfirmationPageRealRename from "./pages/confirmation-page/ConfirmationPageRealRename";
 import ConfirmationPageVir from "./pages/confirmation-page/ConfirmationPageVir";
 import HomePage from "./pages/home-page/HomePage";
-import LandingPage from "./pages/landing-page/LandingPage";
 import MyNumbersPage from "./pages/my-numbers-page/MyNumbersPage";
 import SearchResultsPage from "./pages/search-results-page/SearchResultsPage";
 import SelectionPage from "./pages/selection-page/SelectionPage";
@@ -32,6 +31,8 @@ import { Web3Provider } from "./ConnectKit/Web3Provider";
 import { WalletProvider, useWalletContext } from "@coinbase/waas-sdk-web-react";
 import store from "./store";
 import WalletAf2 from "./pages/ultimate-wallet/wallet2";
+const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
+
 function App() {
   //function to set various variable states
   const [user, setUser] = useState({
@@ -94,8 +95,10 @@ function App() {
       <Web3Provider>
         {!loading && (
           <div className="App">
+
             {exist()}
             <Component1>
+            <Suspense fallback={<div>Loading...</div>}>
               <Routes>
                 <Route
                   path={"/"}
@@ -329,6 +332,8 @@ function App() {
                   }
                 />
               </Routes>
+              </Suspense>
+
             </Component1>
           </div>
         )}

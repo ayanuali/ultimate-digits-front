@@ -8,6 +8,8 @@ import conABI from "../../../../abi/abi.json";
 import config from "../../../../config.json";
 
 import { useEVMAddress } from "@coinbase/waas-sdk-web-react";
+import { useNavigate } from "react-router-dom";
+// import { useHistory } from 'react-router-dom';
 
 
 import checkTotalPrice from "../../../../functions/checkTotalPrice";
@@ -38,6 +40,8 @@ import { parseUnits } from "viem";
 import { getContract, createPublicClient, custom } from "viem";
 import FullScreenLoader from "../login-form/FullScreenLoader.js";
 import { toast, ToastContainer } from "react-toastify";
+import Wallet from "../../../ultimate-wallet/wallet.jsx";
+import WalletAf from "../../../ultimate-wallet/wallet1.jsx";
 
 function CartShow({
   cartArray,
@@ -54,6 +58,7 @@ function CartShow({
   const { user, wallet } = useWalletContext();
 
   const addressNew = useEVMAddress(wallet);
+  // let history = useHistory();
 
   const userr = useSelector((state) => state.user);
   console.log(userr, "before redux");
@@ -62,6 +67,7 @@ function CartShow({
   const { flag1, setflag1 } = React.useContext(UserContext);
   const searchParams = new URLSearchParams(window.location.search);
   const [queryParam, setQueryParam] = useState(searchParams.get("n") || "");
+  const [noBalance, setNoBalance] = useState(false)
   // const [tokenId,setTokenId]=useState("");
   const { tokenId, setTokenId } = React.useContext(UserContext);
   console.log(tokenId);
@@ -102,6 +108,7 @@ function CartShow({
   //   }
   // };
   const account = getAccount(connectConfig);
+  const navigate = useNavigate();
 
   async function buyNumber() {
     setLoad(true);
@@ -157,7 +164,7 @@ function CartShow({
           console.log("address", add);
           const walletClient = createWalletClient({
             account: toViem(address),
-            chain: baseSepolia,
+            chain: bscTestnet,
             transport: http(),
           });
           console.log("walletClient", walletClient);
@@ -193,7 +200,7 @@ function CartShow({
 console.log("Account",account)
         const walletClient = createWalletClient({
           account,
-          chain: baseSepolia,
+          chain: bscTestnet,
           transport: http(),
         });
 
@@ -220,8 +227,11 @@ console.log("Account",account)
           console.log("error in this in prepare ",error)
           toast.warn( "Not enough balance"
           )
-setLoad(false)
-          return;
+setLoad(false);
+// setNoBalance(true)        ;
+navigate("/walletaf");
+
+  return;
         }
 
         const res = await walletClient.sendTransaction({
@@ -284,7 +294,8 @@ setLoad(false)
 
   return cartArray.length != 0 ? (
     <div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+ {!noBalance  ? 
+     <div style={{ display: "flex", justifyContent: "center" }}>
         <div className="cart_show">
           <div className="searchResultsTable2">
             {/* Similar numbers */}
@@ -347,7 +358,7 @@ setLoad(false)
             false
           )}
         </div>
-      </div>
+      </div> : <WalletAf />}
 
       <ToastContainer />
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./LandingPage.css";
 // import topLogo from "../../assets/ud-logo.png";
 import iPhone from "../../assets/iPhone.png";
@@ -21,6 +21,10 @@ export default function LandingPage({ setNav, setLog, setUser, user }) {
   const [currentWallet, setCurrentWallet] = useState("");
 
   setNav("0");
+
+  useEffect(()=>{
+    console.log("loaded");
+  },[])
 
   return (
     <div className="landing-page">

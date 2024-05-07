@@ -142,8 +142,10 @@ const LoginForm = ({
         const res1 = await waas.logout();
         await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
         console.log(res1); 
-        alert("already line la erukom bro")
-        handleLogin();
+        // alert("already line la erukom bro")
+        // handleLogin();
+        setLoading(false)
+        return
 
       }
      

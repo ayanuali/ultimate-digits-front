@@ -34,19 +34,18 @@ export default function SelectionPage({ setNav }) {
   }, []);
 
   const handleNavigate = () => {
+    navigate("virtual-number/home");
+    return
     if (userr.rootId !== "ncw") {
       if (balanceVal > 0) {
         navigate("virtual-number");
-      } else {
-        alert("Insufficient balance");
-        navigate("/walletaf");
-      }
+      } 
     } else  {
       if(balanceVal > 0){
         navigate("virtual-number/home");
       }
       else {
-        alert("Insufficient balance");
+        // alert("Insufficient balance");
         navigate("/walletaf");
       }
     }

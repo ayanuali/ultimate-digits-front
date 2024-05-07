@@ -160,11 +160,15 @@ const LoginForm = ({
     console.log("isCreatingWallet", isCreatingWallet);
 
     if (res.hasWallet === false) {
+      setLoading(false)
+
       console.log("wallet not created");
       const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
       setContent("Creating your wallet");
+
+      setLoading(true)
 
       const address = await wallet.addresses.for(ProtocolFamily.EVM);
       console.log("address", address);

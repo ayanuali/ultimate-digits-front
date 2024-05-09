@@ -4,6 +4,8 @@ import "./ConfirmationPageVirtual1.css";
 // import nftLogo from "../../assets/ud-logo.png";
 // import {address_NFT,abi_NFT} from "../../../../abi/Nft.js";
 import "../auth-page/components/login-form/FullScreenLoader.css";
+import conABI from "../../abi/abi1.json"
+import config from "../../config.json"
 import { address_NFT, abi_NFT } from "../../abi/Nft.js";
 import nftLogo from "../../assets/ud-logo.png";
 import { UserContext } from "../../Hook.js";
@@ -13,7 +15,6 @@ import { toViem } from "@coinbase/waas-sdk-viem";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 
-import config from "../../config.json";
 import {
   createPublicClient,
   http,
@@ -244,11 +245,18 @@ export default function ConfirmationPageVirtual1({
     console.log("called here")
     console.log(cartArray)
 
+    const contract = getContract({
+      abi: conABI,
+      address: config.address,
+      // 1a. Insert a single client
+      client: publicClient,
+    });
+
     setLoading(true);
 
     await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
-    console.log("contract_connect",contract_connect);
+    console.log("contract_connect",contract);
 
     // const hash = await walletClient.writeContract({
     //      address: contract_connect.address,
@@ -258,7 +266,7 @@ export default function ConfirmationPageVirtual1({
     //    })
 console.log(cartArray)
     cartArray.map(async (number, i) => {
-      console.log("UID creation");
+      console.log("UID ");
       var transaction = async () => {
         if (userr.rootId === "ncw") {
           console.log("ncw")
@@ -281,8 +289,8 @@ console.log(cartArray)
           });
           console.log("walletClient", walletClient);
           const hash = await walletClient.writeContract({
-            address: contract_connect.address,
-            abi: contract_connect.abi,
+            address: contract.address,
+            abi: contract.abi,
             functionName: "SettingUniqueId",
             args: [number, "999"],
           });

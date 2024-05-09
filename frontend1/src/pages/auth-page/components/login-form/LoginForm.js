@@ -168,7 +168,7 @@ const LoginForm = ({
       console.log("waas", waas);
       setContent("Creating your wallet");
 
-      setLoading(true)
+      // setLoading(true)
 
       const address = await wallet.addresses.for(ProtocolFamily.EVM);
       console.log("address", address);

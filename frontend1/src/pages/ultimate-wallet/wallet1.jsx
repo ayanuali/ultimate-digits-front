@@ -61,6 +61,42 @@ const WalletAf = () => {
         <img src={clipboard} alt="clip" />{" "}
       </div>
 
+
+      {/* <div>
+        From testnet Faucet
+
+        <a href="https://www.bnbchain.org/en/testnet-faucet">
+        https://www.bnbchain.org/en/testnet-faucet
+        </a>
+      </div> */}
+
+      <div>
+      <button onClick={() => window.open("https://www.bnbchain.org/en/testnet-faucet", "_blank")}
+  style={{
+    margin: "10px",
+    background: "rgba(255, 255, 255, 0.1)", // Semi-transparent white background
+    color: "white",
+    border: "2px solid rgba(255, 255, 255, 0.5)", // Light white border
+    borderRadius: "8px", // Rounded corners
+    padding: "10px 20px", // Padding for a better button size
+    cursor: "pointer", // Cursor indicates button is clickable
+    transition: "all 0.3s ease" // Smooth transition for hover effects
+  }}
+  onMouseOver={(e) => {
+    e.currentTarget.style.background = "white"; // Change background to white on hover
+    e.currentTarget.style.color = "black"; // Change text color to black on hover
+    e.currentTarget.style.border = "2px solid transparent"; // Hide border on hover
+  }}
+  onMouseOut={(e) => {
+    e.currentTarget.style.background = "rgba(255, 255, 255, 0.1)"; // Revert to initial background
+    e.currentTarget.style.color = "white"; // Revert to initial text color
+    e.currentTarget.style.border = "2px solid rgba(255, 255, 255, 0.5)"; // Revert to initial border
+  }}
+>
+  Visit Testnet Faucet
+</button>
+      </div>
+
       <div className="qrbox">
         <QRCodeSVG value={address} size={128} level={"H"} />
       </div>

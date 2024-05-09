@@ -78,8 +78,8 @@ const Wallet = () => {
         {}
       </div>
 
-{showPrivKey &&   <div>   <button style={{background:"transparent", padding:"10px", border:"1px solid white", borderRadius:"50px", color:"white", marginTop:"20px", fontSize:"15px", fontStyle:"normal" }} onClick={()=>setShowPrivKey(false)}>
-<img src={eye} style={{width:"20px", height:"20px" , color:"white", display:"flex", justifyContent:"center", alignItems:"center", marginTop:"0px"}} />
+{showPrivKey &&   <div>   <button  style={{background:"transparent", padding:"10px", border:"1px solid white", borderRadius:"50px", color:"white", marginTop:"20px", fontSize:"15px", fontStyle:"normal" }} onClick={()=>setShowPrivKey(false)}>
+<img src={eye} style={{width:"20px", height:"20px" , color:"white", display:"flex", justifyContent:"center", alignItems:"center", marginTop:"0px", fontFamily:"Avenir Next", fontSize:"16px", fontWeight:"700",}} />
   </button> </div>
 }
       <div className="link" onClick={handleLink}>

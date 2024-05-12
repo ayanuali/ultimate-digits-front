@@ -324,6 +324,7 @@ setLoadingCreate(false)
         }
       } else if (res.status === 204) {
         console.log("not there");
+        alert("no number so far")
         dispatch(
           setUserData({
             ...userr,

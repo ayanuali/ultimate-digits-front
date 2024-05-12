@@ -12,6 +12,9 @@ import voipIcon from "../../assets/virtual/voip.svg";
 import PhoneSearchInput from "../../utils/inputs/PhoneSearchInput";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+
 const HomePage = ({ setCode, contract_connect }) => {
   //update page on pressing search
   const [updatePage, setUpdatePage] = useState(false);
@@ -20,13 +23,29 @@ const HomePage = ({ setCode, contract_connect }) => {
   useEffect(() => {
     setCode("999");
   }, []);
+  const userr = useSelector((state) => state.user);
+
+
+  const handleBack = async() =>{
+
+console.log("userr",userr)
+    if(userr.phno ==""){
+      navigate(-1)
+    }else{
+      navigate("/sending-crypto/home-page");
+
+    }
+
+
+
+  }
 
   return (
     <div className="homePage">
       <div
         className="back"
         onClick={() => {
-          navigate("/sending-crypto/home-page");
+        handleBack()
         }}
         style={{ marginTop: "2rem", width: "5rem" }}
       >

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy, Suspense  } from "react";
 import "./SelectionPage.css";
 import currentImg from "../../assets/selection1.png";
 import virtualImg from "../../assets/selection2.png";

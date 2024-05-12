@@ -162,7 +162,6 @@ const LoginForm = ({
     console.log("isCreatingWallet", isCreatingWallet);
 
     if (res.hasWallet === false) {
-      setLoading(false)
 
       console.log("wallet not created");
       const wallet = await res.create();

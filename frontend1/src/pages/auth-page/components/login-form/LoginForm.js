@@ -58,6 +58,7 @@ const LoginForm = ({
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingCreate, setLoadingCreate] = useState(false)
 
   const [gotData, setGotData] = useState(false);
 
@@ -140,11 +141,12 @@ const LoginForm = ({
       if(  user.hasWallet){
         console.log("user already erukan so kaathirupom")
         const res1 = await waas.logout();
-        await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
+        // await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
         console.log(res1); 
         // alert("already line la erukom bro")
         // handleLogin();
         setLoading(false)
+        alert("try again")
         return
 
       }
@@ -167,6 +169,7 @@ const LoginForm = ({
       console.log("wallet", wallet);
       console.log("waas", waas);
       setContent("Creating your wallet");
+      setLoadingCreate(true)
 
       // setLoading(true)
 
@@ -182,9 +185,10 @@ const LoginForm = ({
           rootId: wallet.rootContainerID,
           privKey: privateKeys,
           fulladdress: address,
+          new:true
         })
       );
-
+setLoadingCreate(false)
       navigate("/wallet");
       return;
       if (res) {
@@ -618,6 +622,7 @@ const LoginForm = ({
       </button>
 
       <FullScreenLoader loading={loading} content={content} />
+      <FullScreenLoader loading={loadingCreate} content={"Creating wallet"} />
 
       <div className="powered"></div>
 

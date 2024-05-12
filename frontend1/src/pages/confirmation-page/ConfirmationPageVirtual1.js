@@ -64,6 +64,8 @@ export default function ConfirmationPageVirtual1({
   const [loading, setLoading] = useState(false)
   const [content, setContent] = useState("Loading.....")
 
+  const [loadingLink, setloadingLink] = useState(false)
+
   // Extract the "cart" parameter value from the query string
   const urlParams = new URLSearchParams(queryString);
   const cartParam = urlParams.get("cart");
@@ -244,6 +246,8 @@ export default function ConfirmationPageVirtual1({
     setContent("Linking Number");
     console.log("called here")
     console.log(cartArray)
+    setloadingLink(true);
+
 
     const contract = getContract({
       abi: conABI,
@@ -252,7 +256,6 @@ export default function ConfirmationPageVirtual1({
       client: publicClient,
     });
 
-    setLoading(true);
 
     await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
@@ -318,7 +321,7 @@ console.log(cartArray)
 
       if (res.status === 200 || res.status === 201) {
         console.log("Mapping successful");
-setLoading(false);
+        setloadingLink(false);
         if (check === cartArray.length) {
           navigate(
             `/selection-page/my-numbers/confirm-page?number=${number}`
@@ -338,7 +341,7 @@ setLoading(false);
 
       if (res.status === 200 || res.status === 201) {
         console.log("Mapping successful");
-setLoading(false);
+        setloadingLink(false);
         if (check === cartArray.length) {
           navigate(
             `/selection-page/my-numbers/confirm-page?number=${number}`
@@ -350,7 +353,7 @@ setLoading(false);
 
       } catch (error) {
         console.log(error);
-        setLoading(false);
+        setloadingLink(false);
       }
 
       // if (transaction) {
@@ -361,7 +364,7 @@ setLoading(false);
       // }
     });
     console.log(cartArray.length);
-    setLoading(false);
+    // setloadingLink(false);
   }
 
   async function PerfomAction() {
@@ -465,6 +468,7 @@ setLoading(false);
         <ToastContainer />
 
         <FullScreenLoader loading={loading} content={content} />
+        <FullScreenLoader loading={loadingLink} content={content} />
 
       </div>
     </div>

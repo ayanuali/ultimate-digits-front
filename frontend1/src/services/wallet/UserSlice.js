@@ -12,6 +12,7 @@ export const userSlice = createSlice({
     countryCode: "",
     fulladdress: {},
     updateReal: false,
+    new:false
   },
   reducers: {
     setUserData: (state, action) => {
@@ -28,6 +29,7 @@ export const userSlice = createSlice({
       state.countryCode = action.payload.countryCode;
       state.fulladdress = action.payload.fulladdress;
       state.updateReal = action.payload.updateReal;
+      state.new= action.payload.new;
     },
   },
 });

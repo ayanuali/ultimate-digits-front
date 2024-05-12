@@ -34,7 +34,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getBalance } from "@wagmi/core";
 
 
-import { connectConfig } from "../../ConnectKit/Web3Provider.jsx";
 import axios from "axios";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
@@ -82,18 +81,10 @@ export default function ConfirmationPageVirtual1({
     transport: http(process.env.RPC_URL),
   });
 
-  const account = getAccount(connectConfig);
 
 
   const getingBalance = async () => {
-    const balance = await getBalance(connectConfig, {
-      address: userr.address,
-    });
-    console.log("blance", balance);
-    console.log("val", balance.formatted);
-    setBalanceVal(balance.formatted);
-    console.log("sy,", balance.symbol);
-    console.log("value", balance.value);
+ 
   };
 
 
@@ -132,7 +123,7 @@ export default function ConfirmationPageVirtual1({
               style={{ width: "10rem" }}
             ></img>
             <div className="nft-number" style={{ color: "white" }}>
-           <b>   {`+999 DEGEN ${val}`} </b>
+           <b>   {`+999 U2U ${val}`} </b>
             </div>
           </div>
           </div>
@@ -153,7 +144,7 @@ export default function ConfirmationPageVirtual1({
         <div className="cpv1-content" style={{ marginTop: "1rem" }}>
           <div className="text">Purchase successful</div>
           <div className="sub-text">
-            Congratulations! You have successfully purchased a <br></br> DEGEN web3
+            Congratulations! You have successfully purchased a <br></br> U2U web3
             phone number.
           </div>
         </div>
@@ -205,7 +196,7 @@ Mint more
 
 
     </div> */}
-<a href={`https://explorer.degen.tips/tx/${link}`} target="_blank">
+<a href={`https://testnet.u2uscan.xyz/tx/${link}`} target="_blank">
     <div style={{marginTop:"20px", display:"flex", justifyContent:"center", alignItems:"flex-end", gap:"5px"}}>
 
 

@@ -4,6 +4,7 @@ import CrossIcon from "../../assets/search-results-page/icons/cross-icon.svg";
 import SimcardIcon from "../../assets/search-results-page/icons/simcard-icon.svg";
 import BinanceIcon from '../../assets/search-results-page/icons/binance-icon.svg';
 import DegenIcon from "../../assets/assets/degen.png";
+import U2UIcon from "../../assets/assets/u2u.jpeg"
 
 import "./PhoneNumberBox.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
@@ -64,7 +65,7 @@ const PhoneNumberBox = ({
           }
         />
         <div className="phoneNumberResult">
-          +999 33436 {`${number && formatPhoneNumber(number)}`}
+          +999 828 {`${number && formatPhoneNumber(number)}`}
           <div className="phoneNumberResultStatus">
             {showAvailability && (
               <div
@@ -75,7 +76,7 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}>  +999 DEGEN {`${number && formatPhoneNumber(number)}`}</div>
+            <div className={`statusDiv ${tier}Tier`}>  +999 U2U {`${number && formatPhoneNumber(number)}`}</div>
           </div>
         </div>
       </div>
@@ -85,12 +86,12 @@ const PhoneNumberBox = ({
         <div className="phoneNumberBoxRight">
           <div className="phoneNumberBoxRightCurrency">
             <img
-              src={DegenIcon}
+              src={U2UIcon}
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
           {/* <div className="text_bsd">${checkPrice(number)}</div> */}
-          <div className="text_bsd">150 $DEGEN </div>
+          <div className="text_bsd">150 $U2U </div>
           </div>
 
           <button

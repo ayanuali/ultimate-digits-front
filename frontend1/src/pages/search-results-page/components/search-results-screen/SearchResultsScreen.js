@@ -9,7 +9,6 @@ import { generateGoldNumbers } from "../../../../functions/gold-numbers/generate
 import { generateSilverNumbers } from "../../../../functions/silver-numbers/generateSilverNumbers";
 import { generateRandomNumbers } from "../../../../functions/random-numbers/generateRandomNumbers";
 
-import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { readContract } from "@wagmi/core";
 import axios from "axios";
 
@@ -39,7 +38,7 @@ const SearchResultsScreen = ({
 
 
     try {
-      const res = await axios.post(`https://degenbackend.ultimatedigits.com/degen/generateNumbers`,{
+      const res = await axios.post(`https://degenbackend.ultimatedigits.com/unicorn/generateNumbers`,{
         number:queryParam
       })
 console.log("res",res)
@@ -60,29 +59,7 @@ if(res.status === 200){
   };
 
   const checkAccFunc = async () => {
-    try {
-      const addressReturned = async () => {
-        console.log("Hii..");
-        await readContract(connectConfig, {
-          abi: contract_connect.abi,
-          address: contract_connect.address,
-          functionName: "checkAccount",
-          args: [queryParam, (999).toString()],
-        });
-        console.log("Hello...");
-      };
-      console.log("veendum hello");
-      var someAddress = await addressReturned();
-      console.log("aaro address:", someAddress.address);
-      if (someAddress) {
-        console.log("addressReturned:", addressReturned);
-        setAva(false);
-      } else {
-        setAva(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+
   };
 
   // Array of added to cart

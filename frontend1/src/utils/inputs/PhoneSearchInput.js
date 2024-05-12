@@ -142,8 +142,8 @@ toast.warn("Connect your wallet please");
 return
     }
 
-    if(phoneValue.length !==5){
-      toast.warn("5 digits is required");
+    if(phoneValue.length !==7){
+      toast.warn("7 digits is required");
       return;
 
     }
@@ -151,7 +151,7 @@ return
 
   try {
 
-    const queryurl = 'https://degenbackend.ultimatedigits.com/degen/checkDegen'
+    const queryurl = 'https://degenbackend.ultimatedigits.com/unicorn/checkDegen'
     const res = await axios.post(queryurl,{
       number:phoneValue
     })
@@ -228,29 +228,29 @@ return
         {!isWords && <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-<div className="Degen">            +999 DEGEN
+<div className="Degen">            +999 U2U
 </div>            <input
 disabled={dis}
               type="text"
               value={value}
               onChange={handleChange}
-              maxLength={5}
+              maxLength={7}
               ref={ref}
-              placeholder="12345"
+              placeholder="2926854"
             />
           </div>
         </div>}
    { isWords &&    <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-<span className="Degen">            +999 DEGEN
+<span className="Degen">            +999 U2U
 </span>            <input
               type="text"
               value={value}
               onChange={handleChangeWords}
-              maxLength={5}
+              maxLength={7}
               ref={ref}
-              placeholder="CHAIN"
+              placeholder="AYANULI"
             />
           </div>
         </div>}

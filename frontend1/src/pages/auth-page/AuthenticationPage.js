@@ -50,22 +50,13 @@ const AuthenticationPage = ({
     switch (type) {
       case "login":
         return (
-          <LoginForm
-            setProceedTo={setProceedTo}
-            setsigner={setsigner}
-            setwalletaddress={setwalletaddress}
-            setcontract={setcontract}
-            setUser={setUser}
-            user={user}
-            log={log}
-            setNav={setNav}
-          />
+        <>asfs</>
         );
       case "showCart":
         return (
           <CartShow
             setProceedTo={setProceedTo}
-            cartArray={cartArray}
+            cartArray={cartArray1}
             setcartArray={setcartArray}
             contract_connect={contract_connect}
             setContract_connect={setContract_connect}
@@ -104,7 +95,7 @@ const AuthenticationPage = ({
             number={number}
             contract_connect={contract_connect}
             signer={signer}
-            cartArray={cartArray}
+            cartArray={cartArray1}
           />
         );
       case "forwardMinting":
@@ -191,20 +182,11 @@ const navigate = useNavigate()
     validateUser();
   }, [check, user.isLoggedIn]);
 
-  return cartArray.length == 0 ? (
+  return cartArray1.length == 0 ? (
     <>
       <div className="landing-content">sdfdsf</div>
       <div className="authPageCentered">
-        <LoginForm
-          setProceedTo={setProceedTo}
-          setsigner={setsigner}
-          setwalletaddress={setwalletaddress}
-          setcontract={setcontract}
-          setUser={setUser}
-          user={user}
-          log={log}
-          setNav={setNav}
-        />
+    
       </div>
     </>
   ) : loading ? (
@@ -213,7 +195,7 @@ const navigate = useNavigate()
     <div className="authPage">
       <div className="authPageWrapper">
         {proceedTo != "purchaseConfirmation" ? (
-          <LeftPart cartArray={cartArray} currentState={proceedTo} />
+          <LeftPart cartArray={cartArray1} currentState={proceedTo} />
         ) : (
           false
         )}

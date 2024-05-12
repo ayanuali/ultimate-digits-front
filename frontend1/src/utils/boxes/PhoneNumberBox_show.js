@@ -17,7 +17,6 @@ import conABI from '../../abi/abi1.json'
 import { ethers } from 'ethers'
 import { UserContext } from "../../Hook";
 import { readContract } from "@wagmi/core";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
 
 const PhoneNumberBox = ({
   number,
@@ -52,20 +51,8 @@ const PhoneNumberBox = ({
       console.log("afsafas",numberAsNumber);
       console.log("transacraasdsa", transacamount)
 
-      const addressReturned = await readContract(connectConfig, {
-        abi: contract_connect.abi,
-        address: contract_connect.address,
-        functionName: "checkAccount",
-        args: [transacamount, "999"]
-      });
-      var addrReturned = await addressReturned();
-      if (addrReturned) {
-        console.log("addressReturned:", addressReturned);
-        setAvailable(false);
-      }
-      else {
-        setAvailable(true);
-      }
+   
+    
 
     }
     catch (e) {
@@ -129,7 +116,7 @@ const PhoneNumberBox = ({
           }
         />
         <div className="phoneNumberResult">
-<div style={{display:"flex", gap:"10px"}}> +999 <b>DEGEN</b> {`${number && formatPhoneNumber(number)}`}</div>          <div className="phoneNumberResultStatus">
+<div style={{display:"flex", gap:"10px"}}> +999 <b>U2U</b> {`${number && formatPhoneNumber(number)}`}</div>          <div className="phoneNumberResultStatus">
             {showAvailability && (
               <div
                 className={
@@ -139,7 +126,7 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}><div style={{display:"flex", gap:"10px"}}> +999 <b>DEGEN</b> {`${number && formatPhoneNumber(number)}`}</div>    </div>
+            <div className={`statusDiv ${tier}Tier`}><div style={{display:"flex", gap:"10px"}}> +999 <b>U2U</b> {`${number && formatPhoneNumber(number)}`}</div>    </div>
           </div>
         </div>
       </div>
@@ -153,7 +140,7 @@ const PhoneNumberBox = ({
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
-            <div className="text_bsd">150 $DEGEN</div>
+            <div className="text_bsd">150 $U2U</div>
           </div>
 
           <button

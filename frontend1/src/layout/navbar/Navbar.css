@@ -26,8 +26,9 @@
 
 .navbarLogo {
   width: 216px;
-  height: 32.25px;
+
   cursor: pointer;
+margin-bottom: 40px;
 }
 
 .navbarRightSide {

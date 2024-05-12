@@ -4,36 +4,66 @@ import topLogo from "../src/assets/ud-logo.png";
 import "./App.css";
 import Navbar from "./layout/navbar/Navbar";
 import AuthenticationPage from "./pages/auth-page/AuthenticationPage";
-import LoadingPageReal from "./pages/auth-page/LoadingPageReal";
-import ConfirmationPageReal2 from "./pages/confirmation-page/ConfirmationPageReal2";
-import ConfirmationPageRealRename from "./pages/confirmation-page/ConfirmationPageRealRename";
-import ConfirmationPageVir from "./pages/confirmation-page/ConfirmationPageVir";
+
 import HomePage from "./pages/home-page/HomePage";
-import LandingPage from "./pages/landing-page/LandingPage";
-import MyNumbersPage from "./pages/my-numbers-page/MyNumbersPage";
+
 import SearchResultsPage from "./pages/search-results-page/SearchResultsPage";
-import SelectionPage from "./pages/selection-page/SelectionPage";
-import HomePageSendingCrypto from "./pages/sending-crypto/HomePageSendingCrypto";
-import DVOIPPage from "./pages/sending-crypto/dvoip/dvoippage";
-import MessengerPage from "./pages/sending-crypto/messenger/MessengerPage";
-import Cryptopage1 from "./pages/sending-crypto/sendingCrypto/Cryptopage1";
-import Cryptopage2 from "./pages/sending-crypto/sendingCrypto/Cryptopage2";
-import Cryptopage4 from "./pages/sending-crypto/sendingCrypto/Cryptopage4";
-import Cryptopage5 from "./pages/sending-crypto/sendingCrypto/Cryptopage5";
-import PaymentpageReal from "./pages/sending-crypto/sendingPayment/PaymentpageReal";
-import PaymentpageVirtual from "./pages/sending-crypto/sendingPayment/PaymentpageVirtual";
-import Wallet from "./pages/ultimate-wallet/wallet";
-import WalletAf from "./pages/ultimate-wallet/wallet1";
+
 import { checkUser } from "./services/magic";
 import Component1 from "./Hook";
-import { Provider } from "react-redux";
-import { Web3Provider } from "./ConnectKit/Web3Provider";
 
-import { WalletProvider, useWalletContext } from "@coinbase/waas-sdk-web-react";
-import store from "./store";
-import WalletAf2 from "./pages/ultimate-wallet/wallet2";
 import SearchResultsPageNow from "./pages/search-results-page/SearchResultsPageNow";
+
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+// import {
+//   mainnet,
+//   polygon,
+//   optimism,
+//   arbitrum,
+//   base,
+// } from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
+
+const avalanche = {
+  id: 2484,
+  name: 'Unicorn Ultra Nebulas Testnet',
+  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
+  iconBackground: '#fff',
+  nativeCurrency: { name: 'U2U', symbol: 'U2U', decimals: 18 },
+  rpcUrls: {
+    default: { http: ['https://rpc-nebulas-testnet.uniultra.xyz'] },
+  },
+  blockExplorers: {
+    default: { name: 'u2uscan', url: 'https://testnet.u2uscan.xyz' },
+  },
+  contracts: {
+    multicall3: {
+      address: '0xca11bde05977b3631167028862be2a173976ca11',
+      blockCreated: 11_907_934,
+    },
+  },
+}
+
+const config = getDefaultConfig({
+  appName: 'My RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains: [avalanche],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
+
+const queryClient = new QueryClient();
+
 function App() {
+
+  
   //function to set various variable states
   const [user, setUser] = useState({
     isLoggedIn: null,
@@ -91,8 +121,11 @@ function App() {
     return "";
   }
   return (
+    <WagmiProvider config={config}>
+    <QueryClientProvider client={queryClient}>
+      <RainbowKitProvider>
     <BrowserRouter>
-      <Web3Provider>
+  
         {!loading && (
           <div className="App">
             {exist()}
@@ -160,171 +193,17 @@ function App() {
                     />
                   }
                 />
-                {/* <Route
-                  path={"/selection-page/my-numbers"}
-                  element={
-                    <MyNumbersPage
-                      signer={signer}
-                      walletaddress={walletaddress}
-                      contract={contract}
-                      setContract_connect={setContract_connect}
-                      user={user}
-                      setUser={setUser}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/selection-page"}
-                  element={<SelectionPage setNav={setNav} />}
-                /> */}
-                {/* <Route
-                  path={"/real-number"}
-                  element={
-                    <LoadingPageReal
-                      setContract_connect={setContract_connect}
-                      waddress={waddress}
-                      setwaddress={setwaddress}
-                      code={code}
-                      setCode={setCode}
-                      setNav={setNav}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/selection-page/my-numbers/confirm-page"}
-                  element={
-                    <ConfirmationPageReal2
-                      walletaddress={walletaddress}
-                      number={number}
-                      code={code}
-                      cartArray={cartArray}
-                      setNumber={setNumber}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/sending-crypto/home-page"}
-                  element={
-                    <HomePageSendingCrypto
-                      setNav={setNav}
-                      setCurrentNumber={setCurrentNumber}
-                      setCurrentWallet={setCurrentWallet}
-                      currentNumber={currentNumber}
-                      currentWallet={currentWallet}
-                      contract_connect={contract_connect}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/sending-crypto/paymentRealNumber"}
-                  element={
-                    <PaymentpageReal
-                      setNav={setNav}
-                      currentNumber={currentNumber}
-                      currentWallet={currentWallet}
-                      setToNumber={setToNumber}
-                      toNumber={toNumber}
-                      contract_connect={contract_connect}
-                      setType={setType}
-                      setToAddress={setToAddress}
-                      settoCode={settoCode}
-                      tocode={tocode}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/sending-crypto/paymentVirtualNumber"}
-                  element={
-                    <PaymentpageVirtual
-                      setNav={setNav}
-                      code={code}
-                      currentWallet={currentWallet}
-                      setToNumber={setToNumber}
-                      toNumber={toNumber}
-                      contract_connect={contract_connect}
-                      setType={setType}
-                      setToAddress={setToAddress}
-                      settoCode={settoCode}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/sending-crypto/confirmTransaction"}
-                  element={
-                    <Cryptopage1
-                      setNav={setNav}
-                      code={tocode}
-                      amount={amount}
-                      setAmount={setAmount}
-                      currentWallet={toAddress}
-                      toNumber={toNumber}
-                      type={type}
-                    />
-                  }
-                /> */}
-                {/* <Route
-                  path={"/sending-crypto/confirmPayment"}
-                  element={
-                    <Cryptopage2
-                      setNav={setNav}
-                      code={tocode}
-                      amount={amount}
-                      currentWallet={currentWallet}
-                      signer={signer}
-                      toAddress={toAddress}
-                      type={type}
-                      toNumber={toNumber}
-                      number={currentNumber}
-                      tocode={code}
-                    />
-                  }
-                />
-                <Route
-                  path={"/sending-crypto/last-page"}
-                  element={
-                    <Cryptopage4
-                      setNav={setNav}
-                      code={tocode}
-                      amount={amount}
-                      currentWallet={currentWallet}
-                      signer={signer}
-                      toAddress={toAddress}
-                      type={type}
-                      toNumber={toNumber}
-                    />
-                  }
-                />
-                <Route
-                  path={"/sending-crypto/dvoip-page"}
-                  element={<DVOIPPage />}
-                />
-                <Route
-                  path={"/sending-crypto/messenger-page"}
-                  element={<MessengerPage />}
-                />
-                <Route
-                  path={"/sending-crypto/invalid-number"}
-                  element={
-                    <Cryptopage5
-                      setNav={setNav}
-                      code={tocode}
-                      amount={amount}
-                      currentWallet={currentWallet}
-                      signer={signer}
-                      toAddress={toAddress}
-                      type={type}
-                      toNumber={toNumber}
-                      tocode={code}
-                      number={currentNumber}
-                    />
-                  }
-                /> */}
+         
               </Routes>
             </Component1>
           </div>
         )}
-      </Web3Provider>
+    
     </BrowserRouter>
+
+    </RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }
 

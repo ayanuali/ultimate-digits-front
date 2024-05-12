@@ -14,8 +14,6 @@ import { toViem } from "@coinbase/waas-sdk-viem";
 import { createWalletClient, http, parseEther } from "viem";
 import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import { Address } from "@coinbase/waas-sdk-web";
-import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
-import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import "../login-form/FullScreenLoader.css"
 import { useSelector } from "react-redux";
@@ -97,7 +95,6 @@ function CartShow({
   //     }
   //   }
   // };
-  const account = getAccount(connectConfig);
 
 
   console.log("aefefdsfcadsfasf",queryParam)
@@ -142,7 +139,7 @@ console.log("arry",cartArray)
 
     // const json = {
     //   "name":"Ultimate Digits X Degen",
-    //   "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
+    //   "description":" This is a ITU-compliant, 10-digit, limited-edition Unicorn Ultra mobile number on Unicorn Ultra and Ethereum. To learn more, visit www.ultimatedigits.com",
     //   "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
     //   "attributes": [
     //     {
@@ -155,13 +152,13 @@ console.log("arry",cartArray)
     try {
       const responses = await Promise.all(cartArray.map(async (number) => {
         const json = {
-          "name":"Ultimate Digits Degen Mobile Number",
-          "description":" This is a ITU-compliant, 10-digit, limited-edition DEGEN mobile number on Base and Ethereum. To learn more, visit www.ultimatedigits.com",
+          "name":"Ultimate Digits Unicorn Ultra Mobile Number",
+          "description":" This is a ITU-compliant, 10-digit,limited-edition Unicorn Ultra mobile number on Unicorn Ultra and Ethereum. To learn more, visit www.ultimatedigits.com",
           "image":"https://gateway.pinata.cloud/ipfs/QmaTtKUBUhcuNXwcy9WYo4dmdndh6Z6a7aHwXLcMv78RTW",
           "attributes": [
             {
               "color": "Blue",
-              "value": "33436" + number
+              "value": "828" + number
             }
           ],
         }
@@ -194,7 +191,7 @@ console.log("arry",cartArray)
       }
 
       try {
-        const res = await axios.post('https://degenbackend.ultimatedigits.com/degen/setMintedBulk',{
+        const res = await axios.post('https://degenbackend.ultimatedigits.com/unicorn/setMintedBulk',{
           numbers:cartArray
         })
 

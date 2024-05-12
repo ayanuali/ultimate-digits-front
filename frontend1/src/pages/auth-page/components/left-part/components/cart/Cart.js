@@ -130,7 +130,7 @@ console.log('nvbjhkgv',cartArray.length)
 
       <div className="cartWrapperTotalCount">
         <div className="cartWrapperTotal">Total</div>
-        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 150} DEGEN</div>
+        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 150} U2U</div>
       </div>
 
       

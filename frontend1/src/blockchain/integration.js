@@ -13,7 +13,7 @@ if (!ethereum) {
 }
 
 
-const contractAddress = "0x080dB0b9281e23AF7Df31985B846Ad05a615565E";
+const contractAddress = "0x3b437Bd80da0197Bfb41e2379bd3DcbECF2Ebe33";
 
 export const mint = async ({uri}) => {
 
@@ -63,7 +63,7 @@ const poc = new ethers.Contract(contractAddress, abi, signer);
 
 console.log("poc",poc)
 
-const total = 150 * uri.length;
+const total = 1 * uri.length;
 
 console.log("total in num", total);
 

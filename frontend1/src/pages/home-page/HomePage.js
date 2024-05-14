@@ -92,7 +92,7 @@ const HomePage = ({ setCode, contract_connect }) => {
       <div style={{display: "flex", gap:"10px", border:"1px solid white", borderRadius:"11px", padding:"3px", marginBottom:"50px", alignItems:"center"}}>
 
         <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px"}}>
-<span style={{color:"white"}}>+999 U2U SEVEN
+<span style={{color:"white"}}>+999 U2U SEVENTH
 </span>        </div>
 
         <div>

@@ -5,3 +5,7 @@ npx run hardhat scripts/deploy.js -network smart_chain_testnet
     // "address_nft" : "0x209AD4968a34198Ea2E3C6F91474CdCB417e490b",
 
 //update
+
+
+
+"address of u2u nft contract" : 0x3b437Bd80da0197Bfb41e2379bd3DcbECF2Ebe33

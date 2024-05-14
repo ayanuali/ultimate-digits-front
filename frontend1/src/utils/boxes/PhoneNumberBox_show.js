@@ -4,6 +4,7 @@ import CrossIcon from "../../assets/search-results-page/icons/cross-icon.svg";
 import SimcardIcon from "../../assets/search-results-page/icons/simcard-icon.svg";
 import BinanceIcon from '../../assets/search-results-page/icons/binance-icon.svg';
 import DegenIcon from "../../assets/assets/degen.png"
+import UnicornIcon from "../../assets/assets/u2u.jpeg"
 import { useNavigate } from "react-router-dom";
 import "./PhoneNumberBox.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
@@ -136,7 +137,7 @@ const PhoneNumberBox = ({
         <div className="phoneNumberBoxRight">
           <div className="phoneNumberBoxRightCurrency">
             <img
-              src={DegenIcon}
+              src={UnicornIcon}
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />

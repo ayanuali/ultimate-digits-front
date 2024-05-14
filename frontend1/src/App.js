@@ -77,16 +77,9 @@ function App() {
   const [signer, setsigner] = useState({});
   const [walletaddress, setwalletaddress] = useState(null);
   const [number, setNumber] = useState(null);
-  const [waddress, setwaddress] = useState("");
   const [nav, setNav] = useState("1");
-  const [toNumber, setToNumber] = useState("");
-  const [amount, setAmount] = useState(null);
-  const [type, setType] = useState("Real");
-  const [toAddress, setToAddress] = useState("");
   const [code, setCode] = useState("999");
-  const [currentNumber, setCurrentNumber] = useState(null);
-  const [currentWallet, setCurrentWallet] = useState("");
-  const [tocode, settoCode] = useState("999");
+
   const [log, setLog] = useState(false);
   const [cartArray, setcartArray] = useState([]);
   // const [tier, setTier] = useState("bronze");
@@ -131,28 +124,7 @@ function App() {
             {exist()}
             <Component1>
               <Routes>
-                {/* <Route
-                  path={"/"}
-                  element={
-                    <LandingPage
-                      setNav={setNav}
-                      setUser={setUser}
-                      user={user}
-                      setLog={setLog}
-                    />
-                  }
-                /> */}
-              
-                {/* <Route
-                  path={"/selection-page/virtual-number"}
-                  element={
-                    <ConfirmationPageVir
-                      setContract_connect={setContract_connect}
-                      setwaddress={setwaddress}
-                      setsigner={setsigner}
-                    />
-                  }
-                /> */}
+          
               
         
                 <Route

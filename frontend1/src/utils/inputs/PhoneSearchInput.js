@@ -87,7 +87,7 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub, dis=false })
 
 console.log("Sdfsdf",numericValueInL.length)
     // Update state for real value
-if(numericValueInL.length ===  5){
+if(numericValueInL.length ===  7){
   setPhoneValue(numericValueInL);
 
 }
@@ -236,7 +236,7 @@ disabled={dis}
               onChange={handleChange}
               maxLength={7}
               ref={ref}
-              placeholder="2926854"
+              placeholder="8642676"
             />
           </div>
         </div>}
@@ -250,7 +250,7 @@ disabled={dis}
               onChange={handleChangeWords}
               maxLength={7}
               ref={ref}
-              placeholder="AYANULI"
+              placeholder="UNICORN"
             />
           </div>
         </div>}

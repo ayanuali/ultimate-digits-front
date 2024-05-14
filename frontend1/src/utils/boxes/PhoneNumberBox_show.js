@@ -141,7 +141,7 @@ const PhoneNumberBox = ({
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
-            <div className="text_bsd">150 $U2U</div>
+            <div className="text_bsd">$1 U2U</div>
           </div>
 
           <button

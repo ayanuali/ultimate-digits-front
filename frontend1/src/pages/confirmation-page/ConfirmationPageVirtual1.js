@@ -165,10 +165,9 @@ export default function ConfirmationPageVirtual1({
 
 
 <TwitterShareButton
-text="LFG! Just got my first Ethereum mobile number by @ultimatedigits on @unicornultraxyz for free! 
- Get yours today at https://unicorn.ultimatedigits.com"
+text="LFG! Just got my first Ethereum mobile number by @ultimatedigits on @unicornultraxyz for free! Get yours today 👉🏻 "
 url="https://unicorn.ultimatedigits.com"
-hashtags={[ 'ethereum']}
+hashtags={[ '']}
 />
 
 

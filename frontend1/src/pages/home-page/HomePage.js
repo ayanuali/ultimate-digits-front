@@ -3,7 +3,7 @@ import LowerArcImg from "../../assets/home-page/lower-arc.png";
 import IphoneImg from "../../assets/home-page/iphone.png";
 import Logo from "../../assets/ud-square-logo2.png";
 import DegenLogo from "../../assets/assets/degenlogo.png";
-import Unicornlogo from "../../assets/assets/u2u.jpeg"
+import Unicornlogo from "../../assets/assets/u2uicon.png"
 import Chain from "../../assets/assets/chain.png";
 import CheckIcon from "../../assets/virtual/hash.svg";
 import bellIcon from "../../assets/virtual/bell.svg";
@@ -11,6 +11,8 @@ import rewardIcon from "../../assets/virtual/reward.svg";
 import sendCryptoIcon from "../../assets/virtual/sendCrypto.svg";
 import privateIcon from "../../assets/virtual/private.svg";
 import recieveIcon from "../../assets/virtual/recieve.svg";
+
+import infinity from "../../assets/infi.png"
 import voipIcon from "../../assets/virtual/voip.svg";
 import PhoneSearchInput from "../../utils/inputs/PhoneSearchInput";
 import { useState, useEffect } from "react";
@@ -70,14 +72,14 @@ const HomePage = ({ setCode, contract_connect }) => {
           <img src={Logo} />
         </div>
         <div style={{ textAlign: "center", width:"20px", marginRight:"0px",  }} >
-          <img src={Chain} style={{    width: "20px",
+          <img src={infinity} style={{    width: "20px",
     height: "20px",
     marginTop: "0px",
-    marginBottom: "0px"
+    marginBottom: "20px"
 }}  />
         </div>
         <div style={{ textAlign: "center" }}>
-          <img src={Unicornlogo} />
+          <img src={Unicornlogo} style={{borderRadius:"10px"}} />
         </div>
 
      </div>
@@ -92,7 +94,7 @@ const HomePage = ({ setCode, contract_connect }) => {
       <div style={{display: "flex", gap:"10px", border:"1px solid white", borderRadius:"11px", padding:"3px", marginBottom:"50px", alignItems:"center"}}>
 
         <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px"}}>
-<span style={{color:"white"}}>+999 U2U SEVENTH
+<span style={{color:"white"}}>+999 U2U UNICORN
 </span>        </div>
 
         <div>
@@ -102,7 +104,7 @@ const HomePage = ({ setCode, contract_connect }) => {
         </div>
 
         <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px", color:"white"}}>
-+999 828 7383684
++999 828 8642676
 
         </div>
 

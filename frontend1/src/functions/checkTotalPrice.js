@@ -10,7 +10,7 @@ const checkTotalPrice = (arr) => {
 
     
 
-    totalPrice = 150*arr.lenght;
+    totalPrice = 1*arr.lenght;
 
     return arr.lenght;
 }

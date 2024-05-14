@@ -16,7 +16,7 @@ const Cart = ({ cartArray, currentState }) => {
   const [flag, setFlag] = useState(true);
   const[textCoupon,setTextCoupon]=useState("Add Coupon")
   const [coupon1, setcoupon1] = useState("0");
-  const [coupon2, setcoupon2] = useState(checkTotalPrice(cartArray) * 150);
+  const [coupon2, setcoupon2] = useState(checkTotalPrice(cartArray) * 1);
   const [color,setColor]=useState("white")
   const [flag2,setFlag2]=useState(false);
 
@@ -109,7 +109,7 @@ console.log('nvbjhkgv',cartArray.length)
           <PhonePrice
             number={`${num}`}
             tier={checkTier(num.toString())}
-            price={`150`}
+            price={`1`}
             key={i}
           />
         ))}
@@ -130,7 +130,7 @@ console.log('nvbjhkgv',cartArray.length)
 
       <div className="cartWrapperTotalCount">
         <div className="cartWrapperTotal">Total</div>
-        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 150} U2U</div>
+        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 1} U2U</div>
       </div>
 
       

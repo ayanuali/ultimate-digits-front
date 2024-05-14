@@ -72,13 +72,13 @@ const HomePage = ({ setCode, contract_connect }) => {
           <img src={Logo} />
         </div>
         <div style={{ textAlign: "center", width:"20px", marginRight:"0px",  }} >
-          <img src={infinity} style={{    width: "20px",
+          <img src={infinity} style={{    width: "40px",
     height: "20px",
     marginTop: "0px",
     marginBottom: "20px"
 }}  />
         </div>
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", marginLeft:"20px"}}>
           <img src={Unicornlogo} style={{borderRadius:"10px"}} />
         </div>
 

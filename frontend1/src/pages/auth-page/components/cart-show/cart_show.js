@@ -191,7 +191,7 @@ console.log("arry",cartArray)
       }
 
       try {
-        const res = await axios.post('https://degenbackend.ultimatedigits.com/unicorn/setMintedBulk',{
+        const res = await axios.post('https://degenbackend.ultimatedigits.com/avalanche/setMintedBulk',{
           numbers:cartArray
         })
 

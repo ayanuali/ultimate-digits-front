@@ -5,6 +5,7 @@ import SimcardIcon from "../../assets/search-results-page/icons/simcard-icon.svg
 import BinanceIcon from '../../assets/search-results-page/icons/binance-icon.svg';
 import DegenIcon from "../../assets/assets/degen.png";
 import U2UIcon from "../../assets/assets/u2u.jpeg"
+import avaxIcon from "../../assets/assets/AVAX.png"
 
 import "./PhoneNumberBox.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
@@ -76,7 +77,7 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}>  +999 U2U {`${number && formatPhoneNumber(number)}`}</div>
+            <div className={`statusDiv ${tier}Tier`}>  +999 AVAX {`${number && formatPhoneNumber(number)}`}</div>
           </div>
         </div>
       </div>
@@ -86,12 +87,12 @@ const PhoneNumberBox = ({
         <div className="phoneNumberBoxRight">
           <div className="phoneNumberBoxRightCurrency">
             <img
-              src={U2UIcon}
+              src={avaxIcon}
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
           {/* <div className="text_bsd">${checkPrice(number)}</div> */}
-          <div className="text_bsd">1 $U2U </div>
+          <div className="text_bsd">0 $AVAX </div>
           </div>
 
           <button

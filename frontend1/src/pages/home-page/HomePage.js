@@ -12,6 +12,8 @@ import sendCryptoIcon from "../../assets/virtual/sendCrypto.svg";
 import privateIcon from "../../assets/virtual/private.svg";
 import recieveIcon from "../../assets/virtual/recieve.svg";
 
+import avaxIcon from "../../assets/assets/AVAX.png"
+
 import infinity from "../../assets/infi.png"
 import voipIcon from "../../assets/virtual/voip.svg";
 import PhoneSearchInput from "../../utils/inputs/PhoneSearchInput";
@@ -79,12 +81,12 @@ const HomePage = ({ setCode, contract_connect }) => {
 }}  />
         </div>
         <div style={{ textAlign: "center", marginLeft:"20px"}}>
-          <img src={Unicornlogo} style={{borderRadius:"10px"}} />
+          <img src={avaxIcon} style={{borderRadius:"50px"}} />
         </div>
 
      </div>
 
-        <h3>Your Unicorn Ultra Mobile Number</h3>
+        <h3>Your AVAX Mobile Number</h3>
 
         <p>
         Your custom mobile number. Your Web3 identity. <br /> The only wallet address you ever need to share.          <br />
@@ -94,7 +96,7 @@ const HomePage = ({ setCode, contract_connect }) => {
       <div style={{display: "flex", gap:"10px", border:"1px solid white", borderRadius:"11px", padding:"3px", marginBottom:"50px", alignItems:"center"}}>
 
         <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px"}}>
-<span style={{color:"white"}}>+999 U2U UNICORN
+<span style={{color:"white"}}>+999 AVAX HOLDER
 </span>        </div>
 
         <div>
@@ -104,7 +106,7 @@ const HomePage = ({ setCode, contract_connect }) => {
         </div>
 
         <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px", color:"white"}}>
-+999 828 8642676
++999 2829 465337
 
         </div>
 
@@ -118,7 +120,7 @@ const HomePage = ({ setCode, contract_connect }) => {
           <div style={{ marginTop: "-10px" }}>
             {/* <img src={CheckIcon} /> */}
           </div>
-          Enter 7 digits
+          Enter 6 digits
         </p>
       </div>
 

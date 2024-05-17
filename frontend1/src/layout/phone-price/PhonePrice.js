@@ -9,13 +9,13 @@ const PhonePrice = ({ number, tier, price }) => {
       <div className="phonePriceMain">
         <img src={SimIcon} />
         <div className="phonePriceNum">
-          +999 828 {`${number && formatPhoneNumber(number)}`}
+          +999 2829 {`${number && formatPhoneNumber(number)}`}
           {/* <div className={`phonePriceNumTier ${tier}Tier`}>
             {`${tier}`} tier
           </div> */}
         </div>
       </div>
-      ${price} U2U
+      ${price} AVAX
     </div>
   );
 };

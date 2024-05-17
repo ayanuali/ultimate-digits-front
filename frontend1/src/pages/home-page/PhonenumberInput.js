@@ -29,7 +29,7 @@ const PhoneNumberInput = () => {
         </div>
         <div className="phone-number">
           <p className="label">Phone number</p>
-          <p className="number">+999 U2U CHAIN</p>
+          <p className="number">+999 AVAX HOLDER</p>
         </div>
         <input
           type="text"

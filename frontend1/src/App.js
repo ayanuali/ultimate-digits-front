@@ -20,37 +20,33 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { WagmiProvider } from 'wagmi';
-// import {
-//   mainnet,
-//   polygon,
-//   optimism,
-//   arbitrum,
-//   base,
-// } from 'wagmi/chains';
+import {
+ avalanche
+} from 'wagmi/chains';
 import {
   QueryClientProvider,
   QueryClient,
 } from "@tanstack/react-query";
 
-const avalanche = {
-  id: 2484,
-  name: 'Unicorn Ultra Nebulas Testnet',
-  iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
-  iconBackground: '#fff',
-  nativeCurrency: { name: 'U2U', symbol: 'U2U', decimals: 18 },
-  rpcUrls: {
-    default: { http: ['https://rpc-nebulas-testnet.uniultra.xyz'] },
-  },
-  blockExplorers: {
-    default: { name: 'u2uscan', url: 'https://testnet.u2uscan.xyz' },
-  },
-  contracts: {
-    multicall3: {
-      address: '0xca11bde05977b3631167028862be2a173976ca11',
-      blockCreated: 11_907_934,
-    },
-  },
-}
+// const avalanche = {
+//   id: 2484,
+//   name: 'Unicorn Ultra Nebulas Testnet',
+//   iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
+//   iconBackground: '#fff',
+//   nativeCurrency: { name: 'U2U', symbol: 'U2U', decimals: 18 },
+//   rpcUrls: {
+//     default: { http: ['https://rpc-nebulas-testnet.uniultra.xyz'] },
+//   },
+//   blockExplorers: {
+//     default: { name: 'u2uscan', url: 'https://testnet.u2uscan.xyz' },
+//   },
+//   contracts: {
+//     multicall3: {
+//       address: '0xca11bde05977b3631167028862be2a173976ca11',
+//       blockCreated: 11_907_934,
+//     },
+//   },
+// }
 
 const config = getDefaultConfig({
   appName: 'My RainbowKit App',

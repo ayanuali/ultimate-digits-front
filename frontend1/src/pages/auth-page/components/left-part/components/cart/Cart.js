@@ -109,7 +109,7 @@ console.log('nvbjhkgv',cartArray.length)
           <PhonePrice
             number={`${num}`}
             tier={checkTier(num.toString())}
-            price={`1`}
+            price={`0`}
             key={i}
           />
         ))}
@@ -130,7 +130,7 @@ console.log('nvbjhkgv',cartArray.length)
 
       <div className="cartWrapperTotalCount">
         <div className="cartWrapperTotal">Total</div>
-        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 1} U2U</div>
+        <div className="cartWrapperPrice" id="cart2">${cartArray.length * 0} AVAX</div>
       </div>
 
       

@@ -73,22 +73,7 @@ export default function ConfirmationPageVirtual1({
 
 
 
-  // const navigate = useNavigate();
 
-  // Effect to handle back navigation
-  // useEffect(() => {
-  //   const handleBackButtonClick = () => {
-  //     navigate("/");
-  //   };
-
-  //   // Add event listener for popstate
-  //   window.addEventListener("popstate", handleBackButtonClick);
-
-  //   // Cleanup function to remove event listener
-  //   return () => {
-  //     window.removeEventListener("popstate", handleBackButtonClick);
-  //   };
-  // }, [navigate]);
 
   useEffect(() => {
     // This function intercepts the back navigation by replacing it with the desired path
@@ -131,7 +116,7 @@ export default function ConfirmationPageVirtual1({
               style={{ width: "10rem" }}
             ></img>
             <div className="nft-number" style={{ color: "white" }}>
-           <b>   {`+999 U2U ${val}`} </b>
+           <b>   {`+999 AVAX ${val}`} </b>
             </div>
           </div>
           </div>
@@ -152,7 +137,7 @@ export default function ConfirmationPageVirtual1({
         <div className="cpv1-content" style={{ marginTop: "1rem" }}>
           <div className="text">Purchase successful</div>
           <div className="sub-text">
-            Congratulations! You have successfully purchased a <br></br> U2U web3
+            Congratulations! You have successfully purchased a <br></br> AVAX web3
             phone number.
           </div>
         </div>
@@ -165,7 +150,7 @@ export default function ConfirmationPageVirtual1({
 
 
 <TwitterShareButton
-text="LFG! Just got my first Ethereum mobile number by @ultimatedigits on @unicornultraxyz for free! Get yours today 👉🏻 "
+text="LFG! Just got my first Ethereum mobile number by @ultimatedigits on @avax for free! Get yours today 👉🏻 "
 url="https://unicorn.ultimatedigits.com"
 hashtags={[ '']}
 />
@@ -181,7 +166,7 @@ Mint more
 
 
     </div> */}
-<a href={`https://testnet.u2uscan.xyz/tx/${link}`} target="_blank">
+<a href={`https://avascan.info/blockchain/c/tx/${link}`} target="_blank">
     <div style={{marginTop:"20px", display:"flex", justifyContent:"center", alignItems:"flex-end", gap:"5px"}}>
 
 

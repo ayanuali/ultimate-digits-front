@@ -38,7 +38,7 @@ const SearchResultsScreen = ({
 
 
     try {
-      const res = await axios.post(`https://degenbackend.ultimatedigits.com/unicorn/generateNumbers`,{
+      const res = await axios.post(`https://degenbackend.ultimatedigits.com/avalanche/generateNumbers`,{
         number:queryParam
       })
 console.log("res",res)

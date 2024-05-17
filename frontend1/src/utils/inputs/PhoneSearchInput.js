@@ -87,7 +87,7 @@ const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub, dis=false })
 
 console.log("Sdfsdf",numericValueInL.length)
     // Update state for real value
-if(numericValueInL.length ===  7){
+if(numericValueInL.length ===  6){
   setPhoneValue(numericValueInL);
 
 }
@@ -142,8 +142,9 @@ toast.warn("Connect your wallet please");
 return
     }
 
-    if(phoneValue.length !==7){
-      toast.warn("7 digits is required");
+    if(phoneValue.length !==6){
+      console.log(phoneValue)
+      toast.warn("6 digits is required");
       return;
 
     }
@@ -151,7 +152,10 @@ return
 
   try {
 
-    const queryurl = 'https://degenbackend.ultimatedigits.com/unicorn/checkDegen'
+    //https://degenbackend.ultimatedigits.com/unicorn
+
+    // const queryurl = 'https://degenbackend.ultimatedigits.com//avalanche/checkDegen'
+    const queryurl = 'https://degenbackend.ultimatedigits.com/avalanche/checkDegen'
     const res = await axios.post(queryurl,{
       number:phoneValue
     })
@@ -228,29 +232,29 @@ return
         {!isWords && <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-<div className="Degen">            +999 U2U
+<div className="Degen">            +999 AVAX
 </div>            <input
 disabled={dis}
               type="text"
               value={value}
               onChange={handleChange}
-              maxLength={7}
+              maxLength={6}
               ref={ref}
-              placeholder="8642676"
+              placeholder="465337"
             />
           </div>
         </div>}
    { isWords &&    <div className="phoneSearchInputBox" onClick={handleFocus}>
           Phone number
           <div className="phoneSearchInputBoxRow" onClick={handleFocus}>
-<span className="Degen">            +999 U2U
+<span className="Degen">            +999 AVAX
 </span>            <input
               type="text"
               value={value}
               onChange={handleChangeWords}
-              maxLength={7}
+              maxLength={6}
               ref={ref}
-              placeholder="UNICORN"
+              placeholder="HOLDER"
             />
           </div>
         </div>}

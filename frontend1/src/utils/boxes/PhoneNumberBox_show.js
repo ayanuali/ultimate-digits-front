@@ -5,6 +5,8 @@ import SimcardIcon from "../../assets/search-results-page/icons/simcard-icon.svg
 import BinanceIcon from '../../assets/search-results-page/icons/binance-icon.svg';
 import DegenIcon from "../../assets/assets/degen.png"
 import UnicornIcon from "../../assets/assets/u2u.jpeg"
+
+import AvaXIcon from "../../assets/assets/AVAX.png"
 import { useNavigate } from "react-router-dom";
 import "./PhoneNumberBox.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
@@ -117,7 +119,7 @@ const PhoneNumberBox = ({
           }
         />
         <div className="phoneNumberResult">
-<div style={{display:"flex", gap:"10px"}}> +999 <b>U2U</b> {`${number && formatPhoneNumber(number)}`}</div>          <div className="phoneNumberResultStatus">
+<div style={{display:"flex", gap:"10px"}}> +999 <b>AVAX</b> {`${number && formatPhoneNumber(number)}`}</div>          <div className="phoneNumberResultStatus">
             {showAvailability && (
               <div
                 className={
@@ -127,7 +129,7 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}><div style={{display:"flex", gap:"10px"}}> +999 <b>U2U</b> {`${number && formatPhoneNumber(number)}`}</div>    </div>
+            <div className={`statusDiv ${tier}Tier`}><div style={{display:"flex", gap:"10px"}}> +999 <b>AVAX</b> {`${number && formatPhoneNumber(number)}`}</div>    </div>
           </div>
         </div>
       </div>
@@ -137,11 +139,11 @@ const PhoneNumberBox = ({
         <div className="phoneNumberBoxRight">
           <div className="phoneNumberBoxRightCurrency">
             <img
-              src={UnicornIcon}
+              src={AvaXIcon}
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
-            <div className="text_bsd">$1 U2U</div>
+            <div className="text_bsd">$0 AVAX</div>
           </div>
 
           <button

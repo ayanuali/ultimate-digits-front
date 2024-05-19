@@ -184,7 +184,7 @@ Mint more
  <div className="cpv1-content1" style={{ marginTop: "1rem" }}>
           <div className="text">       Congratulations!</div>
           <div className="sub-text">
-      You are Eligible for an airdrop of  $ULT tokens <br></br>
+      You are Eligible for an airdrop of $ULT tokens <br></br>
             
           
           </div>

@@ -13,6 +13,8 @@ import { connectConfig } from "../../../ConnectKit/Web3Provider";
 export default function Sidebar() {
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
   const dispatch = useDispatch();
+  const account = getAccount(connectConfig);
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -24,14 +26,18 @@ export default function Sidebar() {
       navigate("/");
     }
 
-   await disconnect(connectConfig);
-  await  dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+    await disconnect(connectConfig);
 
-
-   await disconnect(connectConfig);
- await   dispatch(setUserData({ rootId: "", address: "", phno: "" }));
-
-    navigate("/");
+    setTimeout(1000);
+    await dispatch(setUserData({ rootId: "", address: "", phno: "" }));
+    if (account.status !== "connected") {
+      console.log(account.isDisconnected, "Sfsdf");
+      navigate("/");
+    } else {
+      // handleLogout();
+      setIsModalOpen(true);
+      console.log("not yet");
+    }
   };
   return (
     <div className="sidebar">
@@ -181,6 +187,16 @@ export default function Sidebar() {
           </span>
         </div>
       </>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2 className="textmodal">Are you sure you want to log out?</h2>
+            <button onClick={handleLogout}>Log out</button>
+            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

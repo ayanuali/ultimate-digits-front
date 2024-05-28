@@ -58,6 +58,13 @@ const EmailInput = ({ setProceedTo, user, setUser, log }) => {
         localStorage.setItem("uuid", uuid);
         const uuidlocal = localStorage.getItem("uuid");
         console.log("after", uuidlocal);
+
+        if (res1 !== null) {
+          console.log("email login okay");
+
+          navigate("/login");
+        }
+
         checkUser(setUser)
           .then(async (res) => {
             console.log(res);

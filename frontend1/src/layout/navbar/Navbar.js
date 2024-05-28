@@ -18,6 +18,7 @@ const Navbar = ({ loggedIn, setLog }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { disconnect } = useDisconnect();
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
   const [loginStatus, setLoginStatus] = useState(false);
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
@@ -33,6 +34,7 @@ const Navbar = ({ loggedIn, setLog }) => {
       }
     }
   }, []);
+  const account = getAccount(connectConfig);
 
   const handleLogout = async () => {
     console.log("logging out");
@@ -43,10 +45,17 @@ const Navbar = ({ loggedIn, setLog }) => {
       navigate("/");
     }
 
-   await disconnect(connectConfig);
+    await disconnect(connectConfig);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
 
-    navigate("/");
+    if (account.status !== "connected") {
+      console.log(account.isDisconnected, "Sfsdf");
+      navigate("/");
+    } else {
+      // handleLogout();
+      setIsModalOpen(true);
+      console.log("not yet");
+    }
   };
 
   const handleNavigate = () => {
@@ -116,6 +125,16 @@ const Navbar = ({ loggedIn, setLog }) => {
         {/* {loggedIn && <button onClick={logoutUser}>logout</button>}
         {!loggedIn && <button>login</button>} */}
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2 className="textmodal">Are you sure you want to log out?</h2>
+            <button onClick={handleLogout}>Log out</button>
+            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

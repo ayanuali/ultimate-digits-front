@@ -10,31 +10,12 @@ import { useNavigate } from "react-router-dom";
 import { useWalletContext, useEVMAddress } from "@coinbase/waas-sdk-web-react";
 import { v4 as uuidv4 } from "uuid";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
-import udlogo from "../../assets/ud-square-logo.png";
 
-import { issueUserToken } from "@coinbase/waas-server-auth";
-// make sure your API KEY isn't visible on your web server :)
-// const coinbaseCloudApiKey = JSON.parse("coinbase_cloud_api_key.json");
+import { CustomButton } from "../../ConnectKit/ConnectKitButton";
 
-const coinbaseCloudApiKey = {
-  name: "organizations/bc6d9ff7-1cff-410a-bf5e-22a495a69512/apiKeys/00e85827-60d3-44f7-9785-731f4d6a7354",
-  principal: "14be18c6-6411-5950-b704-eb1ed39abbe6",
-  principalType: "USER",
-  publicKey:
-    "-----BEGIN EC PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEDuHp5jlIv0P5jxCURtj26uvpJttD\nxtHUfVKplYQ4dQHvSdmZZabKT79J2ZnE2Bt9blNnrTxCoDNgam89cwoMPw==\n-----END EC PUBLIC KEY-----\n",
-  privateKey:
-    "-----BEGIN EC PRIVATE KEY-----\nMHcCAQEEIJgL5jDxMryp38GzRkgRr5qda07rIsQh7CQkANfRs67WoAoGCCqGSM49\nAwEHoUQDQgAEDuHp5jlIv0P5jxCURtj26uvpJttDxtHUfVKplYQ4dQHvSdmZZabK\nT79J2ZnE2Bt9blNnrTxCoDNgam89cwoMPw==\n-----END EC PRIVATE KEY-----\n",
-  createTime: "2024-02-09T20:13:21.594690884Z",
-  projectId: "77a66682-1dce-4763-bce8-fef6435a0ee9",
-  nickname: "UltimateDigits-key-20240209201307847Z",
-  scopes: [],
-  allowedIps: [],
-  keyType: "GENERAL_KEY",
-  enabled: true,
-};
+import { getContract, createPublicClient, http } from "viem";
 
-const apiKeyName = coinbaseCloudApiKey.name;
-const privateKey = coinbaseCloudApiKey.privateKey;
+import { bscTestnet } from "viem/chains";
 export default function ConfirmationPageRealRename({
   setCode,
   setwaddress,
@@ -50,45 +31,14 @@ export default function ConfirmationPageRealRename({
   const [error, setError] = useState(false);
   const [jwtToken, setJwtToken] = useState("");
 
+  const [gotAddress, setGotAddress] = useState(false);
+
   const [uuidval, setUuidval] = useState("");
+
+  const [gotData, setGotData] = useState("");
 
   //function to set and connect to BNB network
   async function connectingmetamask() {
-    // try {
-
-    //   // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-    //   await window.ethereum.request({
-    //     method: "wallet_switchEthereumChain",
-    //     params: [{ chainId: "0x61" }],
-    //   });
-    // } catch (switchError) {
-    //   var next = 97;
-    //   // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-    //   if (switchError.code === 4902) {
-    //     try {
-    //       await window.ethereum.request({
-    //         method: "wallet_addEthereumChain",
-    //         params: [
-    //           {
-    //             chainId: "0x" + next.toString(16),
-    //             chainName: "Smart Chain - Testnet",
-    //             nativeCurrency: {
-    //               name: "BNB",
-    //               symbol: "BNB",
-    //               decimals: 18,
-    //             },
-    //             rpcUrls: [
-    //               "https://data-seed-prebsc-1-s1.binance.org:8545/",
-    //             ] /* ... */,
-    //           },
-    //         ],
-    //       });
-    //     } catch (addError) {
-    //       console.log(addError);
-    //     }
-    //   }
-    // }
-
     try {
       // BNB MAINNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
       await window.ethereum.request({
@@ -166,115 +116,40 @@ export default function ConfirmationPageRealRename({
 
   const userID = uuidv4(); // Generates a new UUID
 
-  const init = async () => {
-    console.log("init started");
-    // const waas = await InitializeWaas({
-    //   collectAndReportMetrics: true,
-    //   enableHostedBackups: true, // Enable if using Coinbase-hosted backups.
-    //   prod: false, // Enable once ready to release to production following the [Releasing to production](#8-releasing-to-production) guide.
-    //   // other initialization options
-    // });
+  const init = async () => {};
 
-    // console.log("wass", waas);
-
-    console.log("waas", waas);
-    console.log("user", user);
-    console.log("isLoggingIn", isLoggingIn);
-    console.log("isCreatingWallet", isCreatingWallet);
-    console.log("wallet", wallet);
-  };
-
-  const fetchAuthServerToken = async () => {
-    const resp = await fetch("https://localhost:8082/auth", {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ user_id: userID }),
-    }).then((r) => r.json());
-    console.log("resp", resp);
-
-    // const token = await issueUserToken({ apiKeyName, privateKey, userID });
-
-    // console.log("token", token);
-
-    return resp.token;
-  };
   const naddress = useEVMAddress(wallet);
 
-  const generateJWT = async (userid) => {
-    console.log("user", user);
+  const publicClient = createPublicClient({
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+  });
 
-    if (!user) {
-      console.log("user not there");
-      const res = await waas.login({
-        provideAuthToken: fetchAuthServerToken,
-      });
-      console.log(res);
-      console.log("wallet", wallet);
-      console.log("islogin", isLoggingIn);
-
-      if (wallet == undefined || wallet == null || isCreatingWallet) {
-        console.log("wallet also not there");
-        const newres = await res.create("optional passcode new");
-        console.log("newres", newres);
-
-        console.log("backup", newres.backup);
-        localStorage.setItem("backup", newres.backup);
-
-        // const address = await wallet.addresses.for(ProtocolFamily.EVM);
-        // console.log("address", address);
-        // localStorage.setItem("address", address);
-        console.log("naddress", naddress);
-
-        const address = await newres.addresses.for(ProtocolFamily.EVM);
-        console.log(address, "address");
-        console.log(`Got address: ${address.address}`);
-        localStorage.setItem("address", address.address);
-
-        return;
+  async function connectWalletAndSetupContract() {
+    if (gotAddress === false) {
+      // setOpenPhone(false);
+      // setOpenEmail(false);
+      if (!gotData) {
+        try {
+          const contract = getContract({
+            address: config.address_nft,
+            abi: conABI,
+            // 1a. Insert a single client
+            client: publicClient,
+          });
+          if (contract) {
+            console.log(`Contract connected: ${contract.address}`);
+            setGotAddress(true);
+            navigate("/selection-page");
+          }
+        } catch (error) {
+          console.error("Error setting up the contract:", error);
+        }
       }
-    } else if (user && !wallet) {
-      console.log("user is there");
-      console.log("user", user);
-      console.log("isCreatingWallet", isCreatingWallet);
-      console.log("wallet", wallet);
-      const res = await user.create("optional passcode new acc");
-      console.log(res);
-      console.log("backup", res.backup);
-      localStorage.setItem("backup", res.backup);
-      const address = await res.addresses.for(ProtocolFamily.EVM);
-      console.log(`Got address: ${address.address}`);
-      localStorage.setItem("address", address.address);
-    } else if (user && wallet) {
-      console.log("user ther but not wallet");
-      console.log("isLoggingIn", isLoggingIn);
-
-      console.log("isCreatingWallet", isCreatingWallet);
-      console.log("wallet", wallet);
-      console.log("backup", wallet.backup);
-
-      console.log("user", user);
-      // const res = await user.create("optional passcode new");
-
-      // console.log(res);
-
-      const address = await wallet.addresses.for(ProtocolFamily.EVM);
-      console.log(`Got address: ${address.address}`);
-      localStorage.setItem("address", address.address);
-      localStorage.setItem("backup", wallet.backup);
-
-      return;
     }
-  };
+  }
 
   const handleLogin = async () => {
-    console.log("createUltimateWallet");
-    console.log("uuidval", uuidval);
-    console.log("waas", waas);
-    console.log("userId", userID);
-    await generateJWT(userID);
     navigate("/wallet");
   };
 
@@ -283,7 +158,7 @@ export default function ConfirmationPageRealRename({
     const uuid = localStorage.getItem("uuid");
     console.log(uuid);
     setUuidval(uuid);
-    handleLogin();
+    // handleLogin();
   }, []);
 
   const createUltimateWallet = () => {
@@ -373,6 +248,8 @@ export default function ConfirmationPageRealRename({
         >
           Don’t have a web3 wallet?
         </div>
+        <CustomButton onSuccess={connectWalletAndSetupContract} />
+
         <div className="cpr1-btn2">
           <button className="btn-1" onClick={handleLogin}>
             Continue With Ultimate Wallet

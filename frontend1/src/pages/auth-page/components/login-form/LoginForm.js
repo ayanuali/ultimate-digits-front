@@ -41,7 +41,7 @@ const LoginForm = ({
   log,
   setNav,
 }) => {
-  const { waas, user, isCreatingWallet, wallet, isLoggingIn , error } =
+  const { waas, user, isCreatingWallet, wallet, isLoggingIn, error } =
     useWalletContext();
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -58,7 +58,7 @@ const LoginForm = ({
   const [openEmail, setOpenEmail] = useState(true);
   const [openPhone, setOpenPhone] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [loadingCreate, setLoadingCreate] = useState(false)
+  const [loadingCreate, setLoadingCreate] = useState(false);
 
   const [gotData, setGotData] = useState(false);
 
@@ -131,26 +131,23 @@ const LoginForm = ({
 
   const handleLogin = async () => {
     console.log("logging in");
-    console.log("if error",error)
+    console.log("if error", error);
     setLoading(true);
     setContent("Fetching your wallet");
     console.log("user", user);
-    console.log("Waas",waas)
-    if ( user !== undefined) {
-
-      if(  user.hasWallet){
-        console.log("user already erukan so kaathirupom")
+    console.log("Waas", waas);
+    if (user !== undefined) {
+      if (user.hasWallet) {
+        console.log("user already erukan so kaathirupom");
         const res1 = await waas.logout();
         // await new Promise(resolve => setTimeout(resolve, 10000)); // Wait for 10 seconds
-        console.log(res1); 
+        console.log(res1);
         // alert("already line la erukom bro")
         // handleLogin();
-        setLoading(false)
-        alert("try again")
-        return
-
+        setLoading(false);
+        alert("try again");
+        return;
       }
-     
     }
     console.log("waas", waas);
 
@@ -162,13 +159,12 @@ const LoginForm = ({
     console.log("isCreatingWallet", isCreatingWallet);
 
     if (res.hasWallet === false) {
-
       console.log("wallet not created");
       const wallet = await res.create();
       console.log("wallet", wallet);
       console.log("waas", waas);
       setContent("Creating your wallet");
-      setLoadingCreate(true)
+      setLoadingCreate(true);
 
       // setLoading(true)
 
@@ -184,10 +180,10 @@ const LoginForm = ({
           rootId: wallet.rootContainerID,
           privKey: privateKeys,
           fulladdress: address,
-          new:true
+          new: true,
         })
       );
-setLoadingCreate(false)
+      setLoadingCreate(false);
       navigate("/wallet");
       return;
       if (res) {
@@ -200,8 +196,8 @@ setLoadingCreate(false)
     }
     if (res.hasWallet === true) {
       console.log("wallet created already");
-      console.log("user",user)
-      console.log("wass",waas)
+      console.log("user", user);
+      console.log("wass", waas);
       console.log("res", res);
 
       const res2 = await res.restoreFromHostedBackup();
@@ -324,7 +320,7 @@ setLoadingCreate(false)
         }
       } else if (res.status === 204) {
         console.log("not there");
-        alert("no number so far")
+        alert("no number so far");
         dispatch(
           setUserData({
             ...userr,
@@ -388,246 +384,70 @@ setLoadingCreate(false)
     }
   }
 
-  // if (account.isConnected === true) {
-  //   console.log("Wallet Address:", account.address);
-
-  //   setwalletaddress(account.address);
-  // }
-
-  //function to connect to BNB network
-  async function getAcccount() {
-    //setting the states of phone and email
-    setOpenPhone(false);
-    setOpenEmail(false);
-
-    try {
-      // BNB TESTNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x61" }],
-      });
-    } catch (switchError) {
-      var next = 97;
-      // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-      if (switchError.code === 4902) {
-        try {
-          await window.ethereum.request({
-            method: "wallet_addEthereumChain",
-            params: [
-              {
-                chainId: "0x" + next.toString(16),
-                chainName: "Smart Chain - Testnet",
-                nativeCurrency: {
-                  name: "BNB",
-                  symbol: "BNB",
-                  decimals: 18,
-                },
-                rpcUrls: [
-                  "https://data-seed-prebsc-1-s1.binance.org:8545/",
-                ] /* ... */,
-              },
-            ],
-          });
-        } catch (addError) {
-          console.log(addError);
-        }
-      }
-    }
-
-    // try {
-    //   // BNB MAINNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-    //   await window.ethereum.request({
-    //     method: "wallet_switchEthereumChain",
-    //     params: [{ chainId: "0x38" }],
-    //   });
-    // } catch (switchError) {
-    //   var next = 56;
-    //   // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-    //   if (switchError.code === 4902) {
-    //     try {
-    //       await window.ethereum.request({
-    //         method: "wallet_addEthereumChain",
-    //         params: [
-    //           {
-    //             chainId: "0x" + next.toString(16),
-    //             chainName: "BNB Smart Chain",
-    //             nativeCurrency: {
-    //               name: "BNB",
-    //               symbol: "BNB",
-    //               decimals: 18,
-    //             },
-    //             rpcUrls: ["https://bsc-dataseed.binance.org/"] /* ... */,
-    //           },
-    //         ],
-    //       });
-    //     } catch (addError) {
-    //       console.log(addError);
-    //     }
-    //   }
-    // }
-    const provider = new ethers.BrowserProvider(window.ethereum);
-    console.log(provider);
-
-    //This is used to acces the checked in accounts
-    provider
-      .getSigner()
-      .then(async (res) => {
-        var walletaddress = res.address;
-
-        console.log(walletaddress);
-        setwalletaddress(walletaddress);
-        setsigner(res);
-        console.log(JSON.stringify(res));
-
-        const contract = new ethers.Contract(config.address_nft, conABI, res);
-        setcontract(contract);
-
-        setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
-
-        // if (setProceedTo) {
-        //   log ? navigate("/selection-page") : navigate("/login");
-        // } else {
-        //   log ? navigate("/selection-page") : navigate("/login");
-        // }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
   return (
     <ErrorBoundary>
-    <div
-      className="loginWrapper"
-      style={{ textAlign: setProceedTo ? "left" : "center" }}
-    >
       <div
-        style={{ textAlign: "center", marginBottom: "20px", marginTop: "4rem" }}
-      >
-        <img src={udIcon} style={{ width: "50px", height: "50px" }} />
-      </div>
-      <h2 style={{ textAlign: "center", color: "#3D4043" }}>
-        Sign up or Log in
-      </h2>
-
-      {openEmail ? (
-        <EmailInput
-          setProceedTo={setProceedTo}
-          user={user}
-          setUser={setUser}
-          log={log}
-        />
-      ) : (
-        <button
-          className="loginWrapperTranspBtn"
-          onClick={() => {
-            setOpenEmail(true);
-            setOpenPhone(false);
-          }}
-          style={{
-            cursor: "pointer",
-            marginTop: "-0px",
-            marginBottom: "30px",
-            color: "#3D4043",
-          }}
-        >
-          <img
-            src={EmailIcon}
-            style={{
-              cursor: "pointer",
-              marginTop: "20px",
-              marginBottom: "0px",
-              color: "#3D4043",
-            }}
-          />
-          Sign up with email
-        </button>
-      )}
-
-      {openPhone ? (
-        <PhoneInput
-          setProceedTo={setProceedTo}
-          openEmail={openEmail}
-          user={user}
-          setUser={setUser}
-          log={log}
-        />
-      ) : (
-        <div>
-          {openEmail ? "" : <br />}
-          <button
-            className="loginWrapperTranspBtn"
-            onClick={() => {
-              setOpenPhone(true);
-              setOpenEmail(false);
-            }}
-            style={{
-              cursor: "pointer",
-              marginTop: "-20px",
-              marginBottom: "30px",
-              color: "#3D4043",
-            }}
-          >
-            <img src={PhoneIcon} />
-            Sign up with Phone Number
-          </button>
-        </div>
-      )}
-      <div className="emailInputBottomLine">
-        <div />
-        <span style={{ color: "#3D4043" }}>OR</span>
-        <div />
-      </div>
-
-      <br />
-      <CustomButton onSuccess={connectWalletAndSetupContract} />
-
-      <button
-        className=""
-        onClick={handleLogin}
-        style={{ color: "#3D4043", height: "60px", background:"white" }}
+        className="loginWrapper"
+        style={{ textAlign: setProceedTo ? "left" : "center" }}
       >
         <div
           style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
+            textAlign: "center",
+            marginBottom: "20px",
+            marginTop: "4rem",
           }}
+        >
+          <img src={udIcon} style={{ width: "50px", height: "50px" }} />
+        </div>
+        <h2 style={{ textAlign: "center", color: "#3D4043" }}>
+          Sign up or Log in
+        </h2>
+
+        <br />
+        <CustomButton onSuccess={connectWalletAndSetupContract} />
+        <button
+          className=""
+          onClick={handleLogin}
+          style={{ color: "#3D4043", height: "60px", background: "white" }}
         >
           <div
             style={{
               display: "flex",
+              flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              columnGap: "10px",
             }}
           >
-            {" "}
-            <img src={udIcon} />
-            Continue with Ultimate Wallet
-          </div>
-          <span>
-            <img
+            <div
               style={{
-                height: "fit-content",
-                width: "fit-content",
-                marginTop: "-30px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                columnGap: "10px",
               }}
-              src={coinbase}
-              alt="coinbase"
-            />
-          </span>
-        </div>
-      </button>
-
-      <FullScreenLoader loading={loading} content={content} />
-      <FullScreenLoader loading={loadingCreate} content={"Creating wallet"} />
-
-      <div className="powered"></div>
-
-      <div className="companyrights">© Ultimate Digits 2024</div>
-    </div>
+            >
+              {" "}
+              <img src={udIcon} />
+              Continue with Ultimate Wallet
+            </div>
+            <span>
+              <img
+                style={{
+                  height: "fit-content",
+                  width: "fit-content",
+                  marginTop: "-30px",
+                }}
+                src={coinbase}
+                alt="coinbase"
+              />
+            </span>
+          </div>
+        </button>
+        <FullScreenLoader loading={loading} content={content} />
+        <FullScreenLoader loading={loadingCreate} content={"Creating wallet"} />
+        <div className="powered"></div>
+        <div className="companyrights">© Ultimate Digits 2024</div>
+      </div>
     </ErrorBoundary>
   );
 };

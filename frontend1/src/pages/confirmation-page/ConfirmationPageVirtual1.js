@@ -32,7 +32,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { getBalance } from "@wagmi/core";
 
 
-import { connectConfig } from "../../ConnectKit/Web3Provider.jsx";
 import axios from "axios";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
@@ -78,28 +77,27 @@ export default function ConfirmationPageVirtual1({
     transport: http(process.env.RPC_URL),
   });
 
-  const account = getAccount(connectConfig);
 
 
-  const getingBalance = async () => {
-    const balance = await getBalance(connectConfig, {
-      address: userr.address,
-    });
-    console.log("blance", balance);
-    console.log("val", balance.formatted);
-    setBalanceVal(balance.formatted);
-    console.log("sy,", balance.symbol);
-    console.log("value", balance.value);
-  };
+  // const getingBalance = async () => {
+  //   const balance = await getBalance(connectConfig, {
+  //     address: userr.address,
+  //   });
+  //   console.log("blance", balance);
+  //   console.log("val", balance.formatted);
+  //   setBalanceVal(balance.formatted);
+  //   console.log("sy,", balance.symbol);
+  //   console.log("value", balance.value);
+  // };
 
 
-  useEffect(() => {
-    getingBalance();
-  }, []);
+  // useEffect(() => {
+  //   getingBalance();
+  // }, []);
 
   async function NFT_Gen() {
 
-    getingBalance()
+    // getingBalance()
 
     setLoading(true);
     setContent("Generating and Minting NFT");
@@ -116,7 +114,7 @@ export default function ConfirmationPageVirtual1({
     });
 
     try {
-      await switchChain(connectConfig, { chainId: sepolia.id });
+      // await switchChain(connectConfig, { chainId: sepolia.id });
 
       // const writeTransactionConfig = {
       //   ...connectConfig,
@@ -126,14 +124,14 @@ export default function ConfirmationPageVirtual1({
       const transaction = async () => {
         if (userr.rootId === "ncw") {
        try {
-        await writeContract(connectConfig, {
-          abi: contract.abi,
-          address: contract.address,
-          functionName: "mint",
-          args: [
-            "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-          ],
-        });
+        // await writeContract(connectConfig, {
+        //   abi: contract.abi,
+        //   address: contract.address,
+        //   functionName: "mint",
+        //   args: [
+        //     "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+        //   ],
+        // });
 
         setNftMinted(true);
         setLoading(false);
@@ -190,14 +188,14 @@ export default function ConfirmationPageVirtual1({
       //   chains: [sepolia], // Use the Sepolia chain for the read transaction
       // };
 
-      const number = await readContract(connectConfig, {
-        abi: abi_NFT,
-        address: address_NFT,
-        functionName: "getTokenCounter",
-      });
+      // const number = await readContract(connectConfig, {
+      //   abi: abi_NFT,
+      //   address: address_NFT,
+      //   functionName: "getTokenCounter",
+      // });
 
-      console.log("tokenCounter:", number);
-      setTokenId(parseInt(number));
+      // console.log("tokenCounter:", number);
+      // setTokenId(parseInt(number));
       setadd(`Address : ${address_NFT}`);
       settid(`TokenId : ${parseInt(number)}`);
       console.log(parseInt(number) + " the nft minting number ");
@@ -257,7 +255,7 @@ export default function ConfirmationPageVirtual1({
     });
 
 
-    await switchChain(connectConfig, { chainId: bscTestnet.id });
+    // await switchChain(connectConfig, { chainId: bscTestnet.id });
     var check = 0;
     console.log("contract_connect",contract);
 
@@ -273,12 +271,12 @@ console.log(cartArray)
       var transaction = async () => {
         if (userr.rootId === "ncw") {
           console.log("ncw")
-          await writeContract(connectConfig, {
-            abi: contract_connect.abi,
-            address: contract_connect.address,
-            functionName: "SettingUniqueId",
-            args: [number, "999"],
-          });
+          // await writeContract(connectConfig, {
+          //   abi: contract_connect.abi,
+          //   address: contract_connect.address,
+          //   functionName: "SettingUniqueId",
+          //   args: [number, "999"],
+          // });
         } else {
           console.log("user", user);
           console.log("wallet", wallet);

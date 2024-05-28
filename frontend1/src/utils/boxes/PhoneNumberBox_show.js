@@ -16,7 +16,7 @@ import conABI from '../../abi/abi1.json'
 import { ethers } from 'ethers'
 import { UserContext } from "../../Hook";
 import { readContract } from "@wagmi/core";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../ConnectKit/Web3Provider";
 
 const PhoneNumberBox = ({
   number,
@@ -51,20 +51,20 @@ const PhoneNumberBox = ({
       console.log("afsafas",numberAsNumber);
       console.log("transacraasdsa", transacamount)
 
-      const addressReturned = await readContract(connectConfig, {
-        abi: contract_connect.abi,
-        address: contract_connect.address,
-        functionName: "checkAccount",
-        args: [transacamount, "999"]
-      });
-      var addrReturned = await addressReturned();
-      if (addrReturned) {
-        console.log("addressReturned:", addressReturned);
-        setAvailable(false);
-      }
-      else {
-        setAvailable(true);
-      }
+      // const addressReturned = await readContract(connectConfig, {
+      //   abi: contract_connect.abi,
+      //   address: contract_connect.address,
+      //   functionName: "checkAccount",
+      //   args: [transacamount, "999"]
+      // });
+      // var addrReturned = await addressReturned();
+      // if (addrReturned) {
+      //   console.log("addressReturned:", addressReturned);
+      //   setAvailable(false);
+      // }
+      // else {
+      //   setAvailable(true);
+      // }
 
     }
     catch (e) {

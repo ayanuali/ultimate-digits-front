@@ -8,7 +8,7 @@ import {  parseEther } from "viem";
 import { useEVMAddress } from "@coinbase/waas-sdk-web-react";
 
 import { getAccount, readContract, getBalance } from "@wagmi/core";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../ConnectKit/Web3Provider";
 import axios from "axios";
 import { setUserData } from "../../services/wallet/UserSlice";
 import { toViem } from "@coinbase/waas-sdk-viem";
@@ -69,7 +69,7 @@ export default function HomePageSendingCrypto({
     console.log(currentWallet);
   }
 
-  const account = getAccount(connectConfig);
+  // const account = getAccount(connectConfig);
 
   //function to achive and view the numbers attached
   // async function viewNumbers() {
@@ -104,99 +104,99 @@ export default function HomePageSendingCrypto({
   //   viewNumbers();
   // }
   const getAccounts = async () => {
-    const balance = await getBalance(connectConfig, {
-      address: userr.address,
-    });
+    // const balance = await getBalance(connectConfig, {
+    //   address: userr.address,
+    // });
 
-    console.log("blance", balance);
-    if (userr.address === account.address) {
-      try {
-        const apiurl = config.backend;
-        const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
-          address: account.address,
-        });
-        console.log(res.data);
-        if (res.status === 200) {
-          console.log(res.data.mapping.virtuals);
-          setVirtual(res.data.mapping.virtuals);
-          setReal(res.data.mapping.phone);
-          console.log(nums);
-          console.log(res.data.mapping.phone);
-          console.log(res.data.mapping.countryCode);
-          setCountryCode(res.data.mapping.countryCode);
-          if (
-            res.data.mapping.phone === undefined
+    // console.log("blance", balance);
+    // if (userr.address === account.address) {
+    //   try {
+    //     const apiurl = config.backend;
+    //     const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
+    //       address: account.address,
+    //     });
+    //     console.log(res.data);
+    //     if (res.status === 200) {
+    //       console.log(res.data.mapping.virtuals);
+    //       setVirtual(res.data.mapping.virtuals);
+    //       setReal(res.data.mapping.phone);
+    //       console.log(nums);
+    //       console.log(res.data.mapping.phone);
+    //       console.log(res.data.mapping.countryCode);
+    //       setCountryCode(res.data.mapping.countryCode);
+    //       if (
+    //         res.data.mapping.phone === undefined
            
-          ) {
-            setHaveReal(true);
-          }
-          dispatch(
-            setUserData({
-              ...userr,
-              rootId: res.data.mapping.rootId,
-              phno: res.data.mapping.phone,
-              virtuals: res.data.mapping.virtuals,
-            })
-          );
-        }
-        if (res.status === 204) {
-          alert("no mapping exist");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } else {
-      try {
-        console.log("calling conbase data");
-        const apiurl = config.backend;
-        const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
-          address: userr.address,
-        });
-        console.log(res.data);
-        if (res.status === 200) {
-          console.log(res.data.mapping.virtuals);
-          setVirtual(res.data.mapping.virtuals);
-          setReal(res.data.mapping.phone);
-          console.log(nums);
+    //       ) {
+    //         setHaveReal(true);
+    //       }
+    //       dispatch(
+    //         setUserData({
+    //           ...userr,
+    //           rootId: res.data.mapping.rootId,
+    //           phno: res.data.mapping.phone,
+    //           virtuals: res.data.mapping.virtuals,
+    //         })
+    //       );
+    //     }
+    //     if (res.status === 204) {
+    //       alert("no mapping exist");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // } else {
+    //   try {
+    //     console.log("calling conbase data");
+    //     const apiurl = config.backend;
+    //     const res = await axios.post(`${apiurl}/coinbase/getPhno`, {
+    //       address: userr.address,
+    //     });
+    //     console.log(res.data);
+    //     if (res.status === 200) {
+    //       console.log(res.data.mapping.virtuals);
+    //       setVirtual(res.data.mapping.virtuals);
+    //       setReal(res.data.mapping.phone);
+    //       console.log(nums);
 
-          console.log(res.data.mapping.phone);
-          console.log(res.data.mapping.countryCode);
-          setCountryCode(res.data.mapping.countryCode);
-          if (
-            res.data.mapping.phone === undefined
-          ) {
-            console.log("no real number")
-            setHaveReal(true);
-          }
-          dispatch(
-            setUserData({
-              ...userr,
-              rootId: res.data.mapping.rootId,
-              phno: res.data.mapping.phone,
-              virtuals: res.data.mapping.virtuals,
-            })
-          );
-        }
-        if (res.status === 204) {
-          alert("no mapping exist");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    //       console.log(res.data.mapping.phone);
+    //       console.log(res.data.mapping.countryCode);
+    //       setCountryCode(res.data.mapping.countryCode);
+    //       if (
+    //         res.data.mapping.phone === undefined
+    //       ) {
+    //         console.log("no real number")
+    //         setHaveReal(true);
+    //       }
+    //       dispatch(
+    //         setUserData({
+    //           ...userr,
+    //           rootId: res.data.mapping.rootId,
+    //           phno: res.data.mapping.phone,
+    //           virtuals: res.data.mapping.virtuals,
+    //         })
+    //       );
+    //     }
+    //     if (res.status === 204) {
+    //       alert("no mapping exist");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // }
   };
   const addressNew = useEVMAddress(wallet);
 
 
   const handleTest1 = async() => {
    try {
-    const { hash } = await sendTransaction(connectConfig, {
-      account: account.address,
-      to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
-      value: 1,
-    });
+    // const { hash } = await sendTransaction(connectConfig, {
+    //   account: account.address,
+    //   to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
+    //   value: 1,
+    // });
 
-    console.log("Transaction hash:", hash);
+    // console.log("Transaction hash:", hash);
    } catch (error) {
     console.log("Aasdasdasdsadas",error)
    }
@@ -245,14 +245,14 @@ console.log("Acc",account)
   }
 
   const getingBalance = async () => {
-    const balance = await getBalance(connectConfig, {
-      address: userr.address,
-    });
-    console.log("blance", balance);
-    console.log("val", balance.formatted);
-    setBalanceVal(balance.formatted);
-    console.log("sy,", balance.symbol);
-    console.log("value", balance.value);
+    // const balance = await getBalance(connectConfig, {
+    //   address: userr.address,
+    // });
+    // console.log("blance", balance);
+    // console.log("val", balance.formatted);
+    // setBalanceVal(balance.formatted);
+    // console.log("sy,", balance.symbol);
+    // console.log("value", balance.value);
   };
 
   useEffect(() => {

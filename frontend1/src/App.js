@@ -26,12 +26,39 @@ import WalletAf from "./pages/ultimate-wallet/wallet1";
 import { checkUser } from "./services/magic";
 import Component1 from "./Hook";
 import { Provider } from "react-redux";
-import { Web3Provider } from "./ConnectKit/Web3Provider";
 
 import { WalletProvider, useWalletContext } from "@coinbase/waas-sdk-web-react";
 import store from "./store";
 import WalletAf2 from "./pages/ultimate-wallet/wallet2";
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import { WagmiProvider } from 'wagmi';
+import {
+  mainnet,
+  polygon,
+  optimism,
+  arbitrum,
+  base,
+  sepolia, bscTestnet
+} from 'wagmi/chains';
+import {
+  QueryClientProvider,
+  QueryClient,
+} from "@tanstack/react-query";
+
+
+const config = getDefaultConfig({
+  appName: 'My RainbowKit App',
+  projectId: 'YOUR_PROJECT_ID',
+  chains: [sepolia, base, bscTestnet],
+  ssr: true, // If your dApp uses server side rendering (SSR)
+});
+
 const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
+const queryClient = new QueryClient();
 
 function App() {
   //function to set various variable states
@@ -92,7 +119,10 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <Web3Provider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <RainbowKitProvider>
+
         {!loading && (
           <div className="App">
 
@@ -337,7 +367,10 @@ function App() {
             </Component1>
           </div>
         )}
-      </Web3Provider>
+
+</RainbowKitProvider>
+      </QueryClientProvider>
+    </WagmiProvider>
     </BrowserRouter>
   );
 }

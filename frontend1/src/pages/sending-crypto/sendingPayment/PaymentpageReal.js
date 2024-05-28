@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.svg";
 import config from "../../../config.json";
-import { connectConfig } from "../../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../../ConnectKit/Web3Provider";
 import { readContract } from "@wagmi/core";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";

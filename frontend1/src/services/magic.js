@@ -4,7 +4,7 @@ const magic = new Magic("pk_live_3EF0745F6C618962");
 export const checkUser = async (cb) => {
   const isLoggedIn = await magic.user.isLoggedIn();
   if (isLoggedIn) {
-    const user = await magic.user.getMetadata();
+    const user = await magic.user.getInfo();
     console.log(user);
     console.log("loggedIN");
     return cb({

@@ -19,6 +19,8 @@ import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import axios from "axios";
 import { disconnect, getAccount, switchChain } from "@wagmi/core";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 import {
   createPublicClient,
   getContract,
@@ -26,8 +28,8 @@ import {
   createWalletClient,
 } from "viem";
 import { bscTestnet, sepolia } from "viem/chains";
-import { connectConfig } from "../../../../ConnectKit/Web3Provider";
-import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
+// import { connectConfig } from "../../../../ConnectKit/Web3Provider";
+// import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
 import { setUserData } from "../../../../services/wallet/UserSlice";
 import ErrorBoundary from "../Error-Boundary/ErrorBoundary";
@@ -276,12 +278,12 @@ setLoadingCreate(false)
   // Get the query parameter string
   const queryString = window.location.search;
   const entho = async () => {
-    await switchChain(connectConfig, { chainId: bscTestnet.id });
+    // await switchChain(connectConfig, { chainId: bscTestnet.id });
   };
-  const account = getAccount(connectConfig);
-  useEffect(() => {
-    entho();
-  }, [account.chainId]);
+  // const account = getAccount(connectConfig);
+  // useEffect(() => {
+  //   entho();
+  // }, [account.chainId]);
 
   const checkAddress = async (address) => {
     console.log("Address", address);
@@ -341,58 +343,54 @@ setLoadingCreate(false)
     }
   };
 
-  useEffect(() => {
-    if (account.isConnected && account.address) {
-      console.log("Wallet Address:", account.address);
-      checkAddress(account.address);
+  // useEffect(() => {
+  //   if (account.isConnected && account.address) {
+  //     console.log("Wallet Address:", account.address);
+  //     checkAddress(account.address);
 
-      setwalletaddress(account.address);
-    }
-  }, [account.isConnected, account.address]);
+  //     setwalletaddress(account.address);
+  //   }
+  // }, [account.isConnected, account.address]);
   const publicClient = createPublicClient({
     chain: bscTestnet,
     transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
   });
 
-  async function connectWalletAndSetupContract() {
-    if (gotAddress === false) {
-      setOpenPhone(false);
-      setOpenEmail(false);
-      if (!gotData) {
-        try {
-          const contract = getContract({
-            address: config.address_nft,
-            abi: conABI,
-            // 1a. Insert a single client
-            client: publicClient,
-          });
-          if (contract && setProceedTo) {
-            setcontract(contract);
-            console.log(`Contract connected: ${contract.address}`);
+  // async function connectWalletAndSetupContract() {
+  //   if (gotAddress === false) {
+  //     setOpenPhone(false);
+  //     setOpenEmail(false);
+  //     if (!gotData) {
+  //       try {
+  //         const contract = getContract({
+  //           address: config.address_nft,
+  //           abi: conABI,
+  //           // 1a. Insert a single client
+  //           client: publicClient,
+  //         });
+  //         if (contract && setProceedTo) {
+  //           setcontract(contract);
+  //           console.log(`Contract connected: ${contract.address}`);
 
-            setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
-            console.log("FinalLog:", log);
+  //           setUser({ isLoggedIn: true, email: "", phoneNumber: "" });
+  //           console.log("FinalLog:", log);
 
-            console.log(account.chainId, ":chainId");
-            setGotAddress(true);
-            // const res = await checkAddress(account);
+  //           console.log(account.chainId, ":chainId");
+  //           setGotAddress(true);
+  //           // const res = await checkAddress(account);
 
-            // Navigate based on the `log` state and presence of `setProceedTo` function
-            // const destination = log ? "/selection-page" : "/login";
-            // navigate(destination);
-          }
-        } catch (error) {
-          console.error("Error setting up the contract:", error);
-        }
-      }
-    }
-  }
-
-  // if (account.isConnected === true) {
-  //   console.log("Wallet Address:", account.address);
-
-  //   setwalletaddress(account.address);
+  //           // Navigate based on the `log` state and presence of `setProceedTo` function
+  //           // const destination = log ? "/selection-page" : "/login";
+  //           // navigate(destination);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error setting up the contract:", error);
+  //       }
+  //     }
+  //   }
   // }
+
+
 
   //function to connect to BNB network
   async function getAcccount() {
@@ -434,37 +432,8 @@ setLoadingCreate(false)
       }
     }
 
-    // try {
-    //   // BNB MAINNET REQUEST FOR ACCOUNTS ... TO CONNECT TO METAMASK
-    //   await window.ethereum.request({
-    //     method: "wallet_switchEthereumChain",
-    //     params: [{ chainId: "0x38" }],
-    //   });
-    // } catch (switchError) {
-    //   var next = 56;
-    //   // This error code indicates that the chain has not been added to MetaMask.{Uncomment to use}
-    //   if (switchError.code === 4902) {
-    //     try {
-    //       await window.ethereum.request({
-    //         method: "wallet_addEthereumChain",
-    //         params: [
-    //           {
-    //             chainId: "0x" + next.toString(16),
-    //             chainName: "BNB Smart Chain",
-    //             nativeCurrency: {
-    //               name: "BNB",
-    //               symbol: "BNB",
-    //               decimals: 18,
-    //             },
-    //             rpcUrls: ["https://bsc-dataseed.binance.org/"] /* ... */,
-    //           },
-    //         ],
-    //       });
-    //     } catch (addError) {
-    //       console.log(addError);
-    //     }
-    //   }
-    // }
+
+
     const provider = new ethers.BrowserProvider(window.ethereum);
     console.log(provider);
 
@@ -580,8 +549,8 @@ setLoadingCreate(false)
       </div>
 
       <br />
-      <CustomButton onSuccess={connectWalletAndSetupContract} />
-
+      {/* <CustomButton onSuccess={connectWalletAndSetupContract} /> */}
+      <ConnectButton />
       <button
         className=""
         onClick={handleLogin}

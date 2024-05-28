@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.svg";
 import config from "../../../config.json";
 import { readContract } from "@wagmi/core";
-import { connectConfig } from "../../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../../ConnectKit/Web3Provider";
 
 export default function PaymentpageVirtual({
   currentWallet,
@@ -38,18 +38,18 @@ export default function PaymentpageVirtual({
     }
 
     try {
-      const addressReturned = await readContract(connectConfig, {
-        abi: contract_connect.abi,
-        address: contract_connect.address,
-        functionName: "checkAccount",
-        args: [toNumber, "999"]
-      });
-      if (addressReturned) {
-        console.log("addressReturned:", addressReturned);
-        setToAddress(addressReturned);
-        setType("Real");
-        navigate("/sending-crypto/confirmTransaction");
-      }
+      // const addressReturned = await readContract(connectConfig, {
+      //   abi: contract_connect.abi,
+      //   address: contract_connect.address,
+      //   functionName: "checkAccount",
+      //   args: [toNumber, "999"]
+      // });
+      // if (addressReturned) {
+      //   console.log("addressReturned:", addressReturned);
+      //   setToAddress(addressReturned);
+      //   setType("Real");
+      //   navigate("/sending-crypto/confirmTransaction");
+      // }
 
     }
     catch (e) {

@@ -9,7 +9,7 @@ import { generateGoldNumbers } from "../../../../functions/gold-numbers/generate
 import { generateSilverNumbers } from "../../../../functions/silver-numbers/generateSilverNumbers";
 import { generateRandomNumbers } from "../../../../functions/random-numbers/generateRandomNumbers";
 
-import { connectConfig } from "../../../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { readContract } from "@wagmi/core";
 
 const SearchResultsScreen = ({
@@ -44,12 +44,12 @@ const SearchResultsScreen = ({
     try {
       const addressReturned = async () => {
         console.log("Hii..");
-        await readContract(connectConfig, {
-          abi: contract_connect.abi,
-          address: contract_connect.address,
-          functionName: "checkAccount",
-          args: [queryParam, (999).toString()],
-        });
+        // await readContract(connectConfig, {
+        //   abi: contract_connect.abi,
+        //   address: contract_connect.address,
+        //   functionName: "checkAccount",
+        //   args: [queryParam, (999).toString()],
+        // });
         console.log("Hello...");
       };
       console.log("veendum hello");

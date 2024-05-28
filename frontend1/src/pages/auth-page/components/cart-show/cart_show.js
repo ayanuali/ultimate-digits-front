@@ -21,8 +21,6 @@ import { createWalletClient, http, parseEther } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import { Address } from "@coinbase/waas-sdk-web";
-import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
-import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
 import "../login-form/FullScreenLoader.css"
 import { useSelector } from "react-redux";
@@ -107,7 +105,6 @@ function CartShow({
   //     }
   //   }
   // };
-  const account = getAccount(connectConfig);
   const navigate = useNavigate();
 
   async function buyNumber() {
@@ -134,13 +131,13 @@ function CartShow({
         console.log("transaction sending started");
         if (userr.rootId === "ncw") {
        try {
-        const { hash } = await sendTransaction(connectConfig, {
-          account: account.address,
-          to: toaddress,
-          value: amt,
-        });
+        // const { hash } = await sendTransaction(connectConfig, {
+        //   account: account.address,
+        //   to: toaddress,
+        //   value: amt,
+        // });
 
-        console.log("Transaction hash:", hash);
+        // console.log("Transaction hash:", hash);
        } catch (error) {
         console.log("asfasfasfsafasf",error)
        }
@@ -270,9 +267,9 @@ navigate("/walletaf");
       if (contract) {
         setcontract(contract);
         console.log("Contract set-up done:", contract);
-        console.log("Wallet address:", account.address);
+        // console.log("Wallet address:", account.address);
         if (userr.rootId === "ncw") {
-          setwalletaddress(account.address);
+          // setwalletaddress(account.address);
           setProceedTo("purchaseConfirmation");
 
         } else {

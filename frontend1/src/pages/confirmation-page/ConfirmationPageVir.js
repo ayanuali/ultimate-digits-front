@@ -8,7 +8,6 @@ import conABI from "../../abi/abi1.json";
 import sponsor from "../../assets/home-page/sponsors.svg";
 import { useNavigate } from "react-router-dom";
 import { getAccount } from "@wagmi/core";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { getContract, createPublicClient, http } from "viem";
 import { VirNumButton } from "../../ConnectKit/ConfirmationButton";
 import { bscTestnet } from "viem/chains";
@@ -29,7 +28,6 @@ export default function ConfirmationPageVir({
     return JSON.parse(this.getItem(key));
   };
 
-  const account = getAccount(connectConfig);
 
   const publicClient = createPublicClient({
     chain: bscTestnet,
@@ -48,13 +46,13 @@ export default function ConfirmationPageVir({
         setContract_connect(contract);
         console.log(`Contract connected: ${contract.address}`);
 
-        console.log(account.chainId, ":chainId");
+        // console.log(account.chainId, ":chainId");
 
-        console.log("Wallet Address:", account.address);
+        // console.log("Wallet Address:", account.address);
 
         console.log("nokunney");
 
-        setwaddress(account.address);
+        // setwaddress(account.address);
         //Routing
         navigate("/selection-page/virtual-number/home");
       }

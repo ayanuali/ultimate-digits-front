@@ -10,14 +10,13 @@ import ArrowDown from "../../assets/navbar/arrow-down.svg";
 import { useSelector, useDispatch } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { setUserData } from "../../services/wallet/UserSlice";
-import { getAccount, switchChain, disconnect } from "@wagmi/core";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
+// import { getAccount, switchChain, disconnect } from "@wagmi/core";
 import { useDisconnect } from "wagmi";
 
 const Navbar = ({ loggedIn, setLog }) => {
   const userr = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const { disconnect } = useDisconnect();
+  // const { disconnect } = useDisconnect();
 
   const [loginStatus, setLoginStatus] = useState(false);
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
@@ -43,7 +42,6 @@ const Navbar = ({ loggedIn, setLog }) => {
       navigate("/");
     }
 
-   await disconnect(connectConfig);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
 
     navigate("/");

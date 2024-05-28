@@ -58,11 +58,26 @@ const EmailInput = ({ setProceedTo, user, setUser, log }) => {
         localStorage.setItem("uuid", uuid);
         const uuidlocal = localStorage.getItem("uuid");
         console.log("after", uuidlocal);
+
+        console.log(user)
+
+        if (res1 !=="") {
+          // setProceedTo("claimOrder");
+          console.log("log", log);
+          // log ? navigate("/selection-page") : navigate(`/login`);
+          navigate(`/login`);
+        } else {
+          window.location.reload();
+        }
+
+
         checkUser(setUser)
           .then(async (res) => {
             console.log(res);
             console.log(user.isLoggedIn == false);
-            if (res1) {
+
+            console.log(user)
+            if (res1 !=="") {
               // setProceedTo("claimOrder");
               console.log("log", log);
               // log ? navigate("/selection-page") : navigate(`/login`);

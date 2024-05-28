@@ -5,7 +5,7 @@ import { useState } from "react";
 import config from "../../config.json";
 import { useSelector, useDispatch } from "react-redux";
 import { getAccount, switchChain, disconnect } from "@wagmi/core";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { setUserData } from "../../services/wallet/UserSlice";
 import { countries } from "../../constants";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ export default function HomePageReal({
 
   const navigate = useNavigate();
 
-  const account = getAccount(connectConfig);
+  // const account = getAccount(connectConfig);
   const dispatch = useDispatch();
 
   const userr = useSelector((state) => state.user);
@@ -36,7 +36,7 @@ export default function HomePageReal({
       userr.address == undefined ||
       userr.address == null
     ) {
-      dispatch(setUserData({ ...userr, address: account.address }));
+      // dispatch(setUserData({ ...userr, address: account.address }));
     }
   }, []);
 
@@ -73,7 +73,7 @@ export default function HomePageReal({
     }
     console.log("here");
     console.log(userr);
-    console.log(account.address);
+    // console.log(account.address);
 
     fetch(`${config.backend}/twilio-sms/sendotp`, {
       method: "POST",

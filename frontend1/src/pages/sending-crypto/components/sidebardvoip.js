@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import { setUserData } from "../../../services/wallet/UserSlice";
 import { getAccount, switchChain, disconnect } from "@wagmi/core";
-import { connectConfig } from "../../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../../ConnectKit/Web3Provider";
 
 export default function Sidebardvoip() {
   const { waas, user, isCreatingWallet, wallet } = useWalletContext();
@@ -23,7 +23,7 @@ export default function Sidebardvoip() {
       navigate("/");
     }
 
-   await disconnect(connectConfig);
+  //  await disconnect(connectConfig);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
 
     navigate("/");

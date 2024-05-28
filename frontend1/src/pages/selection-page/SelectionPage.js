@@ -5,7 +5,7 @@ import virtualImg from "../../assets/selection2.png";
 import { useNavigate } from "react-router";
 import freeImg from "../../assets/free-img.png";
 import { useSelector, useDispatch } from "react-redux";
-import { connectConfig } from "../../ConnectKit/Web3Provider";
+// import { connectConfig } from "../../ConnectKit/Web3Provider";
 import { getBalance } from "@wagmi/core";
 
 export default function SelectionPage({ setNav }) {
@@ -19,14 +19,14 @@ export default function SelectionPage({ setNav }) {
   const navigate = useNavigate();
 
   const getingBalance = async () => {
-    const balance = await getBalance(connectConfig, {
-      address: userr.address,
-    });
-    console.log("blance", balance);
-    console.log("val", balance.formatted);
-    setBalanceVal(balance.formatted);
-    console.log("sy,", balance.symbol);
-    console.log("value", balance.value);
+    // const balance = await getBalance(connectConfig, {
+    //   address: userr.address,
+    // });
+    // console.log("blance", balance);
+    // console.log("val", balance.formatted);
+    // setBalanceVal(balance.formatted);
+    // console.log("sy,", balance.symbol);
+    // console.log("value", balance.value);
   };
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { findRepNumber } from "../findRepeatedNums";
-
-export const generateSilverNumbers = (number) => {
+import config from "../../config.json";
+import axios from "axios";
+export const generateSilverNumbers = async (number) => {
   //------------------------------------------Functions for all same or at least 9 same numbers---------------------------
 
   //generate rand number, except some number
@@ -8,7 +9,7 @@ export const generateSilverNumbers = (number) => {
     var n = Math.floor(Math.random() * 9);
     if (n >= excluded) n++;
     return n;
-}
+  }
 
   const randSingleDigit = findRepNumber(number)
     ? findRepNumber(number)
@@ -20,10 +21,10 @@ export const generateSilverNumbers = (number) => {
 
   for (let i = 0; i < 5; i++) {
     fiveRepeatNumberArray.splice(
-        Math.floor(Math.random() * 9),
-        0,
-        randomExcluded(randSingleDigit)
-      );
+      Math.floor(Math.random() * 9),
+      0,
+      randomExcluded(randSingleDigit)
+    );
   }
 
   const fiveRepeatNumber = fiveRepeatNumberArray.join("");
@@ -52,5 +53,24 @@ export const generateSilverNumbers = (number) => {
 
   similarNumbers.push(fiveRepeatNumber, fourRepeatNumber, threeRepeatNumber);
 
+  try {
+    const uniqueNumbersToCheck = [...new Set(similarNumbers)];
+
+    const apiurl = config.backend;
+    const res = await axios.post(`${apiurl}/coinbase/checknumbersgen`, {
+      numbers: uniqueNumbersToCheck,
+    });
+
+    const { results } = res.data;
+
+    const availableNumbers = results
+      .filter((result) => !result.exists)
+      .map((result) => result.number);
+    console.log("diamond values", availableNumbers);
+    return availableNumbers;
+  } catch (error) {
+    console.error("Error checking numbers with backend:", error);
+    throw error;
+  }
   return similarNumbers;
 };

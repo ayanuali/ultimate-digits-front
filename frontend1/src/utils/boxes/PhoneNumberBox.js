@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import CheckIcon from "../../assets/search-results-page/icons/check-icon.svg";
 import CrossIcon from "../../assets/search-results-page/icons/cross-icon.svg";
 import SimcardIcon from "../../assets/search-results-page/icons/simcard-icon.svg";
-import BinanceIcon from '../../assets/search-results-page/icons/binance-icon.svg';
-
+import BaseIcon from "../../assets/assets/base.webp";
 import "./PhoneNumberBox.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
 import { checkDiamondNumber } from "../../functions/diamond-numbers/diamondNumCheckers";
@@ -57,7 +56,7 @@ const PhoneNumberBox = ({
       {/* Left Side */}
       <div className="phoneNumberBoxLeft">
         <img
-        className="phoneNumberBoxLeftStatusIcon"
+          className="phoneNumberBoxLeftStatusIcon"
           src={
             showAvailability ? (available ? CheckIcon : CrossIcon) : SimcardIcon
           }
@@ -74,7 +73,9 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}>{`${tier.substring(0,1).toUpperCase()}${tier.substring(1)} Tier`}</div>
+            <div className={`statusDiv ${tier}Tier`}>{`${tier
+              .substring(0, 1)
+              .toUpperCase()}${tier.substring(1)} Tier`}</div>
           </div>
         </div>
       </div>
@@ -84,11 +85,11 @@ const PhoneNumberBox = ({
         <div className="phoneNumberBoxRight">
           <div className="phoneNumberBoxRightCurrency">
             <img
-              src={BinanceIcon}
+              src={BaseIcon}
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
-            />
-          <div className="text_bsd">${checkPrice(number)}</div>
+            />{" "}
+            <div className="text_bsd">{checkPrice(number)} ETH</div>
           </div>
 
           <button

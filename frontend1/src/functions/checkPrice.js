@@ -4,18 +4,26 @@ import { checkGoldNumber } from "./gold-numbers/goldNumCheckers";
 import { checkSilverNumber } from "./silver-numbers/silverNumCheckers";
 
 const checkPrice = (number) => {
+  console.log("called with", number);
   if (checkDiamondNumber(number)) {
-    return "250";
+    console.log("returning", 1);
+    return "1";
   }
 
   if (checkGoldNumber(number)) {
-    return "100";
+    console.log("returning", 0.1);
+
+    return "0.1";
   }
 
   if (checkSilverNumber(number)) {
-    return "50";
+    console.log("returning", 0.01);
+
+    return "0.01";
   } else {
-    return "5";
+    console.log("returning", 0.001);
+
+    return "0.001";
   }
 };
 

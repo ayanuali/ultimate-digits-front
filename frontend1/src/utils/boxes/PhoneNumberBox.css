@@ -3,12 +3,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  width:max-content;
+  width: max-content;
   min-width: 580px;
   justify-content: space-between;
   border-bottom: 1px solid rgba(216, 230, 253, 0.08);
 }
-.phoneNumberBoxRightCurrency{
+.phoneNumberBoxRightCurrency {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -16,17 +16,19 @@
   width: max-content;
   gap: 10px;
 }
-.phoneNumberBoxRightCurrency img{
+.phoneNumberBoxRightCurrency img {
   margin-bottom: 10px;
 }
-.text_bsd{
+.text_bsd {
   margin-top: 10%;
   font-size: 18px;
   width: max-content;
 }
 .phoneNumberBoxRightIcon {
-  max-width: 20px;
-  height: 20px;
+  max-width: 25px;
+  max-height: 25px;
+  margin-top: 20px;
+
   /* margin-left: -10%; */
   /* margin-right: 10%; */
 }
@@ -43,7 +45,7 @@
   font-size: 18px;
   line-height: 24px;
   /* identical to box height, or 133% */
-  
+
   letter-spacing: -0.02em;
 
   color: #ffffff;
@@ -80,18 +82,18 @@
 
 .availableBorder {
   background: rgba(216, 230, 253, 0.08);
-  border: 1px solid #489D5D;
+  border: 1px solid #489d5d;
   border-radius: 8px;
 }
 
 .notAvailableBorder {
   background: rgba(216, 230, 253, 0.08);
   border-radius: 8px;
-  border: 1px solid #E59448;
+  border: 1px solid #e59448;
 }
 
 .silverTier {
   border: 0.5px solid rgba(175, 210, 244, 0.12);
-  background: rgba(63, 107, 147, 0.16);  
-  color: #A3D2FE;
+  background: rgba(63, 107, 147, 0.16);
+  color: #a3d2fe;
 }

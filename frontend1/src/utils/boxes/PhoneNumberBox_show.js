@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import CheckIcon from "../../assets/search-results-page/icons/check-icon.svg";
 import CrossIcon from "../../assets/search-results-page/icons/cross-icon.svg";
 import SimcardIcon from "../../assets/search-results-page/icons/simcard-icon.svg";
-import BinanceIcon from '../../assets/search-results-page/icons/binance-icon.svg';
+import BinanceIcon from "../../assets/search-results-page/icons/binance-icon.svg";
+import BaseIcon from "../../assets/assets/base.webp";
 import { useNavigate } from "react-router-dom";
 import "./PhoneNumberBox.css";
 import { formatPhoneNumber } from "../../functions/formatPhoneNumber";
@@ -11,9 +12,9 @@ import { checkGoldNumber } from "../../functions/gold-numbers/goldNumCheckers";
 import { checkSilverNumber } from "../../functions/silver-numbers/silverNumCheckers";
 import checkTier from "../../functions/checkTier";
 import checkPrice from "../../functions/checkPrice";
-import config from '../../config.json'
-import conABI from '../../abi/abi1.json'
-import { ethers } from 'ethers'
+import config from "../../config.json";
+import conABI from "../../abi/abi1.json";
+import { ethers } from "ethers";
 import { UserContext } from "../../Hook";
 import { readContract } from "@wagmi/core";
 import { connectConfig } from "../../ConnectKit/Web3Provider";
@@ -28,13 +29,13 @@ const PhoneNumberBox = ({
   setcartArray,
   signer,
   contract_connect,
-  setProceedTo
+  setProceedTo,
 }) => {
   const { flag1, setflag1, totaling } = React.useContext(UserContext);
   // state for value adding to card
   const [addedToCard, setAddedToCard] = useState(false);
   const [available, setAvailable] = useState(true);
-  const [flag2, setflag2] = useState(flag1)
+  const [flag2, setflag2] = useState(flag1);
   // const [price,setprice]=useState(checkPrice(number.toString()));
   let price = checkPrice(number.toString());
   // Initial state for tier category
@@ -43,40 +44,33 @@ const PhoneNumberBox = ({
 
   const checkAccFunc = async () => {
     try {
-
       const numberAsNumber = parseInt(number);
 
       const transacamount = "0x" + numberAsNumber.toString(16);
 
-      console.log("afsafas",numberAsNumber);
-      console.log("transacraasdsa", transacamount)
+      console.log("afsafas", numberAsNumber);
+      console.log("transacraasdsa", transacamount);
 
       const addressReturned = await readContract(connectConfig, {
         abi: contract_connect.abi,
         address: contract_connect.address,
         functionName: "checkAccount",
-        args: [transacamount, "999"]
+        args: [transacamount, "999"],
       });
       var addrReturned = await addressReturned();
       if (addrReturned) {
         console.log("addressReturned:", addressReturned);
         setAvailable(false);
-      }
-      else {
+      } else {
         setAvailable(true);
       }
-
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
-
     }
-  }
-
+  };
 
   const OnClick = () => {
     setAddedToCard(!addedToCard);
-
 
     const filteredCart = cart.filter((item) => item !== number);
     setCart(filteredCart);
@@ -87,7 +81,7 @@ const PhoneNumberBox = ({
     console.log(filter);
     setcartArray(filter);
     console.log(cartArray);
-    // navigate(`/signup?cart=${filter}`) 
+    // navigate(`/signup?cart=${filter}`)
     // window.location.reload(false);
     // setProceedTo("showCart")
   };
@@ -133,7 +127,9 @@ const PhoneNumberBox = ({
                 {available ? `Available` : `Unavailable`}
               </div>
             )}
-            <div className={`statusDiv ${tier}Tier`}>{`${(tier.substring(0, 1)).toUpperCase()}${tier.substring(1)} Tier`}</div>
+            <div className={`statusDiv ${tier}Tier`}>{`${tier
+              .substring(0, 1)
+              .toUpperCase()}${tier.substring(1)} Tier`}</div>
           </div>
         </div>
       </div>
@@ -143,17 +139,17 @@ const PhoneNumberBox = ({
         <div className="phoneNumberBoxRight">
           <div className="phoneNumberBoxRightCurrency">
             <img
-              src={BinanceIcon}
+              src={BaseIcon}
               className="phoneNumberBoxRightIcon"
               alt="currency-icon"
             />
-            <div className="text_bsd">${checkPrice(number.toString())}</div>
+            <div className="text_bsd">{checkPrice(number.toString())} ETH</div>
           </div>
 
           <button
             className={"transparentRoundedBtn"}
             onClick={OnClick}
-            style={{ marginTop: '9px' }}
+            style={{ marginTop: "9px" }}
           >
             {`Remove`}
           </button>

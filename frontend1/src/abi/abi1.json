@@ -3,16 +3,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_UltimateDigitPhoneNumber",
+        "name": "_number",
         "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_code",
-        "type": "string"
       }
     ],
-    "name": "SettingUniqueId",
+    "name": "removeNumber",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -20,22 +15,24 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_UltimateDigitPhoneNumber",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "_code",
-        "type": "string"
+        "internalType": "uint256[]",
+        "name": "_numbers",
+        "type": "uint256[]"
       }
     ],
-    "name": "checkAccount",
+    "name": "SetUniqueNumber",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getNumbers",
     "outputs": [
       {
-        "internalType": "address",
+        "internalType": "uint256[]",
         "name": "",
-        "type": "address"
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",
@@ -45,16 +42,16 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_WalletAddress",
+        "name": "_address",
         "type": "address"
       }
     ],
-    "name": "returnNumbers",
+    "name": "getNumbersForAddress",
     "outputs": [
       {
-        "internalType": "string[]",
+        "internalType": "uint256[]",
         "name": "",
-        "type": "string[]"
+        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",

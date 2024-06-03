@@ -1,53 +1,66 @@
+import axios from "axios";
 import { findRepNumber } from "../findRepeatedNums";
+import config from "../../config.json";
+const generateRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
-export const generateDiamondNumbers = (number) => {
-  //------------------------------------------Functions for all same or at least 9 same numbers---------------------------
-
+const generateDiamondNumbers = async (number) => {
   const randSingleDigit = findRepNumber(number)
     ? findRepNumber(number)
-    : Math.floor(Math.random() * 9); // Generate a random digit (0 to 9)
+    : generateRandomNumber(0, 9);
 
-  const allRepeatNumber = Array(10).fill(randSingleDigit).join(""); // Create a 10-digit number with all digits the same
-
+  const allRepeatNumber = Array(10).fill(randSingleDigit).join("");
   const nineRepeatNumberArray = Array(9).fill(randSingleDigit);
-
   nineRepeatNumberArray.splice(
-    Math.floor(Math.random() * 9),
+    generateRandomNumber(0, 8),
     0,
-    Math.floor(Math.random() * 9)
+    generateRandomNumber(0, 9)
   );
   const nineRepeatNumber = nineRepeatNumberArray.join("");
 
-  //---------------- Functions for ascending and descending order digits----------------------------------
-
-  // random digit from 0 to 109. 109 because it will be subtracted by 10 if digit is more than 9
-  const randAscDigit = Math.floor(Math.random() * 110);
-  // Create a 10-digit number in ascending order
+  const randAscDigit = generateRandomNumber(0, 109);
   const ascendingSeqNumber = Array.from(Array(10))
     .map((e, i) =>
       i + randAscDigit > 9 ? i + randAscDigit - 10 : i + randAscDigit
     )
     .join("")
-    .substring(0, 10); //if number more than 9, use only last digit. For ex: number is 12, use 2
+    .substring(0, 10);
 
-  // random digit from 100 to 9
-  const randDescDigit = Math.floor(Math.floor(Math.random() * (100 - 9)) + 9);
-  //Create a 10-digit number in descending order
+  const randDescDigit = generateRandomNumber(9, 100);
   const descendingSeqNumber = Array.from(Array(10))
     .map((e, i) => randDescDigit - i)
     .join("")
     .substring(0, 10);
 
-  // --------------------------------------------------------------------------------------------------
-
-  const similarNumbers = [];
-
-  similarNumbers.push(
+  const similarNumbers = [
     allRepeatNumber,
     nineRepeatNumber,
     ascendingSeqNumber,
-    descendingSeqNumber
-  );
+    descendingSeqNumber,
+  ];
 
-  return similarNumbers;
+  try {
+    const uniqueNumbersToCheck = [...new Set(similarNumbers)];
+
+    const apiurl = config.backend;
+    const res = await axios.post(`${apiurl}/coinbase/checknumbersgen`, {
+      numbers: uniqueNumbersToCheck,
+    });
+
+    const { results } = res.data;
+
+    const availableNumbers = results
+      .filter((result) => !result.exists)
+      .map((result) => result.number);
+    console.log("diamond values", availableNumbers);
+    return availableNumbers;
+  } catch (error) {
+    console.error("Error checking numbers with backend:", error);
+    throw error;
+  }
+
+  // return similarNumbers;
 };
+
+export { generateDiamondNumbers };

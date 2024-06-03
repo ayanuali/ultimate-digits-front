@@ -21,7 +21,7 @@ import {
   getContract,
   createWalletClient,
 } from "viem";
-import { bscTestnet, sepolia } from "viem/chains";
+import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import {
   getAccount,
   readContract,
@@ -73,8 +73,8 @@ export default function ConfirmationPageVirtual1({
   const flag = 0;
 
   const publicClient = createPublicClient({
-    chain: bscTestnet,
-    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+    chain: baseSepolia,
+    transport: http("https://sepolia.base.org"),
   });
 
   const account = getAccount(connectConfig);
@@ -122,13 +122,14 @@ export default function ConfirmationPageVirtual1({
       const transaction = async () => {
         if (userr.rootId === "ncw") {
           try {
+            const arr = [
+              "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+            ];
             await writeContract(connectConfig, {
               abi: contract.abi,
               address: contract.address,
-              functionName: "mint",
-              args: [
-                "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-              ],
+              functionName: "mintMultipleNFTs",
+              args: [arr],
             });
 
             setNftMinted(true);
@@ -146,19 +147,19 @@ export default function ConfirmationPageVirtual1({
             try {
               const walletClient = createWalletClient({
                 account: toViem(address),
-                chain: bscTestnet,
-                transport: http(
-                  "https://data-seed-prebsc-1-s1.binance.org:8545/"
-                ),
+                chain: baseSepolia,
+                transport: http("https://sepolia.base.org"),
               });
               console.log("walletClient", walletClient);
+
+              const arr = [
+                "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+              ];
               const hash = await walletClient.writeContract({
                 address: contract.address,
                 abi: contract.abi,
-                functionName: "mint",
-                args: [
-                  "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
-                ],
+                functionName: "mintMultipleNFTs",
+                args: [arr],
               });
               setNftMinted(true);
               console.log("hash", hash);
@@ -182,17 +183,17 @@ export default function ConfirmationPageVirtual1({
       //   chains: [sepolia], // Use the Sepolia chain for the read transaction
       // };
 
-      const number = await readContract(connectConfig, {
-        abi: abi_NFT,
-        address: address_NFT,
-        functionName: "getTokenCounter",
-      });
+      // const number = await readContract(connectConfig, {
+      //   abi: abi_NFT,
+      //   address: address_NFT,
+      //   functionName: "getTokenCounter",
+      // });
 
-      console.log("tokenCounter:", number);
-      setTokenId(parseInt(number));
+      // console.log("tokenCounter:", number);
+      // setTokenId(parseInt(number));
       setadd(`Address : ${address_NFT}`);
-      settid(`TokenId : ${parseInt(number)}`);
-      console.log(parseInt(number) + " the nft minting number ");
+      // settid(`TokenId : ${parseInt(number)}`);
+      // console.log(parseInt(number) + " the nft minting number ");
       // if (transaction) {
       // } else {
       //   console.log("Your transaction didn't get through");
@@ -204,30 +205,6 @@ export default function ConfirmationPageVirtual1({
       setLoading(false);
     }
   }
-
-  //NFT Generation
-  // async function NFT_en() {
-  //   await window.ethereum.request({
-  //     method: 'wallet_switchEthereumChain',
-  //     params: [{ chainId: '0xAA36A7' }], // chainId must be in hexadecimal numbers
-  //   });
-  //   const provider = new ethers.BrowserProvider(window.ethereum);
-  //   //   console.log(provider);
-  //   await provider.send("eth_requestAccounts", []);
-  //   const signer = await provider.getSigner();
-  //   const contract = new ethers.Contract(address_NFT, abi_NFT, signer);
-  //   console.log(provider)
-  //   console.log(signer)
-  //   const transaction = await contract.mint("https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb")
-  //   transaction.wait().then((res) => {
-  //     console.log(res)
-  //   });
-  //   const number = await contract.getTokenCounter()
-  //   setTokenId(parseInt(number));
-  //   setadd(`Address : ${address_NFT}`)
-  //   settid(`TokenId : ${parseInt(number)}`)
-  //   console.log(parseInt(number) + " the nft minting number ")
-  // }
 
   async function PerformAction() {
     // Your action here
@@ -247,7 +224,7 @@ export default function ConfirmationPageVirtual1({
       client: publicClient,
     });
 
-    await switchChain(connectConfig, { chainId: bscTestnet.id });
+    await switchChain(connectConfig, { chainId: baseSepolia.id });
     var check = 0;
     console.log("contract_connect", contract);
 
@@ -258,39 +235,41 @@ export default function ConfirmationPageVirtual1({
     //      args: [number, "999"],
     //    })
     console.log(cartArray);
+    var transaction = async () => {
+      if (userr.rootId === "ncw") {
+        console.log("ncw");
+        await writeContract(connectConfig, {
+          abi: contract_connect.abi,
+          address: contract_connect.address,
+          functionName: "SetUniqueNumber",
+          args: [cartArray],
+        });
+      } else {
+        console.log("user", user);
+        console.log("wallet", wallet);
+        const address = await wallet.addresses.for(ProtocolFamily.EVM);
+        console.log("address", address);
+
+        const walletClient = createWalletClient({
+          account: toViem(address),
+          chain: baseSepolia,
+          transport: http("https://sepolia.base.org"),
+        });
+        console.log("walletClient", walletClient);
+        const hash = await walletClient.writeContract({
+          address: contract.address,
+          abi: contract.abi,
+          functionName: "SetUniqueNumber",
+          args: [cartArray],
+        });
+        console.log("hash", hash);
+      }
+    };
+    await transaction();
+
     cartArray.map(async (number, i) => {
       console.log("UID ");
-      var transaction = async () => {
-        if (userr.rootId === "ncw") {
-          console.log("ncw");
-          await writeContract(connectConfig, {
-            abi: contract_connect.abi,
-            address: contract_connect.address,
-            functionName: "SettingUniqueId",
-            args: [number, "999"],
-          });
-        } else {
-          console.log("user", user);
-          console.log("wallet", wallet);
-          const address = await wallet.addresses.for(ProtocolFamily.EVM);
-          console.log("address", address);
 
-          const walletClient = createWalletClient({
-            account: toViem(address),
-            chain: bscTestnet,
-            transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
-          });
-          console.log("walletClient", walletClient);
-          const hash = await walletClient.writeContract({
-            address: contract.address,
-            abi: contract.abi,
-            functionName: "SettingUniqueId",
-            args: [number, "999"],
-          });
-          console.log("hash", hash);
-        }
-      };
-      await transaction();
       console.log("user", userr);
 
       console.log("settingUIDtransaction got through");
@@ -340,7 +319,6 @@ export default function ConfirmationPageVirtual1({
         console.log(error);
         setloadingLink(false);
       }
-
       // if (transaction) {
 
       // } else {
@@ -390,19 +368,26 @@ export default function ConfirmationPageVirtual1({
       }}
     >
       <div className="confirmationPageVirtual1">
-        <div className="cpv1-nft">
-          <div className="nft-logo">
-            <img
-              src={nftLogo}
-              alt="image"
-              width={120}
-              style={{ width: "10rem" }}
-            ></img>
-            <div className="nft-number" style={{ color: "white" }}>
-              {`+999 ${cartArray}`}
-            </div>
+        <div>
+          <div style={{ display: "flex", gap: "20px" }}>
+            {cartArray.map((val, index) => (
+              <div className="cpv1-nft">
+                <div className="nft-logo" key={index}>
+                  <img
+                    src={nftLogo}
+                    alt="image"
+                    width={120}
+                    style={{ width: "10rem" }}
+                  ></img>
+                  <div className="nft-number" style={{ color: "white" }}>
+                    <b> {`+999 ${val}`} </b>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
+
         {!nftMinted && (
           <div className="cpv2-btn" style={{ margin: "4 rem" }}>
             <button

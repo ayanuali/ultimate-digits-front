@@ -25,7 +25,7 @@ import {
   http,
   createWalletClient,
 } from "viem";
-import { bscTestnet, sepolia } from "viem/chains";
+import { baseSepolia } from "viem/chains";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
@@ -96,6 +96,8 @@ const LoginForm = ({
           );
           console.log(userr, "after redux");
           setLoading(false);
+          console.log("sleep3");
+
           navigate("/real-number");
         } else {
           dispatch(
@@ -116,6 +118,8 @@ const LoginForm = ({
           // });
           console.log(userr, "after redux");
           setLoading(false);
+          console.log("sleep4");
+
           navigate("/real-number");
         }
       } else if (res.status === 204) {
@@ -272,7 +276,7 @@ const LoginForm = ({
   // Get the query parameter string
   const queryString = window.location.search;
   const entho = async () => {
-    await switchChain(connectConfig, { chainId: bscTestnet.id });
+    await switchChain(connectConfig, { chainId: baseSepolia.id });
   };
   const account = getAccount(connectConfig);
   useEffect(() => {
@@ -304,6 +308,7 @@ const LoginForm = ({
               countryCode: data.countryCode,
             })
           );
+          console.log("sleep1");
           navigate("/real-number");
           setGotData(true);
         } else {
@@ -315,6 +320,8 @@ const LoginForm = ({
               countryCode: data.countryCode,
             })
           );
+          console.log("sleep2");
+
           navigate("/real-number");
           setGotData(true);
         }
@@ -346,8 +353,8 @@ const LoginForm = ({
     }
   }, [account.isConnected, account.address]);
   const publicClient = createPublicClient({
-    chain: bscTestnet,
-    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+    chain: baseSepolia,
+    transport: http("https://sepolia.base.org"),
   });
 
   async function connectWalletAndSetupContract() {

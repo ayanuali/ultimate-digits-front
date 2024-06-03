@@ -10,21 +10,20 @@ import config from "../../../../config.json";
 import { useEVMAddress } from "@coinbase/waas-sdk-web-react";
 import { useNavigate } from "react-router-dom";
 // import { useHistory } from 'react-router-dom';
-
-
+import { useSendTransaction } from "wagmi";
 import checkTotalPrice from "../../../../functions/checkTotalPrice";
 import PhoneNumberBox from "../../../../utils/boxes/PhoneNumberBox_show";
 import LoadPage from "../../../../utils/loaders/LoadPage";
 import "./cart_show.css";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { createWalletClient, http, parseEther } from "viem";
-import { privateKeyToAccount } from "viem/accounts";
+import { privateKeyToAccount, signTransaction } from "viem/accounts";
 import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import { Address } from "@coinbase/waas-sdk-web";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
 import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
-import "../login-form/FullScreenLoader.css"
+import "../login-form/FullScreenLoader.css";
 import { useSelector } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 // import {
@@ -35,6 +34,7 @@ import {
   getAccount,
   waitForTransactionReceipt,
   sendTransaction,
+  prepareTransactionRequest,
 } from "@wagmi/core";
 import { parseUnits } from "viem";
 import { getContract, createPublicClient, custom } from "viem";
@@ -59,7 +59,12 @@ function CartShow({
 
   const addressNew = useEVMAddress(wallet);
   // let history = useHistory();
-
+  // const {
+  //   data: hash,
+  //   sendTransaction,
+  //   isSuccess,
+  //   isPending,
+  // } = useSendTransaction();
   const userr = useSelector((state) => state.user);
   console.log(userr, "before redux");
   //initializing and declaring various variables
@@ -67,7 +72,7 @@ function CartShow({
   const { flag1, setflag1 } = React.useContext(UserContext);
   const searchParams = new URLSearchParams(window.location.search);
   const [queryParam, setQueryParam] = useState(searchParams.get("n") || "");
-  const [noBalance, setNoBalance] = useState(false)
+  const [noBalance, setNoBalance] = useState(false);
   // const [tokenId,setTokenId]=useState("");
   const { tokenId, setTokenId } = React.useContext(UserContext);
   console.log(tokenId);
@@ -81,8 +86,8 @@ function CartShow({
   const i = 0;
 
   const publicClient = createPublicClient({
-    chain: bscTestnet,
-    transport: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+    chain: baseSepolia,
+    transport: http(),
   });
 
   // const { sendTransaction } = useSendTransaction();
@@ -113,7 +118,7 @@ function CartShow({
   async function buyNumber() {
     setLoad(true);
     // Send to which address?
-    const toaddress = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
+    const toaddress = "0x8c22767417E7B21C4D535478F6fB65F29EbE5ae4";
     var amount;
 
     try {
@@ -133,17 +138,60 @@ function CartShow({
         // Call sendTransaction
         console.log("transaction sending started");
         if (userr.rootId === "ncw") {
-       try {
-        const { hash } = await sendTransaction(connectConfig, {
-          account: account.address,
-          to: toaddress,
-          value: amt,
-        });
+          try {
+            console.log("guess here;s the problem");
+            // const { hash } = await sendTransaction(connectConfig, {
+            //   account: account.address,
+            //   to: toaddress,
+            //   value: amt,
+            // });
 
-        console.log("Transaction hash:", hash);
-       } catch (error) {
-        console.log("asfasfasfsafasf",error)
-       }
+            // console.log("Transaction hash:", hash);
+
+            const request = await prepareTransactionRequest(connectConfig, {
+              account,
+              to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+              value: ethers.parseEther("0.000000000000001"),
+            });
+            console.log("Transaction hash:", request);
+
+            // const signature = await signTransaction(connectConfig, {
+            //   account,
+            //   to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+            //   value: ethers.parseEther("0.000000000000001"),
+            // });
+
+            // console.log("sign", signature);
+
+            // const send = await sendTransaction(connectConfig, {
+            //   account,
+            //   to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+            //   value: ethers.parseEther("0.000000000000001"),
+            // });
+            // console.log(send);
+
+            const to = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
+            const value = "0.000000000000001";
+
+            // await  sendTransaction({ to, value: amt });
+            //   if (isPending) {
+            //     setTimeout(2000000);
+            //   }
+
+            //   if (isSuccess) {
+            //     setTimeout(100000);
+            //   }
+
+            const res = await sendTransaction(connectConfig, {
+              to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
+              value: parseEther("0.000001"),
+            });
+            // setLoad(false);
+          } catch (error) {
+            console.log("asfasfasfsafasf", error);
+            setLoad(false);
+            return;
+          }
 
           // Wait for transaction receipt using the callback function
           // const receipt = async () => {
@@ -164,7 +212,7 @@ function CartShow({
           console.log("address", add);
           const walletClient = createWalletClient({
             account: toViem(address),
-            chain: bscTestnet,
+            chain: baseSepolia,
             transport: http(),
           });
           console.log("walletClient", walletClient);
@@ -179,12 +227,11 @@ function CartShow({
           // console.log("full address", toViem(userr.fulladdress));
           console.log("full address from wallet ", toViem(address));
 
-          console.log("issue guess 1:")
+          console.log("issue guess 1:");
 
-          
-          console.log("moments before desctruction", amt)
+          console.log("moments before desctruction", amt);
 
-          console.log(typeof(amt));
+          console.log(typeof amt);
 
           const amosgsdg = parseInt(amt);
 
@@ -192,68 +239,56 @@ function CartShow({
 
           const transacamount = "0x" + amt.toString(16);
 
-          console.log("transacraasdsa", transacamount)
+          console.log("transacraasdsa", transacamount);
 
-       try {
+          try {
+            const account = toViem(addressNew);
+            console.log("Account", account);
+            const walletClient = createWalletClient({
+              account,
+              chain: baseSepolia,
+              transport: http(),
+            });
 
-        const account = toViem(addressNew);
-console.log("Account",account)
-        const walletClient = createWalletClient({
-          account,
-          chain: bscTestnet,
-          transport: http(),
-        });
+            console.log("Wallet Collection:", walletClient);
 
-        console.log("Wallet Collection:", walletClient);
-        
-        try {
-          const request = await walletClient.prepareTransactionRequest({
-            account,
-            to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-            value: ethers.parseEther("0.000000000000001"), 
-          
-         
-            
-            
-          })
-          console.log("Transaction hash:", request);
+            try {
+              const request = await walletClient.prepareTransactionRequest({
+                account,
+                to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+                value: ethers.parseEther("0.000000000000001"),
+              });
+              console.log("Transaction hash:", request);
 
-          const signature = await walletClient.signTransaction(request)
+              const signature = await walletClient.signTransaction(request);
 
-          console.log("sign",signature)
+              console.log("sign", signature);
+            } catch (error) {
+              console.log("error in this in prepare ", error);
+              toast.warn("Not enough balance");
+              setLoad(false);
+              // setNoBalance(true)        ;
+              navigate("/walletaf");
 
+              return;
+            }
 
-        } catch (error) {
-          console.log("error in this in prepare ",error)
-          toast.warn( "Not enough balance"
-          )
-setLoad(false);
-// setNoBalance(true)        ;
-navigate("/walletaf");
+            const res = await walletClient.sendTransaction({
+              account,
+              to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+              value: 0n, // transaction amount
+            });
 
-  return;
-        }
+            console.log("Transaction hash:", res);
+            toast.success("payment done successfully to atharva");
+          } catch (error) {
+            console.log("error in this", error);
+            toast.warn("payment didn't went through");
 
-        const res = await walletClient.sendTransaction({
-          account,
-          to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-          value: 0n, // transaction amount
-        });
+            setLoad(false);
 
-     
-        console.log("Transaction hash:", res);
-        toast.success("payment done successfully to atharva")
-
-       } catch (error) {
-        console.log("error in this",error)
-        toast.warn( "payment didn't went through"
-        )
-
-        setLoad(false);
-
-        return;
-
-       }
+            return;
+          }
         }
 
         // console.log("Transaction receipt:", txReceipt);
@@ -274,11 +309,9 @@ navigate("/walletaf");
         if (userr.rootId === "ncw") {
           setwalletaddress(account.address);
           setProceedTo("purchaseConfirmation");
-
         } else {
           setwalletaddress(userr.fulladdress);
           setProceedTo("purchaseConfirmation");
-
         }
         setLoad(false);
         // setProceedTo("purchaseConfirmation");
@@ -286,79 +319,83 @@ navigate("/walletaf");
     } catch (error) {
       console.error("Error processing buyNumber:", error);
       setError(true); // Set error state to true
-   // Set loading state to false
+      // Set loading state to false
     }
   }
 
-
-
   return cartArray.length != 0 ? (
     <div>
- {!noBalance  ? 
-     <div style={{ display: "flex", justifyContent: "center" }}>
-        <div className="cart_show">
-          <div className="searchResultsTable2">
-            {/* Similar numbers */}
-            {/* dropdown */}
-            {/* numbers boxes */}
-            <div className="searchResultsTableCol2">
-              {cartArray.map(
-                (number, i, ava) =>
-                  queryParam !== number && (
-                    <div className="each">
-                      <PhoneNumberBox
-                        number={number}
-                        cart={cart}
-                        setCart={setCart}
-                        showAvailability={true}
-                        available={true}
-                        contract_connect={contract_connect}
-                        signer={signer}
-                        cartArray={cartArray}
-                        setcartArray={setcartArray}
-                        setContract_connect={setContract_connect}
-                        setProceedTo={setProceedTo}
-                      />
-                    </div>
-                  )
-              )}
+      {!noBalance ? (
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className="cart_show">
+            <div className="searchResultsTable2">
+              {/* Similar numbers */}
+              {/* dropdown */}
+              {/* numbers boxes */}
+              <div className="searchResultsTableCol2">
+                {cartArray.map(
+                  (number, i, ava) =>
+                    queryParam !== number && (
+                      <div className="each">
+                        <PhoneNumberBox
+                          number={number}
+                          cart={cart}
+                          setCart={setCart}
+                          showAvailability={true}
+                          available={true}
+                          contract_connect={contract_connect}
+                          signer={signer}
+                          cartArray={cartArray}
+                          setcartArray={setcartArray}
+                          setContract_connect={setContract_connect}
+                          setProceedTo={setProceedTo}
+                        />
+                      </div>
+                    )
+                )}
+              </div>
             </div>
-          </div>
-          <button
-            className="cartCheckout"
-            onClick={async () => {
-              // await NFT_Gen();
-              buyNumber();
-            }}
-          >
-            Complete my Purchase
-          </button>
-          <p style={{ color: "white" }}>
-            Please do NOT click ANY button on Ultimate Digits while your
-            transaction is being completed
-          </p>
-          {error ? (
-            <p
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                marginTop: "10vh",
-                color: "white",
-                fontSize: "large",
+            <button
+              className="cartCheckout"
+              onClick={async () => {
+                // await NFT_Gen();
+                buyNumber();
               }}
             >
-              Insufficient Balance
+              Complete my Purchase
+            </button>
+            <p style={{ color: "white" }}>
+              Please do NOT click ANY button on Ultimate Digits while your
+              transaction is being completed
             </p>
-          ) : (
-            false
-          )}
-          {load ? (
-          <FullScreenLoader loading={load} content={"completing Purchase"} />
-          ) : (
-            false
-          )}
+            {error ? (
+              <p
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "10vh",
+                  color: "white",
+                  fontSize: "large",
+                }}
+              >
+                Insufficient Balance
+              </p>
+            ) : (
+              false
+            )}
+            {load ? (
+              <FullScreenLoader
+                loading={load}
+                content={"completing Purchase"}
+              />
+            ) : (
+              false
+            )}
+          </div>
         </div>
-      </div> : <WalletAf />}
+      ) : (
+        <WalletAf />
+      )}
 
       <ToastContainer />
     </div>

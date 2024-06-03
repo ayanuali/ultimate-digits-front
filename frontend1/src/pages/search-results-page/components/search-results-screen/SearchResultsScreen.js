@@ -12,6 +12,8 @@ import { generateRandomNumbers } from "../../../../functions/random-numbers/gene
 import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { readContract } from "@wagmi/core";
 
+import axios from "axios";
+import config from "../../../../config.json";
 const SearchResultsScreen = ({
   setProceedTo,
   setCartArray,
@@ -28,41 +30,58 @@ const SearchResultsScreen = ({
 
   const [generatedNumbers, setGeneratedNumbers] = useState([]);
 
-  const generateNumbers = () => {
+  const generateNumbers = async () => {
     const tempArr = [];
-    const nums = generateDiamondNumbers(queryParam);
-    const nums2 = generateGoldNumbers(queryParam);
-    const nums3 = generateSilverNumbers(queryParam);
+    const nums = await generateDiamondNumbers(queryParam);
+    const nums2 = await generateGoldNumbers(queryParam);
+    const nums3 = await generateSilverNumbers(queryParam);
     const nums4 = generateRandomNumbers();
-
+    console.log("nums", nums);
+    console.log("num2", nums2);
+    console.log("num3", nums3);
     generatedNumbers.concat(nums, nums2, nums3, nums4);
 
     setGeneratedNumbers([...nums, ...nums2, ...nums3, ...nums4]);
   };
 
   const checkAccFunc = async () => {
+    // try {
+    //   const addressReturned = async () => {
+    //     console.log("Hii..");
+    //     await readContract(connectConfig, {
+    //       abi: contract_connect.abi,
+    //       address: contract_connect.address,
+    //       functionName: "checkAccount",
+    //       args: [queryParam, (999).toString()],
+    //     });
+    //     console.log("Hello...");
+    //   };
+    //   console.log("veendum hello");
+    //   var someAddress = await addressReturned();
+    //   console.log("aaro address:", someAddress.address);
+    //   if (someAddress) {
+    //     console.log("addressReturned:", addressReturned);
+    //     setAva(false);
+    //   } else {
+    //     setAva(true);
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
+
     try {
-      const addressReturned = async () => {
-        console.log("Hii..");
-        await readContract(connectConfig, {
-          abi: contract_connect.abi,
-          address: contract_connect.address,
-          functionName: "checkAccount",
-          args: [queryParam, (999).toString()],
-        });
-        console.log("Hello...");
-      };
-      console.log("veendum hello");
-      var someAddress = await addressReturned();
-      console.log("aaro address:", someAddress.address);
-      if (someAddress) {
-        console.log("addressReturned:", addressReturned);
-        setAva(false);
-      } else {
+      const apiurl = config.backend;
+      const res = await axios.post(`${apiurl}/coinbase/getvirtuals`, {
+        number: queryParam,
+      });
+
+      if (res.status === 204) {
         setAva(true);
+      } else {
+        setAva(false);
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log("errror in checking numnber", error);
     }
   };
 
@@ -86,7 +105,10 @@ const SearchResultsScreen = ({
 
       <div className="searchResultsMain">
         <h3>Search results</h3>
-        <p>The number you are looking for is available!</p>
+        <p>
+          The number you are looking for is{" "}
+          {ava ? "available!" : "unavailable!"}
+        </p>
         <div className="searchResultsTableCol">
           <PhoneNumberBox
             number={queryParam}

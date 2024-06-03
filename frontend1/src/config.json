@@ -1,9 +1,8 @@
 {
-  "address": "0x46355dB5092153fF004D884A068DF35Ed14CC6bA",
-  "address_nft": "0x355Fa97E466aF53BaE61fe10B96A961C881a746B",
+  "address": "0x944c5a8c8fA6a4E1F5eBFB69136CD66c1548286B",
+  "address_nft": "0x8c22767417E7B21C4D535478F6fB65F29EbE5ae4",
   "api": "5MHINDBCTKXWW6PAVFWP1UFYCS4J5J22EN",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDEyNDM4MUEzODI0MEI2ODI4MzZGQTUzRmE5MDcwNDI0QjI1NkNmN0MiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODkyMjIxMDk5NjMsIm5hbWUiOiJIaW1hbnNodSJ9.xXUlVhsNBrR2aGQ4FYUfukmCn45584gPkS-84R-md2o",
-  "backend": "https://ud-backend.vercel.app",
+  "backend": "https://api.ultimatedigits.com",
   "convert_api": "46a8742181b8ec647c7dae99e407659e"
 }
-

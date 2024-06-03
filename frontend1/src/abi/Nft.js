@@ -1,4 +1,4 @@
-export const address_NFT = "0x95543845fAa7Da98BEce117Efad37B713c705332";
+export const address_NFT = "0x8c22767417E7B21C4D535478F6fB65F29EbE5ae4";
 export const abi_NFT = [
   {
     inputs: [],
@@ -169,19 +169,6 @@ export const abi_NFT = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getTokenCounter",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -208,14 +195,39 @@ export const abi_NFT = [
   {
     inputs: [
       {
+        internalType: "string[]",
+        name: "tokenURIs",
+        type: "string[]",
+      },
+    ],
+    name: "mintMultipleNFTs",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "string",
-        name: "_tokenUri",
+        name: "tokenURI",
         type: "string",
       },
     ],
-    name: "mint",
-    outputs: [],
-    stateMutability: "payable",
+    name: "mintNFT",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -245,6 +257,35 @@ export const abi_NFT = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "salePrice",
+        type: "uint256",
+      },
+    ],
+    name: "royaltyInfo",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -346,19 +387,6 @@ export const abi_NFT = [
         internalType: "string",
         name: "",
         type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "tokenCounter",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
       },
     ],
     stateMutability: "view",

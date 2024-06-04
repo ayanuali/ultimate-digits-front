@@ -163,7 +163,7 @@ const AuthenticationPage = ({
       setProceedTo("showCart");
       setcartArray(cartArray1);
     }
-    if (cartArray.length == 0) {
+    if (cartArray1.length == 0) {
       setHeaderTitle("Sign up");
     } else {
       setHeaderTitle("Claim your nft number");
@@ -171,7 +171,7 @@ const AuthenticationPage = ({
     validateUser();
   }, [check, user.isLoggedIn]);
 
-  return cartArray.length == 0 ? (
+  return cartArray1.length == 0 ? (
     <>
       <div className="landing-content">sdfdsf</div>
       <div className="authPageCentered">

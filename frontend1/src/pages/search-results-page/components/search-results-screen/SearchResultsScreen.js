@@ -148,6 +148,7 @@ const SearchResultsScreen = ({
             className="blueRoundedBtn"
             onClick={() => {
               console.log(cart);
+              localStorage.setItem("in", true);
               navigate(`/signup?cart=${cart}`);
             }}
           >

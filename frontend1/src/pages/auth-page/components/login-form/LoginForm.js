@@ -332,16 +332,22 @@ const LoginForm = ({
             })
           );
           console.log("sleep2");
-          navigate("/real-number");
+          const val = localStorage.getItem("in");
+
+          if (val !== false) {
+            navigate("/real-number");
+          } else {
+            setGotData(true);
+
+            return;
+          }
 
           //this is the check point for backking iussue
           return;
           // navigate("/real-number");
-          setGotData(true);
         }
       } else if (res.status === 204) {
         console.log("not there");
-        alert("no number so far");
         dispatch(
           setUserData({
             ...userr,

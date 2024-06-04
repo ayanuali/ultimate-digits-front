@@ -129,8 +129,12 @@ function CartShow({
       setflag1("0");
 
       // Convert amount to Wei
+
+      const newAMT = checkTotalPrice(cartArray);
+      console.log("newAmt", newAMT);
+
       const someAmt = parseInt(0.0046790195017 * 10);
-      const amt = parseEther(someAmt.toString());
+      const amt = parseEther(newAMT.toString());
       console.log("AMT:", amt);
 
       // Call sendTransaction
@@ -190,6 +194,7 @@ function CartShow({
           } catch (error) {
             console.log("asfasfasfsafasf", error);
             setLoad(false);
+            navigate("/walletaf");
             return;
           }
 

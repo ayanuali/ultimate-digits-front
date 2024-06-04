@@ -130,7 +130,7 @@ const Cart = ({ cartArray, currentState }) => {
             className="cartWrapperCouponForm"
             onSubmit={async (e) => {
               e.preventDefault();
-              await ClaimCoupon(coupon);
+              // await ClaimCoupon(coupon);
             }}
           >
             <input

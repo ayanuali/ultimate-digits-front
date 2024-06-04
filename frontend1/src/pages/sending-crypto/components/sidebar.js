@@ -27,6 +27,7 @@ export default function Sidebar() {
     }
 
     await disconnect(connectConfig);
+    localStorage.setItem("logout", true);
 
     setTimeout(1000);
     await dispatch(setUserData({ rootId: "", address: "", phno: "" }));

@@ -42,33 +42,6 @@ const PhoneNumberBox = ({
   const [tier, setTier] = useState("silver");
   const navigate = useNavigate();
 
-  const checkAccFunc = async () => {
-    try {
-      const numberAsNumber = parseInt(number);
-
-      const transacamount = "0x" + numberAsNumber.toString(16);
-
-      console.log("afsafas", numberAsNumber);
-      console.log("transacraasdsa", transacamount);
-
-      const addressReturned = await readContract(connectConfig, {
-        abi: contract_connect.abi,
-        address: contract_connect.address,
-        functionName: "checkAccount",
-        args: [transacamount, "999"],
-      });
-      var addrReturned = await addressReturned();
-      if (addrReturned) {
-        console.log("addressReturned:", addressReturned);
-        setAvailable(false);
-      } else {
-        setAvailable(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const OnClick = () => {
     setAddedToCard(!addedToCard);
 
@@ -93,7 +66,6 @@ const PhoneNumberBox = ({
     // const contract = new ethers.Contract(config.address, conABI, signer);
     //     setContract_connect(contract);
     //     console.log(contract);
-    checkAccFunc();
   }, [number]);
 
   return (

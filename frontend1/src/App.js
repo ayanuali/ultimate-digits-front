@@ -26,12 +26,13 @@ import WalletAf from "./pages/ultimate-wallet/wallet1";
 import { checkUser } from "./services/magic";
 import Component1 from "./Hook";
 import { Provider } from "react-redux";
-import { Web3Provider } from "./ConnectKit/Web3Provider";
+import { Web3Provider, connectConfig } from "./ConnectKit/Web3Provider";
 
 import { WalletProvider, useWalletContext } from "@coinbase/waas-sdk-web-react";
 import store from "./store";
 import WalletAf2 from "./pages/ultimate-wallet/wallet2";
-const LandingPage = lazy(() => import('./pages/landing-page/LandingPage'));
+import { useDisconnect } from "wagmi";
+const LandingPage = lazy(() => import("./pages/landing-page/LandingPage"));
 
 function App() {
   //function to set various variable states
@@ -60,9 +61,15 @@ function App() {
   const [log, setLog] = useState(false);
   const [cartArray, setcartArray] = useState([]);
   // const [tier, setTier] = useState("bronze");
+  const { disconnect } = useDisconnect();
 
   //function to set users
   const validateUser = async () => {
+    const val = localStorage.getItem("logout");
+
+    if (val) {
+      await disconnect(connectConfig);
+    }
     try {
       await checkUser(setUser);
       setLoading(false);
@@ -92,12 +99,10 @@ function App() {
   }
   return (
     <BrowserRouter>
-      <Web3Provider>
-        {!loading && (
-          <div className="App">
-
-            {exist()}
-            <Component1>
+      {!loading && (
+        <div className="App">
+          {exist()}
+          <Component1>
             <Suspense fallback={<div>Loading...</div>}>
               <Routes>
                 <Route
@@ -332,12 +337,10 @@ function App() {
                   }
                 />
               </Routes>
-              </Suspense>
-
-            </Component1>
-          </div>
-        )}
-      </Web3Provider>
+            </Suspense>
+          </Component1>
+        </div>
+      )}
     </BrowserRouter>
   );
 }

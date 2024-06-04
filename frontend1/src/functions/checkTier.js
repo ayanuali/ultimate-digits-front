@@ -14,8 +14,7 @@ const checkTier = (number) => {
 
   if (checkSilverNumber(number)) {
     return "silver";
-  } 
-  else {
+  } else {
     return "bronze";
   }
 };

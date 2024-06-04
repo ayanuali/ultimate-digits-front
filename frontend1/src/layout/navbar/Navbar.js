@@ -47,7 +47,7 @@ const Navbar = ({ loggedIn, setLog }) => {
 
     await disconnect(connectConfig);
     dispatch(setUserData({ rootId: "", address: "", phno: "" }));
-
+    localStorage.setItem("logout", true);
     if (account.status !== "connected") {
       console.log(account.isDisconnected, "Sfsdf");
       navigate("/");

@@ -1,4 +1,4 @@
-export const address_NFT = "0x8c22767417E7B21C4D535478F6fB65F29EbE5ae4";
+export const address_NFT = "0x959A1D9B491388e3A7B22C9bcA7ee61761931fad";
 export const abi_NFT = [
   {
     inputs: [],
@@ -169,6 +169,38 @@ export const abi_NFT = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getNumbers",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "getNumbersForAddress",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -198,6 +230,11 @@ export const abi_NFT = [
         internalType: "string[]",
         name: "tokenURIs",
         type: "string[]",
+      },
+      {
+        internalType: "uint256[]",
+        name: "_numbers",
+        type: "uint256[]",
       },
     ],
     name: "mintMultipleNFTs",
@@ -260,6 +297,19 @@ export const abi_NFT = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_number",
+        type: "uint256",
+      },
+    ],
+    name: "removeNumber",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

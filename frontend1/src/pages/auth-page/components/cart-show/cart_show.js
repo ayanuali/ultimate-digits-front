@@ -151,7 +151,7 @@ function CartShow({
             const request = await prepareTransactionRequest(connectConfig, {
               account,
               to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-              value: ethers.parseEther("0.000000000000001"),
+              value: amt,
             });
             console.log("Transaction hash:", request);
 
@@ -184,7 +184,7 @@ function CartShow({
 
             const res = await sendTransaction(connectConfig, {
               to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
-              value: parseEther("0.000001"),
+              value: amt,
             });
             // setLoad(false);
           } catch (error) {
@@ -256,7 +256,7 @@ function CartShow({
               const request = await walletClient.prepareTransactionRequest({
                 account,
                 to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-                value: ethers.parseEther("0.000000000000001"),
+                value: amt,
               });
               console.log("Transaction hash:", request);
 
@@ -276,7 +276,7 @@ function CartShow({
             const res = await walletClient.sendTransaction({
               account,
               to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-              value: 0n, // transaction amount
+              value: amt, // transaction amount
             });
 
             console.log("Transaction hash:", res);

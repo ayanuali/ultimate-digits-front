@@ -129,7 +129,7 @@ export default function ConfirmationPageVirtual1({
               abi: contract.abi,
               address: contract.address,
               functionName: "mintMultipleNFTs",
-              args: [arr],
+              args: [arr, cartArray],
             });
 
             setNftMinted(true);
@@ -159,7 +159,7 @@ export default function ConfirmationPageVirtual1({
                 address: contract.address,
                 abi: contract.abi,
                 functionName: "mintMultipleNFTs",
-                args: [arr],
+                args: [arr, cartArray],
               });
               setNftMinted(true);
               console.log("hash", hash);
@@ -192,6 +192,69 @@ export default function ConfirmationPageVirtual1({
       // console.log("tokenCounter:", number);
       // setTokenId(parseInt(number));
       setadd(`Address : ${address_NFT}`);
+      var check = 0;
+
+      cartArray.map(async (number, i) => {
+        console.log("UID ");
+
+        console.log("user", userr);
+
+        console.log("settingUIDtransaction got through");
+        check++;
+        console.log(check);
+
+        try {
+          const apiurl = config.backend;
+          if (userr.rootId === "ncw") {
+            const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+              phoneNumber: number,
+              address: userr.address,
+              countryCode: "999",
+              rootId: "ncw",
+              type: "virtual",
+            });
+
+            if (res.status === 200 || res.status === 201) {
+              console.log("Mapping successful");
+              setloadingLink(false);
+              if (check === cartArray.length) {
+                navigate(
+                  `/selection-page/my-numbers/confirm-page?number=${number}`
+                );
+              }
+            }
+          } else {
+            const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
+              phoneNumber: number,
+              address: userr.address,
+              countryCode: "999",
+              rootId: userr.rootId,
+              type: "virtual",
+            });
+
+            if (res.status === 200 || res.status === 201) {
+              console.log("Mapping successful");
+              setloadingLink(false);
+              if (check === cartArray.length) {
+                navigate(
+                  `/selection-page/my-numbers/confirm-page?number=${number}`
+                );
+              }
+            }
+          }
+        } catch (error) {
+          console.log(error);
+          setloadingLink(false);
+        }
+        // if (transaction) {
+
+        // } else {
+        //   console.error("error");
+        //   console.log("another transaction didn't get through");
+        // }
+      });
+      console.log(cartArray.length);
+      // navigate(`/selection-page/my-numbers/confirm-page?number=${number}`);
       // settid(`TokenId : ${parseInt(number)}`);
       // console.log(parseInt(number) + " the nft minting number ");
       // if (transaction) {
@@ -267,66 +330,6 @@ export default function ConfirmationPageVirtual1({
     };
     await transaction();
 
-    cartArray.map(async (number, i) => {
-      console.log("UID ");
-
-      console.log("user", userr);
-
-      console.log("settingUIDtransaction got through");
-      check++;
-      console.log(check);
-
-      try {
-        const apiurl = config.backend;
-        if (userr.rootId === "ncw") {
-          const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
-            phoneNumber: number,
-            address: userr.address,
-            countryCode: "999",
-            rootId: "ncw",
-            type: "virtual",
-          });
-
-          if (res.status === 200 || res.status === 201) {
-            console.log("Mapping successful");
-            setloadingLink(false);
-            if (check === cartArray.length) {
-              navigate(
-                `/selection-page/my-numbers/confirm-page?number=${number}`
-              );
-            }
-          }
-        } else {
-          const res = await axios.post(`${apiurl}/coinbase/map-phno`, {
-            phoneNumber: number,
-            address: userr.address,
-            countryCode: "999",
-            rootId: userr.rootId,
-            type: "virtual",
-          });
-
-          if (res.status === 200 || res.status === 201) {
-            console.log("Mapping successful");
-            setloadingLink(false);
-            if (check === cartArray.length) {
-              navigate(
-                `/selection-page/my-numbers/confirm-page?number=${number}`
-              );
-            }
-          }
-        }
-      } catch (error) {
-        console.log(error);
-        setloadingLink(false);
-      }
-      // if (transaction) {
-
-      // } else {
-      //   console.error("error");
-      //   console.log("another transaction didn't get through");
-      // }
-    });
-    console.log(cartArray.length);
     // setloadingLink(false);
   }
 
@@ -389,35 +392,37 @@ export default function ConfirmationPageVirtual1({
         </div>
 
         {!nftMinted && (
-          <div className="cpv2-btn" style={{ margin: "4 rem" }}>
+          <div className="cpv2-btn" style={{ margin: "5 rem" }}>
             <button
               onClick={async () => {
                 // PerformAction();
                 await NFT_Gen();
               }}
             >
-              Generate NFT
+              Generate NFT and Link your number to a wallet
             </button>
           </div>
         )}
         {nftMinted && (
           <div className="cpv2-btn2" style={{ margin: "4 rem" }}>
-            <button disabled>NFT Generated</button>
+            <button disabled>NFT Generated and Linked</button>
           </div>
         )}
         <div className="row-token">
           <h5 style={{ color: "white" }}>{add}</h5>
           <h5 style={{ color: "white" }}>{tid}</h5>
         </div>
-        <div className="cpv1-content" style={{ marginTop: "3rem" }}>
-          <div className="text">Purchase successful</div>
-          <div className="sub-text">
-            Congratulations! Your have successfully purchased a <br></br> web3
-            phone number.
+        {nftMinted && (
+          <div className="cpv1-content" style={{ marginTop: "3rem" }}>
+            <div className="text">Purchase successful</div>
+            <div className="sub-text">
+              Congratulations! Your have successfully purchased a <br></br> web3
+              phone number.
+            </div>
           </div>
-        </div>
+        )}
         <div className="cpv2-btn" style={{ marginTop: "-1.8rem" }}>
-          {!nftMinted && (
+          {nftMinted === "ty" && (
             <button
               disabled
               style={{
@@ -433,7 +438,7 @@ export default function ConfirmationPageVirtual1({
               Mint then Link your number to a wallet
             </button>
           )}
-          {nftMinted && (
+          {nftMinted === "th" && (
             <button
               onClick={async () => {
                 PerformAction();

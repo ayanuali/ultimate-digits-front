@@ -19,6 +19,8 @@ import coinbase from "../../../../assets/coinbase.svg";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import axios from "axios";
 import { disconnect, getAccount, switchChain } from "@wagmi/core";
+import { useAccount, useEnsName } from "wagmi";
+
 import {
   createPublicClient,
   getContract,
@@ -65,6 +67,7 @@ const LoginForm = ({
   const [gotAddress, setGotAddress] = useState(false);
 
   const [content, setContent] = useState("Loading .....");
+  const { address } = useAccount();
 
   const checkUser = async (rootId, address) => {
     try {
@@ -273,6 +276,14 @@ const LoginForm = ({
     setNav("2");
   }, []);
 
+  useEffect(() => {
+    if (address) {
+      console.log("address from use hook", address);
+      navigate("/real-number");
+    } else {
+    }
+  }, []);
+
   // Get the query parameter string
   const queryString = window.location.search;
   const entho = async () => {
@@ -321,8 +332,11 @@ const LoginForm = ({
             })
           );
           console.log("sleep2");
-
           navigate("/real-number");
+
+          //this is the check point for backking iussue
+          return;
+          // navigate("/real-number");
           setGotData(true);
         }
       } else if (res.status === 204) {

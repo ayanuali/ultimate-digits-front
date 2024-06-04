@@ -399,7 +399,7 @@ export default function ConfirmationPageVirtual1({
                 await NFT_Gen();
               }}
             >
-              Generate NFT and Link your number to a wallet
+              Generate NFT and Link Number to Wallet
             </button>
           </div>
         )}
@@ -412,15 +412,15 @@ export default function ConfirmationPageVirtual1({
           <h5 style={{ color: "white" }}>{add}</h5>
           <h5 style={{ color: "white" }}>{tid}</h5>
         </div>
-        {nftMinted && (
-          <div className="cpv1-content" style={{ marginTop: "3rem" }}>
-            <div className="text">Purchase successful</div>
-            <div className="sub-text">
-              Congratulations! Your have successfully purchased a <br></br> web3
-              phone number.
-            </div>
+
+        <div className="cpv1-content" style={{ marginTop: "3rem" }}>
+          <div className="text">Congrats! </div>
+          <div className="sub-text">
+            You’ve purchased a virtual mobile number. <br></br>Click above to
+            claim your NFT and to link it to your connected wallet.
           </div>
-        )}
+        </div>
+
         <div className="cpv2-btn" style={{ marginTop: "-1.8rem" }}>
           {nftMinted === "ty" && (
             <button

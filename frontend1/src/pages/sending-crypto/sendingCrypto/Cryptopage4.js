@@ -12,7 +12,6 @@ export default function Cryptopage4({
   code,
   setNav,
 }) {
-    
   //setting the navigation bar
   setNav(false);
   const navigate = useNavigate();
@@ -58,7 +57,7 @@ export default function Cryptopage4({
 
               <div className="blockchain-binance">
                 <img className="binance-icon" src={BinanceIcon}></img>
-                <span className="text">Binance</span>
+                <span className="text">Base</span>
               </div>
             </div>
             <div className="selection">
@@ -66,7 +65,7 @@ export default function Cryptopage4({
 
               <div className="blockchain-binance">
                 <img className="binance-icon" src={BinanceIcon}></img>
-                <span className="text">BUSD</span>
+                <span className="text">ETH</span>
               </div>
             </div>
             <div className="selection">
@@ -121,7 +120,7 @@ export default function Cryptopage4({
               Transaction complete
             </div>
             <div className="sub-text">
-              Congratulations on your successful {amount} BUSD transaction to{" "}
+              Congratulations on your successful {amount} ETH transaction to{" "}
               {{ type } == "Virtual" ? "+999" : `+${code}`} {toNumber}! We've
               sent a confirmation text message and receipt to{" "}
               {{ type } == "Virtual" ? "+999" : `+${code}`} {toNumber} for their

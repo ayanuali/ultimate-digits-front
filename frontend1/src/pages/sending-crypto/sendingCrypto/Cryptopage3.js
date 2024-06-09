@@ -137,7 +137,7 @@ export default function Cryptopage3({
               Transaction complete
             </div>
             <div className="sub-text">
-              Congratulations on your successful {amount} BUSD transaction to +
+              Congratulations on your successful {amount} ETH transaction to +
               {{ type } == "Virtual" ? "+999" : `+${code}`} {toNumber}! We've
               sent a confirmation text message and receipt to +
               {{ type } == "Virtual" ? "+999" : `+${code}`} {toNumber} for their

@@ -1,20 +1,34 @@
 import SidebarPayment from "../components/sidebarPayment";
 import "./Cryptopage2.css";
-import { ethers } from "ethers";
+import { ethers, toBigInt } from "ethers";
 import { useNavigate } from "react-router-dom";
 import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.svg";
 import config from "../../../config.json";
-import { createWalletClient, http, parseEther } from "viem";
+import {
+  createWalletClient,
+  http,
+  parseEther,
+  createPublicClient,
+  getContract,
+} from "viem";
 import { baseSepolia, bscTestnet } from "viem/chains";
 import { useSelector } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { ProtocolFamily } from "@coinbase/waas-sdk-web";
-import { getAccount, readContract, getBalance } from "@wagmi/core";
+import {
+  getAccount,
+  readContract,
+  getBalance,
+  prepareTransactionRequest,
+  sendTransaction,
+  writeContract,
+} from "@wagmi/core";
 import { useEffect, useState } from "react";
 import { connectConfig } from "../../../ConnectKit/Web3Provider";
-import { getContract, createPublicClient, custom } from "viem";
-
+import { custom } from "viem";
+import { sign } from "viem/accounts";
+import abi from "./abi.json";
 export default function Cryptopage2({
   amount,
   currentWallet,
@@ -29,6 +43,8 @@ export default function Cryptopage2({
 }) {
   const { user, wallet } = useWalletContext();
   const [balanceVal, setBalanceVal] = useState(0);
+
+  const payment_contract = "0x1eD80Fa9F46EC7716ab178006871F464Af5Ab3cF";
 
   const getingBalance = async () => {
     const balance = await getBalance(connectConfig, {
@@ -53,6 +69,10 @@ export default function Cryptopage2({
   var servicecharge = 0.01 * amount;
 
   var totalfinalamount = 1.01 * amount;
+  const publicClient = createPublicClient({
+    chain: baseSepolia,
+    transport: http("https://sepolia.base.org"),
+  });
 
   //function to send confirmation message of transaction
   async function confirmcall() {
@@ -88,137 +108,124 @@ export default function Cryptopage2({
   }
 
   //function allowing transaction to take place
-  async function sendTransaction() {
+  async function sendTransactionpay() {
     console.log(totalfinalamount);
     console.log(number);
-    if(totalfinalamount > balanceVal){
-      alert("Insufficient Balance")
-      return
+
+    console.log("user", user);
+    console.log("wallet", user);
+    if (totalfinalamount > balanceVal) {
+      alert("Insufficient Balance");
+      return;
     }
-    fetch(
-      `http://api.coinlayer.com/live?access_key=${config.convert_api}&symbols=BNB`
-    )
-      .then(async (res) => {
-        let data = await res.json();
-        console.log(data);
-        let exchangeRate = data.rates["BNB"];
-        var serviceCharge = parseFloat(
-          servicecharge * (1 / exchangeRate).toFixed(10)
-        ).toFixed(10);
-        // send to which address ?
-        const toaddress = toAddress;
-        const a = parseFloat(amount * 0.0046790195017).toFixed(5);
-        let amt = ethers.parseUnits(a.toString());
-        const transacamount = "0x" + amt.toString(16);
-        let amt1 = ethers.parseUnits(serviceCharge.toString());
-        const transacamount1 = "0x" + amt1.toString(16);
+    const account = getAccount(connectConfig);
 
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        console.log(provider);
+    const provider =
+      window.ethereum != null
+        ? new ethers.BrowserProvider(window.ethereum)
+        : ethers.getDefaultProvider();
+    console.log("provider", provider);
 
+    //signer
 
-        if (!user && !wallet) {
-          try {
-            provider.getSigner().then(async (res) => {
-              res
-                .sendTransaction({
-                  to: toaddress,
-                  value: transacamount,
-                })
-                .then((txHash) => {
-                  console.log(txHash.hash);
-                  try {
-                    res
-                      .sendTransaction({
-                        //address of app owner
-                        to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
-                        value: transacamount1,
-                      })
-                      .then((txHash) => {
-                        console.log(txHash.hash);
-                        if (type == "Real") {
-                          confirmcall();
-                        }
-                      })
-                      .catch((e) => {
-                        console.log(e);
-                      });
-                  } catch (err) {
-                    console.log(err);
-                  }
-                })
-                .catch((e) => {
-                  console.log(e);
-                });
-            });
-          } catch (err) {
-            console.log(err);
-          }
+    const signer = await provider.getSigner();
+
+    console.log("signer", signer);
+    // const provider = new ethers.JsonRpcProvider("https://sepolia.base.org");
+    // console.log(provider);
+    const toaddress = toAddress;
+
+    // const transacamount = parseEther(totalfinalamount.toString());
+    // console.log("transacor", transacamount);
+    const transacamount1 = amount * 0.001; // 0.1% of totalfinalamount
+    console.log("transacti1", transacamount1);
+    const transacamount1String = parseEther(transacamount1.toFixed(18)); // Ensures proper format without scientific notation
+    console.log("instrinf", transacamount1String);
+    const total = Number(amount) + Number(transacamount1);
+    console.log("total", total);
+    const n1 = total.toFixed(18);
+    console.log("n1", n1);
+    const totl = parseEther(n1.toString());
+    console.log("totl", totl);
+
+    const contract = getContract({
+      address: payment_contract,
+      abi: abi,
+      // 1a. Insert a single client
+      client: publicClient,
+    });
+    const tos = [toaddress, "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540"];
+    const amounts = [parseEther(amount), transacamount1String];
+    console.log(
+      amount,
+      typeof amount,
+      transacamount1,
+      typeof transacamount1,
+      transacamount1String,
+      total
+    );
+
+    if (Number(amount) + transacamount1 === Number(total)) {
+      console.log("sum checj");
+    } else {
+      console.log("fucked");
+    }
+    if (!user && !wallet) {
+      try {
+        console.log("signing transaction for", totl);
+        const cont = new ethers.Contract(payment_contract, abi, signer);
+        console.log("contract instance", cont);
+
+        const res = await cont.sendMultiple(tos, amounts, {
+          value: totl,
+        });
+        console.log("res", res);
+        confirmcall();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (user && wallet) {
+      try {
+        console.log("address", userr.address);
+        console.log("user", user);
+        console.log("wallet", wallet);
+        const address = await wallet.addresses.for(ProtocolFamily.EVM);
+        console.log("address", address);
+        const walletClient = createWalletClient({
+          account: toViem(address),
+          chain: baseSepolia,
+          transport: http("https://sepolia.base.org"),
+        });
+        console.log("walletClient", walletClient);
+
+        console.log("full address from wallet ", toViem(address));
+
+        try {
+          const hash = await walletClient.writeContract({
+            address: contract.address,
+            abi: contract.abi,
+            functionName: "sendMultiple",
+            args: [tos, amounts],
+          });
+
+          confirmcall();
+        } catch (error) {
+          console.log("error hererer", error);
         }
 
-        if (user && wallet) {
-          try {
-            console.log("address", userr.address);
-            console.log("user", user);
-            console.log("wallet", wallet);
-            const address = await wallet.addresses.for(ProtocolFamily.EVM);
-            console.log("address", address);
-            const walletClient = createWalletClient({
-              account: toViem(address),
-              chain: bscTestnet,
-              transport: http(
-                "https://data-seed-prebsc-1-s1.binance.org:8545/"
-              ),
-            });
-            console.log("walletClient", walletClient);
-
-            console.log("full address from wallet ", toViem(address));
-
-            const ress = await walletClient
-              .sendTransaction({
-                account: toViem(address),
-                to: toaddress,
-                value: transacamount,
-              })
-              .then(async (txHash) => {
-                console.log("Transaction hash:", txHash);
-                try {
-                  const res = await walletClient
-                    .sendTransaction({
-                      account: toViem(address),
-                      to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-                      value: transacamount1, // transaction amount
-                    })
-                    .then((txHash) => {
-                      console.log("Transaction hash:", txHash.hash);
-
-                      confirmcall();
-                    })
-                    .catch((e) => {
-                      console.log(e);
-                      navigate("/sending-crypto/last-page");
-                    });
-                } catch (error) {
-                  console.log(error);
-                  navigate("/sending-crypto/last-page");
-                }
-              });
-
-            console.log("Transaction hash:", res);
-          } catch (error) {
-            console.log(error);
-            // navigate("/sending-crypto/last-page");
-          }
-        }
-      })
-      .catch((e) => console.log(e));
-
-
+        // console.log("Transaction hash:", res);
+      } catch (error) {
+        console.log(error);
+        // navigate("/sending-crypto/last-page");
+      }
+    }
   }
 
-  useEffect(()=>{
-    getingBalance()
-  },[])
+  useEffect(() => {
+    getingBalance();
+  }, []);
   return (
     <div className="cryptopage2">
       <SidebarPayment />
@@ -263,11 +270,11 @@ export default function Cryptopage2({
           </div>
           <div className="cp2-btn">
             {!user && !wallet && (
-              <button onClick={sendTransaction}>Pay Via Metamask</button>
+              <button onClick={sendTransactionpay}>Pay Via Metamask</button>
             )}
 
             {user && wallet && userr.rootId !== "ncw" && (
-              <button onClick={sendTransaction}>
+              <button onClick={sendTransactionpay}>
                 Pay using ultimate digits wallet
               </button>
             )}
@@ -292,9 +299,9 @@ export default function Cryptopage2({
             </div>
             <div className="box2">
               <div className="text" style={{ marginTop: "-3px" }}>
-               Balance
+                Balance
               </div>
-              <div className="sub-text">{balanceVal} TBNB</div>
+              <div className="sub-text">{balanceVal} ETH</div>
             </div>
           </div>
         </div>

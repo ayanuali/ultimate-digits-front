@@ -6,6 +6,7 @@ import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.
 import config from "../../../config.json";
 import { readContract } from "@wagmi/core";
 import { connectConfig } from "../../../ConnectKit/Web3Provider";
+import axios from "axios";
 
 export default function PaymentpageVirtual({
   currentWallet,
@@ -38,24 +39,34 @@ export default function PaymentpageVirtual({
     }
 
     try {
-      const addressReturned = await readContract(connectConfig, {
-        abi: contract_connect.abi,
-        address: contract_connect.address,
-        functionName: "checkAccount",
-        args: [toNumber, "999"]
+      // const addressReturned = await readContract(connectConfig, {
+      //   abi: contract_connect.abi,
+      //   address: contract_connect.address,
+      //   functionName: "checkAccount",
+      //   args: [toNumber, tocodes],
+      // });
+
+      const apiurl = config.backend;
+
+      const res = await axios.post(`${apiurl}/coinbase/getvirt`, {
+        virtual: toNumber,
       });
-      if (addressReturned) {
-        console.log("addressReturned:", addressReturned);
-        setToAddress(addressReturned);
+      if (res.status === 200) {
+        console.log(res.data);
+        console.log(res.data.mapping);
+        setToAddress(res.data.mapping.address);
         setType("Real");
         navigate("/sending-crypto/confirmTransaction");
       }
-
-    }
-    catch (e) {
+      // if (addressReturned) {
+      //   console.log("addressReturned:", addressReturned);
+      //   setToAddress(addressReturned);
+      //   setType("Real");
+      //   navigate("/sending-crypto/confirmTransaction");
+      // }
+    } catch (e) {
       console.log(e);
       navigate("/sending-crypto/invalid-number");
-
     }
     // contract_connect
     //   .checkAccount(toNumber, "999")
@@ -76,9 +87,9 @@ export default function PaymentpageVirtual({
     console.log(typeof currentWallet);
     fetch(
       "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=" +
-      currentWallet +
-      "&startblock=1&endblock=99999999&sort=asc&apikey=" +
-      config.api
+        currentWallet +
+        "&startblock=1&endblock=99999999&sort=asc&apikey=" +
+        config.api
     )
       .then(async (res) => {
         data1 = await res.json();
@@ -104,10 +115,7 @@ export default function PaymentpageVirtual({
             data.status = "Success";
             var hash = Normalhistory[i].hash;
             data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              o < 5
-            ) {
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
               console.log(i);
               console.log(amt);
               dataArray.push(data);
@@ -143,10 +151,7 @@ export default function PaymentpageVirtual({
             data.status = "Success";
             var hash = Normalhistory[i].hash;
             data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              o < 5
-            ) {
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
               console.log(i);
               console.log(amt);
               dataArray.push(data);
@@ -172,10 +177,7 @@ export default function PaymentpageVirtual({
             data.status = "Success";
             var hash = Normalhistory[i].hash;
             data.url = `https://testnet.bscscan.com/tx/${hash}`;
-            if (
-              Normalhistory[i].to == currentWallet.toLowerCase() &&
-              p < 5
-            ) {
+            if (Normalhistory[i].to == currentWallet.toLowerCase() && p < 5) {
               console.log(i);
               console.log(amt);
               dataArray1.push(data);

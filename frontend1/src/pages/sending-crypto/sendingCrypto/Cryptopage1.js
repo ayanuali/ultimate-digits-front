@@ -11,7 +11,6 @@ export default function Cryptopage1({
   type,
   setNav,
 }) {
-
   //function to set the navigation bar
   setNav(false);
 
@@ -52,7 +51,7 @@ export default function Cryptopage1({
 
               <div className="blockchain-binance">
                 <img className="binance-icon" src={BinanceIcon}></img>
-                <span className="text">Binance</span>
+                <span className="text">Base</span>
               </div>
             </div>
             <div className="selection">
@@ -60,7 +59,7 @@ export default function Cryptopage1({
 
               <div className="blockchain-binance">
                 <img className="binance-icon" src={BinanceIcon}></img>
-                <span className="text">BUSD</span>
+                <span className="text">ETH</span>
               </div>
             </div>
             <div className="selection">

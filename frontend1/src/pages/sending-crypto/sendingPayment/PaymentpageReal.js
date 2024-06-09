@@ -97,7 +97,7 @@ export default function PaymentpageReal({
     console.log(userr.address);
     console.log(typeof userr.address);
     fetch(
-      "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=" +
+      "https://api-sepolia.basescan.org/api?module=account&action=txlist&address=" +
         userr.address +
         "&startblock=1&endblock=99999999&sort=asc&apikey=" +
         config.api
@@ -131,7 +131,7 @@ export default function PaymentpageReal({
             data.status = "Success";
             var hash = Normalhistory[i].hash;
 
-            data.url = `https://testnet.bscscan.com/tx/${hash}`;
+            data.url = `https://sepolia.basescan.org/tx/${hash}`;
             if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
               console.log(i);
               console.log(amt);
@@ -167,7 +167,7 @@ export default function PaymentpageReal({
               ).toFixed(5);
               data.status = "Success";
               var hash = Normalhistory[i].hash;
-              data.url = `https://testnet.bscscan.com/tx/${hash}`;
+              data.url = `https://sepolia.basescan.org/tx/${hash}`;
               if (Normalhistory[i].to == currentWallet.toLowerCase() && o < 5) {
                 console.log(i);
                 console.log(amt);
@@ -194,7 +194,7 @@ export default function PaymentpageReal({
               ).toFixed(5);
               data.status = "Success";
               var hash = Normalhistory[i].hash;
-              data.url = `https://testnet.bscscan.com/tx/${hash}`;
+              data.url = `https://sepolia.basescan.org/tx/${hash}`;
               if (Normalhistory[i].to == currentWallet.toLowerCase() && p < 5) {
                 console.log(i);
                 console.log(amt);
@@ -315,30 +315,6 @@ export default function PaymentpageReal({
             >
               Sent
             </button>
-          </div>
-          <div className="container">
-            {/* table showing transaction history */}
-            {send ? (
-              <table style={{ width: "58rem" }}>
-                <tr className="col-1">
-                  <th>Transaction Date</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-                <tbody>{dataArray1.map(tableCheck)}</tbody>
-              </table>
-            ) : (
-              <table style={{ width: "58rem" }}>
-                <tr className="col-1">
-                  <th>Transaction Date</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-                <tbody>{dataArray.map(tableCheck)}</tbody>
-              </table>
-            )}
           </div>
         </div>
       </div>

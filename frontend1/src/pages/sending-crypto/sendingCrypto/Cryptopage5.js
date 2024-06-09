@@ -3,7 +3,7 @@ import "./Cryptopage5.css";
 import { useNavigate } from "react-router-dom";
 import BinanceIcon from "../../../assets/search-results-page/icons/binance-icon.svg";
 import { useState } from "react";
-import config from "../../../config.json"
+import config from "../../../config.json";
 export default function Cryptopage5({
   amount,
   currenWallet,
@@ -16,7 +16,6 @@ export default function Cryptopage5({
   tocode,
   number,
 }) {
-    
   //function to set navigation bar
   setNav(false);
   const navigate = useNavigate();
@@ -85,7 +84,7 @@ export default function Cryptopage5({
 
               <div className="blockchain-binance">
                 <img className="binance-icon" src={BinanceIcon}></img>
-                <span className="text">Binance</span>
+                <span className="text">Base</span>
               </div>
             </div>
             <div className="selection">
@@ -93,7 +92,7 @@ export default function Cryptopage5({
 
               <div className="blockchain-binance">
                 <img className="binance-icon" src={BinanceIcon}></img>
-                <span className="text">BUSD</span>
+                <span className="text">ETH</span>
               </div>
             </div>
             <div className="selection">

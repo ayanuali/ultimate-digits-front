@@ -3,6 +3,6 @@
   "address_nft": "0x8c22767417E7B21C4D535478F6fB65F29EbE5ae4",
   "api": "D2FHAWZA93PP6ZUVB36NDZNT3K54Y5YDC4",
   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDEyNDM4MUEzODI0MEI2ODI4MzZGQTUzRmE5MDcwNDI0QjI1NkNmN0MiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2ODkyMjIxMDk5NjMsIm5hbWUiOiJIaW1hbnNodSJ9.xXUlVhsNBrR2aGQ4FYUfukmCn45584gPkS-84R-md2o",
-  "backend": "http://localhost:8080",
+  "backend": "https://api.ultimatedigits.com",
   "convert_api": "46a8742181b8ec647c7dae99e407659e"
 }

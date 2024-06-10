@@ -194,9 +194,7 @@ export default function PaymentpageVirtual({
       });
   }
 
-  useEffect(() => {
-    check();
-  }, []);
+  useEffect(() => {}, []);
 
   //function to attach the rows in the transaction history table
   const tableCheck = ({ date1, payment, status, url }) => {
@@ -274,59 +272,6 @@ export default function PaymentpageVirtual({
           <button style={{ height: "44px" }} onClick={numberCheck}>
             Proceed
           </button>
-        </div>
-        <div className="pp-transaction">
-          <div className="text" style={{ marginTop: "-5px" }}>
-            Transaction history
-          </div>
-          <div className="sub-text" style={{ marginTop: "-15px" }}>
-            Track all of your past transactions here
-          </div>
-          <div className="button-2">
-            <button
-              className="trsc"
-              style={{ color: "white" }}
-              onClick={() => {
-                setSent(false);
-                console.log(send);
-              }}
-            >
-              Received
-            </button>
-            <button
-              className="trsc"
-              style={{ color: "white" }}
-              onClick={() => {
-                setSent(true);
-              }}
-            >
-              Sent
-            </button>
-          </div>
-          <div className="container">
-            {/* table for transaction history */}
-            {send ? (
-              <table style={{ width: "58rem" }}>
-                <tr className="col-1">
-                  <th>Transaction Date</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-                <tbody>{dataArray1.map(tableCheck)}</tbody>
-              </table>
-            ) : (
-              <table style={{ width: "58rem" }}>
-                <tr className="col-1">
-                  <th>Transaction Date</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-                <tbody>{dataArray.map(tableCheck)}</tbody>
-              </table>
-            )}
-          </div>
         </div>
       </div>
     </div>

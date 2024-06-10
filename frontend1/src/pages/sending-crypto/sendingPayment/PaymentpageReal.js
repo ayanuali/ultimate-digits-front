@@ -214,9 +214,7 @@ export default function PaymentpageReal({
       });
   }
 
-  useEffect(() => {
-    check();
-  }, []);
+  useEffect(() => {}, []);
 
   //function to add row in transaction history table
   const tableCheck = ({ date1, payment, status, url }) => {
@@ -288,34 +286,6 @@ export default function PaymentpageReal({
           <button style={{ height: "44px" }} onClick={numberCheck}>
             Proceed
           </button>
-        </div>
-        <div className="pp-transaction">
-          <div className="text" onClick={check} style={{ marginTop: "-5px" }}>
-            Transaction history
-          </div>
-          <div className="sub-text" style={{ marginTop: "-15px" }}>
-            Track all of your past transactions here
-          </div>
-          <div className="button-2">
-            <button
-              className="trsc"
-              style={{ color: "white" }}
-              onClick={() => {
-                setSent(false);
-              }}
-            >
-              Received
-            </button>
-            <button
-              className="trsc"
-              style={{ color: "white" }}
-              onClick={() => {
-                setSent(true);
-              }}
-            >
-              Sent
-            </button>
-          </div>
         </div>
       </div>
     </div>

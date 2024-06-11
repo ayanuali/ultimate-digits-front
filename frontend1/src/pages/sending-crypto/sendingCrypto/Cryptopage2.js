@@ -208,6 +208,7 @@ export default function Cryptopage2({
             abi: contract.abi,
             functionName: "sendMultiple",
             args: [tos, amounts],
+            value: totl,
           });
 
           confirmcall();

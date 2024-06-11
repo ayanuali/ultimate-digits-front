@@ -19,15 +19,34 @@ export default function LandingPage({ setNav, setLog, setUser, user }) {
   const [number, setNumber] = useState(null);
   const [contract, setcontract] = useState({});
   const [currentWallet, setCurrentWallet] = useState("");
+  const [isMobile, setIsMobile] = useState(false);
 
   setNav("0");
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("loaded");
-  },[])
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <div className="landing-page">
+      {isMobile && (
+        <div className={`overlay ${isMobile ? "show" : ""}`}>
+          For the best experience, please use a desktop device.
+        </div>
+      )}
       <div className="landing-content">
         <div className="imageSection">
           <div className="icon">

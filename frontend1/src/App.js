@@ -103,7 +103,7 @@ function App() {
         <div className="App">
           {exist()}
           <Component1>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div className="">Loading...</div>}>
               <Routes>
                 <Route
                   path={"/"}

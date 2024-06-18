@@ -3,7 +3,7 @@ import LowerArcImg from "../../assets/home-page/lower-arc.png";
 import IphoneImg from "../../assets/home-page/iphone.png";
 import Logo from "../../assets/ud-square-logo2.png";
 import DegenLogo from "../../assets/assets/degenlogo.png";
-import Unicornlogo from "../../assets/assets/u2uicon.png"
+import Unicornlogo from "../../assets/assets/u2uicon.png";
 import Chain from "../../assets/assets/chain.png";
 import CheckIcon from "../../assets/virtual/hash.svg";
 import bellIcon from "../../assets/virtual/bell.svg";
@@ -12,108 +12,134 @@ import sendCryptoIcon from "../../assets/virtual/sendCrypto.svg";
 import privateIcon from "../../assets/virtual/private.svg";
 import recieveIcon from "../../assets/virtual/recieve.svg";
 
-import infinity from "../../assets/infi.png"
+import infinity from "../../assets/infi.png";
 import voipIcon from "../../assets/virtual/voip.svg";
 import PhoneSearchInput from "../../utils/inputs/PhoneSearchInput";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 import { mint } from "../../blockchain/integration";
 import PhoneNumberInput from "./PhonenumberInput";
 const HomePage = ({ setCode, contract_connect }) => {
-
-
   //update page on pressing search
   const [updatePage, setUpdatePage] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const navigate = useNavigate();
 
-  
-
-  const handleMint = async() => {
+  const handleMint = async () => {
     try {
-      const res = await mint({uri:"hi"});
-      console.log("res",res)
+      const res = await mint({ uri: "hi" });
+      console.log("res", res);
     } catch (error) {
-      console.log("minting issue", error)
+      console.log("minting issue", error);
     }
-  }
-
-
+  };
 
   useEffect(() => {
     const handleResize = () => {
-        setIsMobile(window.innerWidth < 768);
+      setIsMobile(window.innerWidth < 768);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Set initial code and remove event listener on cleanup
     setCode("999");
-    return () => window.removeEventListener('resize', handleResize);
-}, [setCode]);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [setCode]);
 
   return (
     <div className="homePage">
-       {isMobile && (
-                <div className="overlay">
-                    Please open this page in a desktop browser for the best experience.
-                </div>
-            )}
+      {isMobile && (
+        <div className="overlay">
+          Please open this page in a desktop browser for the best experience.
+        </div>
+      )}
 
       <div className="homePageTitle" style={{ marginTop: "5rem" }}>
         <div className="homePageBackgroundGradient" />
 
-     <div style={{display:"flex", justifyContent:"center", alignItems:"center", gap:"10px"}}>
-
-     <div style={{ textAlign: "center" }}>
-          <img src={Logo} />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <img src={Logo} />
+          </div>
+          <div
+            style={{ textAlign: "center", width: "20px", marginRight: "0px" }}
+          >
+            <img
+              src={infinity}
+              style={{
+                width: "40px",
+                height: "20px",
+                marginTop: "0px",
+                marginBottom: "20px",
+              }}
+            />
+          </div>
+          <div style={{ textAlign: "center", marginLeft: "20px" }}>
+            <img src={Unicornlogo} style={{ borderRadius: "10px" }} />
+          </div>
         </div>
-        <div style={{ textAlign: "center", width:"20px", marginRight:"0px",  }} >
-          <img src={infinity} style={{    width: "40px",
-    height: "20px",
-    marginTop: "0px",
-    marginBottom: "20px"
-}}  />
-        </div>
-        <div style={{ textAlign: "center", marginLeft:"20px"}}>
-          <img src={Unicornlogo} style={{borderRadius:"10px"}} />
-        </div>
 
-     </div>
-
-        <h3>Your Unicorn Ultra Mobile Number</h3>
+        <h3>Your U2U Network Mobile Number</h3>
 
         <p>
-        Your custom mobile number. Your Web3 identity. <br /> The only wallet address you ever need to share.          <br />
+          Your custom mobile number. Your Web3 identity. <br /> The only wallet
+          address you ever need to share. <br />
         </p>
       </div>
 
-      <div style={{display: "flex", gap:"10px", border:"1px solid white", borderRadius:"11px", padding:"3px", marginBottom:"50px", alignItems:"center"}}>
-
-        <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px"}}>
-<span style={{color:"white"}}>+999 U2U UNICORN
-</span>        </div>
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+          border: "1px solid white",
+          borderRadius: "11px",
+          padding: "3px",
+          marginBottom: "50px",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            backgroundColor: "rgba(171, 123, 254, 0.2)",
+            padding: "5px",
+            borderRadius: "8px",
+          }}
+        >
+          <span style={{ color: "white" }}>+999 U2U NETWORK</span>{" "}
+        </div>
 
         <div>
-
-        <span style={{color:"white"}}> = 
-</span> 
+          <span style={{ color: "white" }}> =</span>
         </div>
 
-        <div style={{ backgroundColor: "rgba(171, 123, 254, 0.2)", padding:"5px", borderRadius:"8px", color:"white"}}>
-+999 828 8642676
-
+        <div
+          style={{
+            backgroundColor: "rgba(171, 123, 254, 0.2)",
+            padding: "5px",
+            borderRadius: "8px",
+            color: "white",
+          }}
+        >
+          +999 828 6389675
         </div>
-
-
       </div>
 
       {/* Input Field */}
       <div className="homePageInputWrapper">
-        <PhoneSearchInput update={updatePage} setUpdate={setUpdatePage} onSub= {handleMint} />
+        <PhoneSearchInput
+          update={updatePage}
+          setUpdate={setUpdatePage}
+          onSub={handleMint}
+        />
         <p>
           <div style={{ marginTop: "-10px" }}>
             {/* <img src={CheckIcon} /> */}

@@ -10,7 +10,7 @@ import { address_NFT, abi_NFT } from "../../abi/Nft.js";
 import nftLogo from "../../assets/ud-logo.png";
 import { UserContext } from "../../Hook.js";
 import { useNavigate } from "react-router-dom";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -99,6 +99,7 @@ export default function ConfirmationPageVirtual1({
 
     setLoading(true);
     setContent("Generating and Minting NFT");
+
     // await window.ethereum.request({
     //   method: 'wallet_switchEthereumChain',
     //   params: [{ chainId: '0xAA36A7' }], // chainId must be in hexadecimal numbers
@@ -119,21 +120,28 @@ export default function ConfirmationPageVirtual1({
       //   chains: [sepolia], // Use the Sepolia chain for the write transaction
       // };
 
-      const transaction = async () => {
+      const Transaction = async () => {
         if (userr.rootId === "ncw") {
           try {
             const arr = [
               "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
             ];
-            await writeContract(connectConfig, {
+            const hash = await writeContract(connectConfig, {
               abi: contract.abi,
               address: contract.address,
               functionName: "mintMultipleNFTs",
               args: [arr, cartArray],
             });
+            // const { isLoading: isConfirming, isSuccess: isConfirmed } =
+            //   useWaitForTransactionReceipt({
+            //     hash,
+            //   });
 
+            console.log("ulla");
             setNftMinted(true);
             setLoading(false);
+
+            console.log("veliya");
           } catch (error) {
             console.log("error in ncw", error);
           }
@@ -150,6 +158,7 @@ export default function ConfirmationPageVirtual1({
                 chain: baseSepolia,
                 transport: http("https://sepolia.base.org"),
               });
+
               console.log("walletClient", walletClient);
 
               const arr = [
@@ -174,7 +183,7 @@ export default function ConfirmationPageVirtual1({
           }
         }
       };
-      await transaction();
+      await Transaction();
 
       console.log("minting called");
 

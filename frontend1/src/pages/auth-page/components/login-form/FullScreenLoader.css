@@ -1,23 +1,77 @@
-/* FullScreenLoader.css */
-
 .overlay {
   position: fixed; /* Full screen */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-  backdrop-filter: blur(5px); /* Blur effect for background content */
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
   display: flex;
+  flex-direction: column;
   justify-content: center; /* Center horizontally */
   align-items: center; /* Center vertically */
   z-index: 1000; /* Ensure it's above other content */
+  height: max-content;
+}
+
+.textt {
+  margin-top: 50px;
+  font-size: larger;
+  font-weight: 500;
+  text-transform: capitalize;
 }
 
 .loader {
-  /* Style your loader */
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+.loader-ball {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ff6b6b, #feca57, #1dd1a1, #54a0ff);
+  background-size: 400% 400%;
+  /* animation: gradientAnimation 3s ease infinite, rotate 1.5s infinite linear; */
+}
+
+/* .loader-text {
+  margin-top: 20px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #fff;
+  animation: fadeIn 0.5s ease-in-out;
+} */
+
+/* Keyframes for gradient animation */
+/* @keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+} */
+
+/* Keyframes for rotate animation */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Keyframes for fade-in animation */
+/* @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+} */

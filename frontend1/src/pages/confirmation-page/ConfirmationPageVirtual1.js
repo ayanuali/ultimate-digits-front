@@ -28,6 +28,9 @@ import {
   writeContract,
   switchChain,
 } from "@wagmi/core";
+import { estimateGas } from "@wagmi/core";
+import { parseEther } from "viem";
+
 import { useSelector, useDispatch } from "react-redux";
 import { getBalance } from "@wagmi/core";
 
@@ -64,6 +67,9 @@ export default function ConfirmationPageVirtual1({
   const [content, setContent] = useState("Loading.....");
 
   const [loadingLink, setloadingLink] = useState(false);
+  const [hashes, setHashes] = useState();
+
+  const [mintingError, setMintingError] = useState(false);
 
   // Extract the "cart" parameter value from the query string
   const urlParams = new URLSearchParams(queryString);
@@ -73,8 +79,8 @@ export default function ConfirmationPageVirtual1({
   const flag = 0;
 
   const publicClient = createPublicClient({
-    chain: baseSepolia,
-    transport: http("https://sepolia.base.org"),
+    chain: bscTestnet,
+    transport: http("https://data-seed-prebsc-1-s1.bnbchain.org:8545"),
   });
 
   const account = getAccount(connectConfig);
@@ -113,30 +119,98 @@ export default function ConfirmationPageVirtual1({
     });
 
     try {
-      // await switchChain(connectConfig, { chainId: sepolia.id });
+      async function uploadJSONToPinata(jsonData) {
+        const url = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
+        const headers = {
+          "Content-Type": "application/json",
+          pinata_api_key: "2fdfafd0931760b52f2c",
+          pinata_secret_api_key:
+            "be4da1450a4a5a8855fcddc13f9fac30e1a7e1b0b97a73feb34fff23fc4dde72",
+        };
+        const response = await fetch(url, {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(jsonData),
+        });
 
-      // const writeTransactionConfig = {
-      //   ...connectConfig,
-      //   chains: [sepolia], // Use the Sepolia chain for the write transaction
-      // };
+        if (!response.ok) {
+          throw new Error(`IPFS pinning error: ${response.statusText}`);
+        }
+
+        return response.json();
+      }
+
+      // try {
+      // cartArray.map(async (data, index) => {
+
+      //   console.log(await uploadJSONToPinata(data));
+      // });
+
+      async function uploadCartArrayToPinata(cartArray) {
+        const ipfsHashes = [];
+        const gatewayUrl = "https://gateway.pinata.cloud/ipfs/";
+
+        for (const phoneNumber of cartArray) {
+          const jsonData = {
+            phoneNumber: phoneNumber,
+            image:
+              "https://gateway.pinata.cloud/ipfs/QmfBERMctCnt5k4hGz1wx2dUyz7pPc5jmGMtrG8NoqW3Pd",
+          };
+
+          try {
+            const result = await uploadJSONToPinata(jsonData);
+            console.log(result);
+            ipfsHashes.push(gatewayUrl + result.IpfsHash);
+          } catch (error) {
+            console.error(`Failed to upload ${phoneNumber}: ${error.message}`);
+          }
+        }
+
+        return ipfsHashes;
+      }
+
+      const ipfsHashArray = await uploadCartArrayToPinata(cartArray).then(
+        (ipfsHashes) => {
+          console.log("Collected IPFS hashes:", ipfsHashes);
+          setHashes(ipfsHashes);
+          return ipfsHashes;
+        }
+      );
+      // Call the function to start the upload process and collect IPFS hashes
 
       const Transaction = async () => {
+        const arr = [
+          "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
+        ];
         if (userr.rootId === "ncw") {
           try {
             const arr = [
               "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
             ];
+            const convertedCartArray = cartArray.map((value) =>
+              parseInt(value, 10)
+            );
+            // console.log("cart", cartArray);
+
+            console.log("hash", ipfsHashArray);
+            console.log("convertedCartArray", convertedCartArray);
+            if (ipfsHashArray.length === 0 || convertedCartArray.length === 0) {
+              setLoading(false);
+              alert("no element  inarray");
+
+              return;
+            }
             const hash = await writeContract(connectConfig, {
               abi: contract.abi,
               address: contract.address,
               functionName: "mintMultipleNFTs",
-              args: [arr, cartArray],
+              args: [ipfsHashArray, convertedCartArray],
             });
             // const { isLoading: isConfirming, isSuccess: isConfirmed } =
             //   useWaitForTransactionReceipt({
             //     hash,
             //   });
-
+            console.log("hash", hash);
             console.log("ulla");
             setNftMinted(true);
             setLoading(false);
@@ -144,6 +218,10 @@ export default function ConfirmationPageVirtual1({
             console.log("veliya");
           } catch (error) {
             console.log("error in ncw", error);
+            setMintingError(true);
+            setLoading(false);
+
+            return;
           }
         } else {
           console.log("user", user);
@@ -174,12 +252,14 @@ export default function ConfirmationPageVirtual1({
               console.log("hash", hash);
               setLoading(false);
             } catch (error) {
+              setMintingError(false);
               console.log("other error", error);
               setLoading(false);
             }
           } else {
             alert("not sufficient sepolia balance");
             setLoading(false);
+            setMintingError(false);
           }
         }
       };
@@ -187,22 +267,11 @@ export default function ConfirmationPageVirtual1({
 
       console.log("minting called");
 
-      // const readTransactionConfig = {
-      //   ...connectConfig,
-      //   chains: [sepolia], // Use the Sepolia chain for the read transaction
-      // };
-
-      // const number = await readContract(connectConfig, {
-      //   abi: abi_NFT,
-      //   address: address_NFT,
-      //   functionName: "getTokenCounter",
-      // });
-
-      // console.log("tokenCounter:", number);
-      // setTokenId(parseInt(number));
       setadd(`Address : ${address_NFT}`);
       var check = 0;
-
+      if (mintingError) {
+        return;
+      }
       cartArray.map(async (number, i) => {
         console.log("UID ");
 
@@ -383,8 +452,8 @@ export default function ConfirmationPageVirtual1({
         <div>
           <div style={{ display: "flex", gap: "20px" }}>
             {cartArray.map((val, index) => (
-              <div className="cpv1-nft">
-                <div className="nft-logo" key={index}>
+              <div className="cpv1-nft" key={index}>
+                <div className="nft-logo">
                   <img
                     src={nftLogo}
                     alt="image"

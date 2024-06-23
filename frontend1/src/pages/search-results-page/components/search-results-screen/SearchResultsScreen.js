@@ -36,9 +36,9 @@ const SearchResultsScreen = ({
     const nums2 = await generateGoldNumbers(queryParam);
     const nums3 = await generateSilverNumbers(queryParam);
     const nums4 = generateRandomNumbers();
-    console.log("nums", nums);
-    console.log("num2", nums2);
-    console.log("num3", nums3);
+    // console.log("nums", nums);
+    // console.log("num2", nums2);
+    // console.log("num3", nums3);
     generatedNumbers.concat(nums, nums2, nums3, nums4);
 
     setGeneratedNumbers([...nums, ...nums2, ...nums3, ...nums4]);

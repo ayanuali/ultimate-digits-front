@@ -38,7 +38,6 @@ const checkSequence = (number, isAsc) => {
     }
   }
 
-  console.log(number)
   return ascSeqArray.some((count) => [6, 7, 8].includes(count));
 };
 

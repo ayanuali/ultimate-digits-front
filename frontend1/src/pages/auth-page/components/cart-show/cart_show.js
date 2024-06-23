@@ -117,6 +117,7 @@ function CartShow({
 
   async function buyNumber() {
     setLoad(true);
+    // setProceedTo("purchaseConfirmation");
 
     // Send to which address?
     const toaddress = "0x8c22767417E7B21C4D535478F6fB65F29EbE5ae4";
@@ -145,13 +146,6 @@ function CartShow({
         if (userr.rootId === "ncw") {
           try {
             console.log("guess here;s the problem");
-            // const { hash } = await sendTransaction(connectConfig, {
-            //   account: account.address,
-            //   to: toaddress,
-            //   value: amt,
-            // });
-
-            // console.log("Transaction hash:", hash);
 
             const request = await prepareTransactionRequest(connectConfig, {
               account,
@@ -160,32 +154,10 @@ function CartShow({
             });
             console.log("Transaction hash:", request);
 
-            // const signature = await signTransaction(connectConfig, {
-            //   account,
-            //   to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-            //   value: ethers.parseEther("0.000000000000001"),
-            // });
-
-            // console.log("sign", signature);
-
-            // const send = await sendTransaction(connectConfig, {
-            //   account,
-            //   to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
-            //   value: ethers.parseEther("0.000000000000001"),
-            // });
             // console.log(send);
 
             const to = "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540";
             const value = "0.000000000000001";
-
-            // await  sendTransaction({ to, value: amt });
-            //   if (isPending) {
-            //     setTimeout(2000000);
-            //   }
-
-            //   if (isSuccess) {
-            //     setTimeout(100000);
-            //   }
 
             const res = await sendTransaction(connectConfig, {
               to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",

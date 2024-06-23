@@ -1,8 +1,3 @@
-import EmailIcon from "../../../../assets/login-page/email.svg";
-import PhoneIcon from "../../../../assets/login-page/phone.svg";
-import MetamaskIcon from "../../../../assets/login-page/order-claim/metamask-icon.png";
-import EmailInput from "../inputs/EmailInput";
-import PhoneInput from "../inputs/NumberInput";
 import { useState, useEffect } from "react";
 import "./LoginForm.css";
 import config from "../../../../config.json";
@@ -27,7 +22,7 @@ import {
   http,
   createWalletClient,
 } from "viem";
-import { baseSepolia } from "viem/chains";
+import { baseSepolia, bscTestnet } from "viem/chains";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
@@ -49,8 +44,6 @@ const LoginForm = ({
   const dispatch = useDispatch();
   console.log(userr, "befie redux");
 
-  console.log("addressfrom redux", userr);
-
   // const updateUserInfo = (address, rootId) => {
   //   console.log(address, rootId);
   //   dispatch(setUser({ address: address, rootId: rootId }));
@@ -71,8 +64,6 @@ const LoginForm = ({
 
   const checkUser = async (rootId, address) => {
     try {
-      console.log("checking users");
-      console.log("root id", rootId);
       const apiurl = config.backend;
       const res = await axios.post(`${apiurl}/coinbase/verify`, {
         rootId: rootId,
@@ -81,9 +72,7 @@ const LoginForm = ({
       console.log(res);
       if (res.status === 200) {
         const temp = res.data.user;
-        console.log(temp);
-        console.log(temp.countryCode, "countryCode");
-        console.log(temp.virtuals, "virtuals");
+
         if (temp.countryCode === "999") {
           console.log("inside the country code");
           console.log("gonna dispatch");
@@ -97,7 +86,6 @@ const LoginForm = ({
               rootId: temp.rootId,
             })
           );
-          console.log(userr, "after redux");
           setLoading(false);
           console.log("sleep3");
 
@@ -119,7 +107,6 @@ const LoginForm = ({
           //   phoneNumber: temp.phone,
           //   address: temp.address,
           // });
-          console.log(userr, "after redux");
           setLoading(false);
           console.log("sleep4");
 
@@ -287,7 +274,7 @@ const LoginForm = ({
   // Get the query parameter string
   const queryString = window.location.search;
   const entho = async () => {
-    await switchChain(connectConfig, { chainId: baseSepolia.id });
+    await switchChain(connectConfig, { chainId: bscTestnet.id });
   };
   const account = getAccount(connectConfig);
   useEffect(() => {

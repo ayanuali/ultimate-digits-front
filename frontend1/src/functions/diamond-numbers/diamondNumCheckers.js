@@ -76,28 +76,25 @@ const checkBothAsc = (number) => {
 
   for (let i = 0; i < 9; i++) {
     if (parseInt(number[i]) !== parseInt(number[i + 1]) - 1) {
-
       //if it is latest single digit in the order
       if (
-        (i === 0 || i === 1) && (
-        parseInt(`${number[i + 1]}${number[i + 2]}`) !==
+        (i === 0 || i === 1) &&
+        (parseInt(`${number[i + 1]}${number[i + 2]}`) !==
           parseInt(`${number[i + 3]}${number[i + 4]}` - 1) ||
-        parseInt(`${number[i + 3]}${number[i + 4]}`) !==
-          parseInt(`${number[i + 5]}${number[i + 6]}` - 1) ||
-        parseInt(`${number[i + 5]}${number[i + 6]}`) !==
-          parseInt(`${number[i + 7]}${number[i + 8]}` - 1)
-        )
+          parseInt(`${number[i + 3]}${number[i + 4]}`) !==
+            parseInt(`${number[i + 5]}${number[i + 6]}` - 1) ||
+          parseInt(`${number[i + 5]}${number[i + 6]}`) !==
+            parseInt(`${number[i + 7]}${number[i + 8]}` - 1))
       ) {
         return false;
-      } 
+      }
 
       if (
-        (i === 2 || i === 3) && (
-        parseInt(`${number[i + 1]}${number[i + 2]}`) !==
+        (i === 2 || i === 3) &&
+        (parseInt(`${number[i + 1]}${number[i + 2]}`) !==
           parseInt(`${number[i + 3]}${number[i + 4]}` - 1) ||
-        parseInt(`${number[i + 3]}${number[i + 4]}`) !==
-          parseInt(`${number[i + 5]}${number[i + 6]}` - 1)
-        )
+          parseInt(`${number[i + 3]}${number[i + 4]}`) !==
+            parseInt(`${number[i + 5]}${number[i + 6]}` - 1))
       ) {
         return false;
       }
@@ -115,9 +112,7 @@ const checkBothAsc = (number) => {
         parseInt(number[i]) !== parseInt(`${number[i + 1]}${number[i + 2]}` - 1)
       ) {
         return false;
-      }
-
-      else {
+      } else {
         return true;
       }
     }
@@ -135,7 +130,6 @@ const checkBothDesc = (number) => {
       parseInt(`${number[i]}${number[i + 1]}`) !==
       parseInt(+`${number[i + 2]}${number[i + 3]}` + 1)
     ) {
-      console.log(parseInt(number[i + 5]) + 1);
       // if (
       //   i === 0 &&
       //   parseInt(number[i + 2]) !== parseInt(number[i + 3]) + 1 &&
@@ -148,7 +142,7 @@ const checkBothDesc = (number) => {
       //   return false;
       // }
       if (
-        i === 2 && 
+        i === 2 &&
         parseInt(number[i + 2]) === parseInt(number[i + 3]) + 1 &&
         parseInt(number[i + 3]) === parseInt(number[i + 4]) + 1 &&
         parseInt(number[i + 4]) === parseInt(number[i + 5]) + 1 &&

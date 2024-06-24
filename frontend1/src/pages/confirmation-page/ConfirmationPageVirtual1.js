@@ -21,7 +21,7 @@ import {
   getContract,
   createWalletClient,
 } from "viem";
-import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
+import { baseSepolia, bscTestnet, sepolia, base } from "viem/chains";
 import {
   getAccount,
   readContract,
@@ -79,8 +79,8 @@ export default function ConfirmationPageVirtual1({
   const flag = 0;
 
   const publicClient = createPublicClient({
-    chain: bscTestnet,
-    transport: http("https://data-seed-prebsc-1-s1.bnbchain.org:8545"),
+    chain: base,
+    transport: http("https://mainnet.base.org"),
   });
 
   const account = getAccount(connectConfig);
@@ -228,17 +228,30 @@ export default function ConfirmationPageVirtual1({
           console.log("wallet", wallet);
           const address = await wallet.addresses.for(ProtocolFamily.EVM);
           console.log("address", address);
+          const convertedCartArray = cartArray.map((value) =>
+            parseInt(value, 10)
+          );
 
+          console.log("hash", ipfsHashArray);
+          console.log("convertedCartArray", convertedCartArray);
           if (balanceVal != 0) {
             try {
               const walletClient = createWalletClient({
                 account: toViem(address),
-                chain: baseSepolia,
-                transport: http("https://sepolia.base.org"),
+                chain: base,
+                transport: http("https://mainnet.base.org"),
               });
 
               console.log("walletClient", walletClient);
+              if (
+                ipfsHashArray.length === 0 ||
+                convertedCartArray.length === 0
+              ) {
+                setLoading(false);
+                alert("no element  inarray");
 
+                return;
+              }
               const arr = [
                 "https://gateway.pinata.cloud/ipfs/QmT9CDDA13KzXHVenpw5njnJt7bVnuMQP63jJ6Ujwt6RHb",
               ];
@@ -246,7 +259,7 @@ export default function ConfirmationPageVirtual1({
                 address: contract.address,
                 abi: contract.abi,
                 functionName: "mintMultipleNFTs",
-                args: [arr, cartArray],
+                args: [ipfsHashArray, convertedCartArray],
               });
               setNftMinted(true);
               console.log("hash", hash);
@@ -257,7 +270,7 @@ export default function ConfirmationPageVirtual1({
               setLoading(false);
             }
           } else {
-            alert("not sufficient sepolia balance");
+            alert("not sufficient Base ETH balance");
             setLoading(false);
             setMintingError(false);
           }
@@ -365,7 +378,7 @@ export default function ConfirmationPageVirtual1({
       client: publicClient,
     });
 
-    await switchChain(connectConfig, { chainId: baseSepolia.id });
+    await switchChain(connectConfig, { chainId: base.id });
     var check = 0;
     console.log("contract_connect", contract);
 
@@ -393,8 +406,8 @@ export default function ConfirmationPageVirtual1({
 
         const walletClient = createWalletClient({
           account: toViem(address),
-          chain: baseSepolia,
-          transport: http("https://sepolia.base.org"),
+          chain: base,
+          transport: http("https://mainnet.base.org"),
         });
         console.log("walletClient", walletClient);
         const hash = await walletClient.writeContract({

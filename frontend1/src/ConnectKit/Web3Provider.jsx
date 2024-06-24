@@ -5,6 +5,7 @@ import {
   polygonMumbai,
   bscTestnet,
   baseSepolia,
+  base,
 } from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
@@ -14,7 +15,7 @@ const walletConnectProjectId = process.env.WALLETCONNECT_PROJECT_ID; // Ensure y
 
 export const connectConfig = createConfig(
   getDefaultConfig({
-    chains: [bscTestnet],
+    chains: [base],
     walletConnectProjectId,
     appName: "UDigits",
   })

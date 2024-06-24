@@ -18,7 +18,7 @@ import "./cart_show.css";
 import { toViem } from "@coinbase/waas-sdk-viem";
 import { createWalletClient, http, parseEther } from "viem";
 import { privateKeyToAccount, signTransaction } from "viem/accounts";
-import { baseSepolia, bscTestnet, sepolia } from "viem/chains";
+import { base, baseSepolia, bscTestnet, sepolia } from "viem/chains";
 import { Address } from "@coinbase/waas-sdk-web";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider.jsx";
 import { CommonButton } from "../../../../ConnectKit/CommonConnectKitButton.js";
@@ -86,7 +86,7 @@ function CartShow({
   const i = 0;
 
   const publicClient = createPublicClient({
-    chain: baseSepolia,
+    chain: base,
     transport: http(),
   });
 
@@ -149,7 +149,7 @@ function CartShow({
 
             const request = await prepareTransactionRequest(connectConfig, {
               account,
-              to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+              to: "0x40A0F869B582a01493D1588073ED79c2dD67791c", // recipient address
               value: amt,
             });
             console.log("Transaction hash:", request);
@@ -160,7 +160,7 @@ function CartShow({
             const value = "0.000000000000001";
 
             const res = await sendTransaction(connectConfig, {
-              to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540",
+              to: "0x40A0F869B582a01493D1588073ED79c2dD67791c",
               value: amt,
             });
             // setLoad(false);
@@ -190,7 +190,7 @@ function CartShow({
           console.log("address", add);
           const walletClient = createWalletClient({
             account: toViem(address),
-            chain: baseSepolia,
+            chain: base,
             transport: http(),
           });
           console.log("walletClient", walletClient);
@@ -224,7 +224,7 @@ function CartShow({
             console.log("Account", account);
             const walletClient = createWalletClient({
               account,
-              chain: baseSepolia,
+              chain: base,
               transport: http(),
             });
 
@@ -233,7 +233,7 @@ function CartShow({
             try {
               const request = await walletClient.prepareTransactionRequest({
                 account,
-                to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+                to: "0x40A0F869B582a01493D1588073ED79c2dD67791c", // recipient address
                 value: amt,
               });
               console.log("Transaction hash:", request);
@@ -253,7 +253,7 @@ function CartShow({
 
             const res = await walletClient.sendTransaction({
               account,
-              to: "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540", // recipient address
+              to: "0x40A0F869B582a01493D1588073ED79c2dD67791c", // recipient address
               value: amt, // transaction amount
             });
 

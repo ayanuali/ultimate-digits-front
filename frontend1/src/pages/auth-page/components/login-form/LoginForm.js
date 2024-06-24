@@ -22,7 +22,7 @@ import {
   http,
   createWalletClient,
 } from "viem";
-import { baseSepolia, bscTestnet } from "viem/chains";
+import { base, baseSepolia, bscTestnet } from "viem/chains";
 import { connectConfig } from "../../../../ConnectKit/Web3Provider";
 import { CustomButton } from "../../../../ConnectKit/ConnectKitButton";
 
@@ -274,7 +274,7 @@ const LoginForm = ({
   // Get the query parameter string
   const queryString = window.location.search;
   const entho = async () => {
-    await switchChain(connectConfig, { chainId: bscTestnet.id });
+    await switchChain(connectConfig, { chainId: base.id });
   };
   const account = getAccount(connectConfig);
   useEffect(() => {
@@ -360,8 +360,8 @@ const LoginForm = ({
     }
   }, [account.isConnected, account.address]);
   const publicClient = createPublicClient({
-    chain: baseSepolia,
-    transport: http("https://sepolia.base.org"),
+    chain: base,
+    transport: http("https://mainnet.base.org"),
   });
 
   async function connectWalletAndSetupContract() {

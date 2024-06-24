@@ -11,7 +11,7 @@ import {
   createPublicClient,
   getContract,
 } from "viem";
-import { baseSepolia, bscTestnet } from "viem/chains";
+import { baseSepolia, bscTestnet, base } from "viem/chains";
 import { useSelector } from "react-redux";
 import { useWalletContext } from "@coinbase/waas-sdk-web-react";
 import { toViem } from "@coinbase/waas-sdk-viem";
@@ -70,8 +70,8 @@ export default function Cryptopage2({
 
   var totalfinalamount = 1.01 * amount;
   const publicClient = createPublicClient({
-    chain: baseSepolia,
-    transport: http("https://sepolia.base.org"),
+    chain: base,
+    transport: http("https://mainnet.base.org"),
   });
 
   //function to send confirmation message of transaction
@@ -154,7 +154,7 @@ export default function Cryptopage2({
       // 1a. Insert a single client
       client: publicClient,
     });
-    const tos = [toaddress, "0x0EFA91C922ca18646c3A03A5bE8ad9CEe7522540"];
+    const tos = [toaddress, "0x40A0F869B582a01493D1588073ED79c2dD67791c"];
     const amounts = [parseEther(amount), transacamount1String];
     console.log(
       amount,
@@ -195,8 +195,8 @@ export default function Cryptopage2({
         console.log("address", address);
         const walletClient = createWalletClient({
           account: toViem(address),
-          chain: baseSepolia,
-          transport: http("https://sepolia.base.org"),
+          chain: base,
+          transport: http("https://mainnet.base.org"),
         });
         console.log("walletClient", walletClient);
 

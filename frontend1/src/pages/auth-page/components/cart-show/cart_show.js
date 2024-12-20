@@ -150,6 +150,8 @@ console.log("arry",cartArray)
     // }
 
     try {
+      const PINATA_GATEWAY_URL = "https://gateway.pinata.cloud/ipfs/";
+
       const responses = await Promise.all(cartArray.map(async (number) => {
         const json = {
           "name":"Ultimate Digits Unicorn Ultra Mobile Number",
@@ -162,7 +164,9 @@ console.log("arry",cartArray)
             }
           ],
         }
-        return await uploadJSONToPinata(json);
+
+        const resp = await uploadJSONToPinata(json);
+        return `${PINATA_GATEWAY_URL}${resp}`;
       }));
       console.log("responses", responses);
 

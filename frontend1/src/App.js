@@ -33,16 +33,16 @@ import {
 } from "@tanstack/react-query";
 
 const avalanche = {
-  id: 2484,
-  name: 'Unicorn Ultra Nebulas Testnet',
+  id: 39,
+  name: 'U2U Network Solaris',
   iconUrl: 'https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png',
   iconBackground: '#fff',
   nativeCurrency: { name: 'U2U', symbol: 'U2U', decimals: 18 },
   rpcUrls: {
-    default: { http: ['https://rpc-nebulas-testnet.uniultra.xyz'] },
+    default: { http: ['https://rpc-mainnet.u2u.xyz'] },
   },
   blockExplorers: {
-    default: { name: 'u2uscan', url: 'https://testnet.u2uscan.xyz' },
+    default: { name: 'u2uscan', url: 'https://u2uscan.xyz' },
   },
   contracts: {
     multicall3: {

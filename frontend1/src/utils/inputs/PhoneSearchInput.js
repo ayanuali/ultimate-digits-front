@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAccount } from 'wagmi'
+import { Check } from "../../blockchain/integration";
 
 
 const PhoneSearchInput = ({ initialValue, update, setUpdate ,onSub, dis=false }) => {
@@ -142,6 +143,22 @@ toast.warn("Connect your wallet please");
 return
     }
 
+
+    console.log("Account",account.address);
+
+    const res = await Check({address:account.address})
+
+    console.log("res",res);
+
+    if(res === "0"){
+      toast.warn("You Don't have NFT in Testnet");
+
+      return
+    }
+    
+
+    // return
+    
     if(phoneValue.length !==7){
       toast.warn("7 digits is required");
       return;
@@ -258,6 +275,7 @@ disabled={dis}
           onClick={onSearch}
         
         >
+          
           LFG!
         </button>}
      {dis &&    <button

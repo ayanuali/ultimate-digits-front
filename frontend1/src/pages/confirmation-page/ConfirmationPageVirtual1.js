@@ -139,7 +139,7 @@ export default function ConfirmationPageVirtual1({
         <ToastContainer />
 
         <TwitterShareButton
-          text="LFG! Just got my first Ethereum mobile number by @ultimatedigits on @uniultra_xyz for free! Get yours today 👉🏻 "
+          text="LFG! Just got my first Ethereum mobile number by @ultimatedigits on @uniultra_xyz ! Get yours today 👉🏻 "
           url="https://u2unetwork.ultimatedigits.com"
           hashtags={[""]}
         />
@@ -153,7 +153,7 @@ Mint more
 
 
     </div> */}
-        <a href={`https://testnet.u2uscan.xyz/tx/${link}`} target="_blank">
+        <a href={`https://u2uscan.xyz/tx/${link}`} target="_blank">
           <div
             style={{
               marginTop: "20px",
@@ -187,7 +187,7 @@ Mint more
             </div>
           </div>
         </a>
-        <div className="cpv1-content1" style={{ marginTop: "1rem" }}>
+        {/* <div className="cpv1-content1" style={{ marginTop: "1rem" }}>
           <div className="text"> Congratulations!</div>
           <div className="sub-text">
             You are Eligible for an airdrop of $U2U as well as $ULT tokens{" "}
@@ -207,7 +207,7 @@ Mint more
               to claim!
             </span>
           </div>
-        </div>
+        </div> */}
 
         {/* <FullScreenLoader loading={loading} content={content} /> */}
       </div>
